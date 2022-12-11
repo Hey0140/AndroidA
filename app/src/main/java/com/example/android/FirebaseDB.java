@@ -25,12 +25,13 @@ public class FirebaseDB {
     private static final String TAG = "fireStore";
 
     //wordbook 객체를 db에 추가
-    public static void setWordBook(FirebaseFirestore db, WordBook wordBook, Thread thread) {
+    public static void setWordBook(FirebaseFirestore db, WordBook wordBook, Thread thread, String[] id) {
         db.collection("wordbook").add(wordBook)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "Success adding document : "+ documentReference.getId());
+                        id[0] = documentReference.getId();
                         if (thread != null) thread.start();
                     }
                 })
@@ -311,6 +312,7 @@ public class FirebaseDB {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.w(TAG, "Error updating word", e);
+                            if (thread != null) thread.start();
                         }
                     })
                     .addOnCanceledListener(new OnCanceledListener() {
