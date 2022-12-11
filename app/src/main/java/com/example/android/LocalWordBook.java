@@ -44,7 +44,8 @@ public class LocalWordBook {
         this.name = name;
         // 단어장 생성 날짜 초기화
         createDate = new Timestamp(System.currentTimeMillis());
-        languageRelation = word + "/" + wordMean;
+        this.voca_word = word;
+        this.voca_mean = wordMean;
         likeCount = 0;
         this.vocabulary_id = id;
         this.word = new LinkedList<>();
@@ -58,6 +59,8 @@ public class LocalWordBook {
         // 단어장 생성 날짜 초기화
         this.date = date;
         this.vocabulary_id = id;
+        this.voca_word = word;
+        this.voca_mean = wordMean;
         //추가 부분
         languageRelation = word + "/" + wordMean;
         this.word = new LinkedList<>();

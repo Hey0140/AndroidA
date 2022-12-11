@@ -25,14 +25,13 @@ public class FirebaseDB {
     private static final String TAG = "fireStore";
 
     //wordbook 객체를 db에 추가
-    public static String setWordBook(FirebaseFirestore db, WordBook wordBook) {
-        final String[] id = {null};
+    public static void setWordBook(FirebaseFirestore db, WordBook wordBook, Thread thread) {
         db.collection("wordbook").add(wordBook)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "Success adding document");
-                        id[0] = documentReference.getId();
+                        Log.d(TAG, "Success adding document : "+ documentReference.getId());
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -48,19 +47,17 @@ public class FirebaseDB {
 
                     }
                 });
-        return id[0];
     }
 
     //이름을 업데이트
-    public static boolean updateName(FirebaseFirestore db, String id, String name) {
-        final boolean[] isSuccess = {false};
+    public static void updateName(FirebaseFirestore db, String id, String name, Thread thread) {
         DocumentReference wordbook = db.collection("wordbook").document(id);
         wordbook.update("name", name)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        isSuccess[0] = true;
                         Log.d(TAG, "Success updating name");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -75,7 +72,6 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled updating name");
                     }
                 });
-        return isSuccess[0];
     }
 
     private static void addLikeId(FirebaseFirestore db, String id, String uId) {
@@ -126,7 +122,7 @@ public class FirebaseDB {
 
     //좋아요 수를 플러스
     public static boolean plusLikeCount(FirebaseFirestore db, String id, String uID) {
-        final boolean[] isSuccess = {false};
+        boolean[] isSuccess = {false};
         DocumentReference wordbook = db.collection("wordbook").document(id);
         wordbook.update("likeCount", FieldValue.increment(1))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -153,16 +149,15 @@ public class FirebaseDB {
     }
 
     //좋아요 수를 마이너스
-    public static boolean minusLikeCount(FirebaseFirestore db, String id, String uID) {
-        final boolean[] isSuccess = {false};
+    public static void minusLikeCount(FirebaseFirestore db, String id, String uID, Thread thread) {
         DocumentReference wordbook = db.collection("wordbook").document(id);
         wordbook.update("likeCount", FieldValue.increment(-1))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        isSuccess[0] = true;
                         removeLikeId(db, id, uID);
                         Log.d(TAG, "Success updating likeCount-");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -177,19 +172,17 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled updating likeCount-");
                     }
                 });
-        return isSuccess[0];
     }
 
     //단어언어 업데이트
-    public static boolean updateMeanLang(FirebaseFirestore db, String id, String lang) {
-        final boolean[] isSuccess = {false};
+    public static void updateMeanLang(FirebaseFirestore db, String id, String lang, Thread thread) {
         DocumentReference wordbook = db.collection("wordbook").document(id);
         wordbook.update("meanLang", lang)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        isSuccess[0] = true;
                         Log.d(TAG, "Success updating meanLang");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -204,19 +197,17 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled updating meanLang");
                     }
                 });
-        return isSuccess[0];
     }
 
     //의미언어 업데이트
-    public static boolean updateWordLang(FirebaseFirestore db, String id, String lang) {
-        final boolean[] isSuccess = {false};
+    public static void updateWordLang(FirebaseFirestore db, String id, String lang, Thread thread) {
         DocumentReference wordbook = db.collection("wordbook").document(id);
         wordbook.update("wordLang", lang)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        isSuccess[0] = true;
                         Log.d(TAG, "Success updating wordLang");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -231,7 +222,6 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled updating wordLang");
                     }
                 });
-        return isSuccess[0];
     }
 
     private static void plusWordCount(FirebaseFirestore db, String id) {
@@ -281,16 +271,15 @@ public class FirebaseDB {
     }
 
     //단어 추가
-    public static boolean addWord(FirebaseFirestore db, String id, String word, String mean, String uId) {
-        final boolean[] isSuccess = {false};
+    public static void addWord(FirebaseFirestore db, String id, String word, String mean, String uId, Thread thread) {
         Word wordClass = new Word(word, mean, uId);
         db.collection("wordbook").document(id).collection("word").add(wordClass)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         plusWordCount(db, id);
-                        isSuccess[0] = true;
                         Log.d(TAG, "Success adding word");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -305,19 +294,16 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled adding word");
                     }
                 });
-        return isSuccess[0];
     }
 
     //단어 업데이트, 둘중 하나만 하고 싶으면 수정 안 할거 null
-    public static boolean[] updateWord(FirebaseFirestore db, String wordBookId, String wordId, String word, String mean) {
-        final boolean[] isSuccess = {false, false};
+    public static void updateWord(FirebaseFirestore db, String wordBookId, String wordId, String word, String mean, Thread thread) {
         DocumentReference wordbook = db.collection("wordbook").document(wordBookId).collection("word").document(wordId);
         if (word != null) {
             wordbook.update("word", word)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            isSuccess[0] = true;
                             Log.d(TAG, "Success updating word");
                         }
                     })
@@ -339,7 +325,6 @@ public class FirebaseDB {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            isSuccess[1] = true;
                             Log.d(TAG, "Success updating mean");
                         }
                     })
@@ -356,12 +341,11 @@ public class FirebaseDB {
                         }
                     });
         }
-        return isSuccess;
     }
 
     //단어장 삭제
     public static boolean deleteWordBook(FirebaseFirestore db, String id) {
-        final boolean[] isSuccess = {false};
+        boolean[] isSuccess = {false};
         db.collection("wordbook").document(id).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -387,7 +371,7 @@ public class FirebaseDB {
 
     //단어 삭제
     public static boolean deleteWord(FirebaseFirestore db, String id, String wordId) {
-        final boolean[] isSuccess = {false};
+        boolean[] isSuccess = {false};
         db.collection("wordbook").document(id).collection("word").document(wordId).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -413,7 +397,7 @@ public class FirebaseDB {
 
     public static WordBook getWordBookById(FirebaseFirestore db, String id) {
         DocumentReference docRef = db.collection("wordbook").document(id);
-        final WordBook[] wordBook = new WordBook[1];
+        WordBook[] wordBook = new WordBook[1];
         docRef.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
