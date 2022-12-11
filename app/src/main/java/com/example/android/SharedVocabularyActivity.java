@@ -1,13 +1,13 @@
 package com.example.android;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,26 +17,35 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-import java.util.ArrayList;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class SharedVocabularyActivity extends AppCompatActivity implements View.OnClickListener{
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+public class SharedVocabularyActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
     private final static String TAG = "SharedVocabularyActivity";
 
 
+    Handler handler = new Handler();
     // 화면 스와이프를 위한 좌표
-    float x1,x2,y1,y2;
+    float x1, x2, y1, y2;
+
 
     // 객체 연결
     EditText searchWindow;
@@ -44,6 +53,8 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     Button searchButton;
     ImageButton addButton;
     ImageView networkChecking;
+    View sharedBackgroundView;
+
 
     // 단어장 뷰 생성을 위한 콘테이너
     LinearLayout myVocaContainer;
@@ -56,7 +67,53 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     ConstraintLayout addViewWindow;
     ArrayList<LocalWordBook> sharedVocaArrayList;
 
-    boolean isNetWork =false;
+    boolean isNetWork;
+
+
+    View backgroundView;
+    ScrollView myVocaListScrollView;
+
+    // 단어생성 뷰 연결
+    ScrollView languagePickerScrollView;
+    Button acceptButtonForAdd;
+    EditText vocaNameForAdd;
+    Button wordForAdd;
+    Button wordMeanForAdd;
+    ConstraintLayout languagePickerWindow;
+
+    // 단어수정 뷰 연결
+    ConstraintLayout rewriteViewWindow;
+    ConstraintLayout deleteViewWindow;
+    EditText vocaNameForRewrite;
+    Button acceptButtonForRewrite;
+    Button acceptButtonForDelete;
+    Button wordForRewrite;
+    Button wordMeanForRewrite;
+    Button acceptButtonForDeleteConfirm;
+    TextView deleteConfirmText;
+
+    // 단어 피커 뷰 버튼 연결
+    TextView korB;
+    TextView japB;
+    TextView grkB;
+    TextView gerB;
+    TextView porB;
+    TextView spnB;
+    TextView chiB;
+    TextView frhB;
+    TextView rusB;
+    TextView engB;
+
+    //디비 관련 변수
+    public vocaDataBaseHelper vocabularyDB;
+    String vocaId;
+
+
+    // 단어 피커 뷰를 위한 변수
+    boolean isSecond = true;
+    boolean isForRewrite = false;
+    boolean isReset = false;
+    int idForRewrite;
 
 
     @Override
@@ -66,7 +123,9 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
         mAuth = FirebaseAuth.getInstance();
         signInAnonymously();
 
+
         // 객체 연결
+        sharedBackgroundView = findViewById(R.id.backgroundView);
         networkChecking = findViewById(R.id.networkChecking);
         searchWindow = findViewById(R.id.searchWindow2);
         searchOptionButton = findViewById(R.id.searchOptionButton2);
@@ -80,43 +139,171 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
         acceptthird = findViewById(R.id.wordMeanForAdd2);
         myVocaContainer = findViewById(R.id.vocabularyListItemContainer2);
 
+        //맨 위로 backgroundview 빼내기
+        /*
+        sharedBackgroundView.bringToFront();
+        sharedBackgroundView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return false;
+            }
+        });
+        */
+        Log.i("SharedVocabulary", "create success");
+
         // 객체 이벤트 리스너 등
         addButton.setOnClickListener(this);
         acceptButton.setOnClickListener(this);
+        networkChecking.setOnClickListener(this);
 
         sharedVocaArrayList = new ArrayList<LocalWordBook>();
 
         isNetWork = isConnected(SharedVocabularyActivity.this);
-        if(isNetWork){
-            networkChecking.setVisibility(View.INVISIBLE);
-        }
-        else{
+        if (isNetWork == false) {
+            sharedBackgroundView.setBackgroundColor(Color.parseColor("#85323232"));
             networkChecking.setVisibility(View.VISIBLE);
+            networkChecking.bringToFront();
+            sharedBackgroundView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return true;
+                }
+            });
+
         }
 
-//        FirebaseDB.setWordBook(db, new WordBook("JPT", ));
+        WordBook[] wordBooks = new WordBook[1];
+        String[] wordBookId = new String[1];
+        int[] i = new int[1];
+        i[0] = 0;
+
+        Thread getWordBookThread = new Thread("getWordBookThread") {
+            @Override
+            public void run() {
+                super.run();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int idEdit = (i[0] - 1) * 5;
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
+                        String _vocaid = wordBookId[0];
+                        String vocabularyName = wordBooks[0].getName();
+                        String word = wordBooks[0].getWordLang();
+                        String wordMean = wordBooks[0].getMeanLang();
+
+                        Timestamp date = wordBooks[0].getCreateDate();
+                        View v1;
+
+                        v1 = findViewById(R.id.view);
+                        v1.setId(idEdit);
+                        v1.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                //롱클릭 시 발동함
+                                Log.d("롱클릭", Integer.toString(v.getId()));
+                                rewriteViewWindow.setVisibility(View.VISIBLE);
+                                wordForRewrite.setText(word);
+                                wordMeanForRewrite.setText(wordMean);
+                                vocaNameForRewrite.setText(vocabularyName);
+                                idForRewrite = v.getId();
+                                rewriteViewWindow.bringToFront();
+                                backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+                                backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                                        addViewWindow.setVisibility(View.GONE);
+                                        return false;
+                                    }
+                                });
+                                vocaId = _vocaid;
+                                Log.i("롱클릭 시 id", vocaId);
+                                isForRewrite = true;
+                                return true;
+                            }
+                        });
+
+                        //수정
+                        v1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(SharedVocabularyActivity.this, SharedWordBookActivity.class);
+                                vocaId = _vocaid;
+                                intent.putExtra("단어장 data", wordBooks[0] + "@" + v.getId());
+                                intent.putExtra("vocaId", vocaId);
+                                Log.d("intent 클릭", "vocaId 전송");
+                                startActivity(intent);
+                                //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
+                            }
+                        });
+
+                        TextView one = myVocaContainer.findViewById(R.id.myVocabularyListItemName);
+                        one.setId(idEdit + 1);
+                        one.setText(vocabularyName);
+                        TextView two = myVocaContainer.findViewById(R.id.languageRelation);
+                        two.setId(idEdit + 2);
+                        two.setText(word + "/" + wordMean);
+                        TextView three = myVocaContainer.findViewById(R.id.myVocabularyBirthDay);
+                        three.setId(idEdit + 3);
+                        Date d = date.toDate();
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+                        String shared_date = formatter.format(d);
+                        three.setText(shared_date);
+                        TextView five = myVocaContainer.findViewById(R.id.wordCount);
+                        five.setId(idEdit + 4);
+//            five.setText(Integer.toString(word_count));
+                    }
+                });
+            }
+        };
+        ArrayList<String>[] vocaBook = new ArrayList[1];
+
+
+        Thread getVocaIdThread = new Thread("getVocaIdThread") {
+            @Override
+            public void run() {
+                super.run();
+                for (String id : vocaBook[0]) {
+                    
+                    FirebaseDB.getWordBookById(db, id, getWordBookThread, wordBooks);
+                    wordBookId[0] = id;
+                    i[0]--;
+                }
+            }
+        };
+        FirebaseDB.getWordBookList(db, 0, null, null, false, mAuth.getUid(), getVocaIdThread, vocaBook);
+        //처음 시작될 때 화면에 데이터뿌리기
+
+        Log.i("SharedVocabulary", "create success complete");
 
     }
-
-
 
 
     public boolean isConnected(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        if(networkInfo != null && networkInfo.isConnectedOrConnecting()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
 
     // 버튼 클릭 이벤트 구현
+    @SuppressLint("LongLogTag")
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
+            case R.id.networkChecking:
+                isNetWork = isConnected(SharedVocabularyActivity.this);
+                if (isNetWork == true) {
+                    sharedBackgroundView.setBackgroundColor(Color.parseColor("#00FFFFFF"));
+                    networkChecking.setVisibility(View.INVISIBLE);
+                    sharedBackgroundView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                            return false;
+                        }
+                    });
+                    Log.i(TAG, "network가 켜짐");
+                }
             case R.id.searchButton2: // 검색 버튼 (미완료)
                 String searchWindowString = getSearchWindowString();
                 //
@@ -125,7 +312,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                 addViewWindow.setVisibility(View.VISIBLE);
                 break;
             case R.id.acceptButton2: // 단어장 [생성하기] 버튼 클릭시
-                LayoutInflater inflater2 = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater2 = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 inflater2.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
                 break;
         }
@@ -133,8 +320,8 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     }
 
     // 화면 스와이프를 통한 내 단어장 액티비티로 전환
-    public boolean onTouchEvent(MotionEvent touchEvent){
-        switch(touchEvent.getAction()){
+    public boolean onTouchEvent(MotionEvent touchEvent) {
+        switch (touchEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 x1 = touchEvent.getX();
                 y1 = touchEvent.getY();
@@ -142,7 +329,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
             case MotionEvent.ACTION_UP:
                 x2 = touchEvent.getX();
                 y2 = touchEvent.getY();
-                if(x2 + 500> x1){
+                if (x2 + 500 > x1) {
                     addViewWindow.setVisibility(View.GONE);
                     finish();
                 }
@@ -152,16 +339,16 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
 
 
     // 검색창의 값을 리턴. 빈 값이면 null을 리턴.
-    public String getSearchWindowString(){
+    public String getSearchWindowString() {
         String str = searchWindow.getText().toString();
 
-        if(str.length() == 0)
-        {
+        if (str.length() == 0) {
             return null;
-        }else{
+        } else {
             return str;
         }
     }
+
     private void signInAnonymously() {
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -170,7 +357,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInAnonymously:success "+mAuth.getUid());
+                            Log.d(TAG, "signInAnonymously:success " + mAuth.getUid());
                             FirebaseUser user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -179,7 +366,6 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                     }
                 });
     }
-
 
 
 }

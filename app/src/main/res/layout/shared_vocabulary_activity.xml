@@ -5,6 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SharedVocabularyActivity">
+
+    <ImageView
+        android:id="@+id/networkChecking"
+        android:layout_width="100dp"
+        android:layout_height="101dp"
+        app:tint="@color/AppGray"
+        android:visibility="invisible"
+        app:srcCompat="@android:drawable/stat_notify_sync"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="282dp" />
+
+    <View
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/shearedBackgroundView"
+        android:background="#00FFFFFF" />
+
     <TextView
         android:id="@+id/activityLabel2"
         android:layout_width="wrap_content"
@@ -118,14 +135,15 @@
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical"
-        android:background = "@drawable/add_vocabulary_layout_radius"
+        android:background="@drawable/add_vocabulary_layout_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
         <EditText
             android:id="@+id/vocabularyNameForAdd2"
             android:hint="단어장 이름을 입력하세요"
-            android:textSize = "14dp"
+            android:textSize="14dp"
             android:inputType="text"
             android:singleLine="true"
             android:textColorHint="#d9d9d9"
@@ -141,7 +159,7 @@
         <Button
             android:id="@+id/wordForAdd2"
             android:hint="단어 언어"
-            android:textSize = "14dp"
+            android:textSize="14dp"
             android:textAlignment="textStart"
             android:textColorHint="#BDBDBD"
             android:layout_width="360dp"
@@ -156,7 +174,7 @@
         <Button
             android:id="@+id/wordMeanForAdd2"
             android:hint="의미 언어"
-            android:textSize = "14dp"
+            android:textSize="14dp"
             android:textAlignment="textStart"
             android:textColorHint="#BDBDBD"
             android:layout_width="360dp"
@@ -170,7 +188,7 @@
 
         <Button
             android:text="생성하기"
-            android:textColor = "#FFFFFF"
+            android:textColor="#FFFFFF"
             android:id="@+id/acceptButton2"
             android:layout_width="360dp"
             android:layout_height="36dp"
@@ -199,16 +217,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
-
-    <ImageView
-        android:id="@+id/networkChecking"
-        android:layout_width="100dp"
-        android:layout_height="101dp"
-        app:tint="@color/AppGray"
-        android:visibility="invisible"
-        app:srcCompat="@android:drawable/stat_notify_sync"
-        tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="282dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

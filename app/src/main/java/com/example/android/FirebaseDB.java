@@ -275,6 +275,7 @@ public class FirebaseDB {
     //단어 추가
     public static void addWord(FirebaseFirestore db, String id, String word, String mean, String uId, Thread thread) {
         Word wordClass = new Word(word, mean, uId);
+        Log.d(TAG, "addWordSuccess");
         db.collection("wordbook").document(id).collection("word").add(wordClass)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override

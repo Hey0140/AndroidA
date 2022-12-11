@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class WordBookActivity extends AppCompatActivity implements View.OnClickListener {
+public class SharedWordBookActivity extends AppCompatActivity implements View.OnClickListener {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
@@ -72,8 +72,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_word_book);
 
 
-        wordDB = new wordDataBaseHelper(WordBookActivity.this);
-        vocaDB = new vocaDataBaseHelper(WordBookActivity.this);
+        wordDB = new wordDataBaseHelper(SharedWordBookActivity.this);
+        vocaDB = new vocaDataBaseHelper(SharedWordBookActivity.this);
 
         mAuth = FirebaseAuth.getInstance();
         signInAnonymously();
@@ -172,7 +172,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                     }
                 };
                 FirebaseDB.setWordBook(db, wordBook, getWordId, docId);
-                Toast t = Toast.makeText(WordBookActivity.this,
+                Toast t = Toast.makeText(SharedWordBookActivity.this,
                         "uploadButton", Toast.LENGTH_LONG);
                 t.show();
                 break;
@@ -190,12 +190,12 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.quizButton:
                 Log.d("intent 클릭", "vocaId 전송");
-                startActivity(new Intent(WordBookActivity.this, MywordQuizActivity.class));
+                startActivity(new Intent(SharedWordBookActivity.this, MywordQuizActivity.class));
                 int idx = wordId / 5 - 1;
                 ArrayList<String> wordList = new ArrayList<>(); // 신경X
                 ArrayList<String> meanList = new ArrayList<>(); // 신경X
                 int stringIndex = 0;
-                Intent intent = new Intent(WordBookActivity.this, MywordQuizActivity.class);
+                Intent intent = new Intent(SharedWordBookActivity.this, MywordQuizActivity.class);
                 for (int i = 0; i < myVocaArrayList.get(idx).word.size(); i++) {
                     int id = wordId * 1000 + (i + 1) * 5 + 3;
                     CheckBox temp = findViewById(id);
