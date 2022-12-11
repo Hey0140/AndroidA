@@ -3,6 +3,7 @@ package com.example.android;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -14,9 +15,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -30,7 +33,7 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "Success adding document : "+ documentReference.getId());
+                        Log.d(TAG, "Success adding document : " + documentReference.getId());
                         id[0] = documentReference.getId();
                         if (thread != null) thread.start();
                     }
@@ -122,16 +125,15 @@ public class FirebaseDB {
     }
 
     //좋아요 수를 플러스
-    public static boolean plusLikeCount(FirebaseFirestore db, String id, String uID) {
-        boolean[] isSuccess = {false};
+    public static void plusLikeCount(FirebaseFirestore db, String id, String uID, Thread thread) {
         DocumentReference wordbook = db.collection("wordbook").document(id);
         wordbook.update("likeCount", FieldValue.increment(1))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        isSuccess[0] = true;
                         addLikeId(db, id, uID);
                         Log.d(TAG, "Success updating likeCount+");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -146,7 +148,6 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled updating likeCount+");
                     }
                 });
-        return isSuccess[0];
     }
 
     //좋아요 수를 마이너스
@@ -298,62 +299,47 @@ public class FirebaseDB {
     }
 
     //단어 업데이트, 둘중 하나만 하고 싶으면 수정 안 할거 null
-    public static void updateWord(FirebaseFirestore db, String wordBookId, String wordId, String word, String mean, Thread thread) {
+    public static void updateWord(FirebaseFirestore db, String wordBookId, String wordId, @NonNull String word, @NonNull String mean, Thread thread) {
         DocumentReference wordbook = db.collection("wordbook").document(wordBookId).collection("word").document(wordId);
-        if (word != null) {
-            wordbook.update("word", word)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(TAG, "Success updating word");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error updating word", e);
-                            if (thread != null) thread.start();
-                        }
-                    })
-                    .addOnCanceledListener(new OnCanceledListener() {
-                        @Override
-                        public void onCanceled() {
-                            Log.w(TAG, "Canceled updating word");
-                        }
-                    });
-        }
-        if (mean != null) {
-            wordbook.update("mean", mean)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(TAG, "Success updating mean");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error updating mean", e);
-                        }
-                    })
-                    .addOnCanceledListener(new OnCanceledListener() {
-                        @Override
-                        public void onCanceled() {
-                            Log.w(TAG, "Canceled updating mean");
-                        }
-                    });
-        }
+        db.runTransaction(new Transaction.Function<Void>() {
+                    @Nullable
+                    @Override
+                    public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                        DocumentSnapshot snapshot = transaction.get(wordbook);
+                        transaction.update(wordbook, "word", word);
+                        transaction.update(wordbook, "mean", mean);
+                        return null;
+                    }
+                })
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "Success updating word");
+                        if (thread != null) thread.start();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating word", e);
+                    }
+                })
+                .addOnCanceledListener(new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        Log.w(TAG, "Canceled updating word");
+                    }
+                });
     }
 
     //단어장 삭제
-    public static boolean deleteWordBook(FirebaseFirestore db, String id) {
-        boolean[] isSuccess = {false};
+    public static void deleteWordBook(FirebaseFirestore db, String id, Thread thread) {
         db.collection("wordbook").document(id).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        isSuccess[0] = true;
                         Log.d(TAG, "Success deleting document");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -368,18 +354,16 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled deleting document");
                     }
                 });
-        return isSuccess[0];
     }
 
     //단어 삭제
-    public static boolean deleteWord(FirebaseFirestore db, String id, String wordId) {
-        boolean[] isSuccess = {false};
+    public static void deleteWord(FirebaseFirestore db, String id, String wordId, Thread thread) {
         db.collection("wordbook").document(id).collection("word").document(wordId).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        isSuccess[0] = true;
                         Log.d(TAG, "Success deleting document");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -394,18 +378,17 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled deleting document");
                     }
                 });
-        return isSuccess[0];
     }
 
-    public static WordBook getWordBookById(FirebaseFirestore db, String id) {
+    public static void getWordBookById(FirebaseFirestore db, String id, Thread thread, WordBook[] wordBook) {
         DocumentReference docRef = db.collection("wordbook").document(id);
-        WordBook[] wordBook = new WordBook[1];
         docRef.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         wordBook[0] = documentSnapshot.toObject(WordBook.class);
                         Log.d(TAG, "Success getting document");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -420,10 +403,9 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled getting document");
                     }
                 });
-        return wordBook[0];
     }
 
-    public static ArrayList<WordBook> getWordBookList(FirebaseFirestore db, int sortNum, String wordLang, String meanLang, boolean like, String uId) {
+    public static void getWordBookList(FirebaseFirestore db, int sortNum, String wordLang, String meanLang, boolean like, String uId, Thread thread, ArrayList<WordBook>[] arrayList) {
         LinkedList<WordBook> temp = new LinkedList<>();
         CollectionReference wordBookRef = db.collection("wordbook");
         Query wordBookQuery = wordBookRef;
@@ -467,7 +449,9 @@ public class FirebaseDB {
                                 temp.addLast(documentSnapshot.toObject(WordBook.class));
                             }
                         }
+                        arrayList[0] = new ArrayList<>(temp);
                         Log.d(TAG, "Success getting Task");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -482,10 +466,9 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled getting Task");
                     }
                 });
-        return new ArrayList<>(temp);
     }
 
-    public static ArrayList<Word> getWordList(FirebaseFirestore db, int sortNum, String id) {
+    public static void getWordList(FirebaseFirestore db, int sortNum, String id, Thread thread, ArrayList<Word>[] arrayList) {
         LinkedList<Word> temp = new LinkedList<>();
         CollectionReference wordRef = db.collection("wordbook").document(id).collection("word");
         Query wordQuery = wordRef;
@@ -508,7 +491,9 @@ public class FirebaseDB {
                                 temp.addLast(documentSnapshot.toObject(Word.class));
                             }
                         }
+                        arrayList[0] = new ArrayList<>(temp);
                         Log.d(TAG, "Success getting Task");
+                        if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -523,6 +508,5 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled getting Task");
                     }
                 });
-        return new ArrayList<>(temp);
     }
 }
