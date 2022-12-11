@@ -11,9 +11,8 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id = "@+id/backgroundView"
-        android:background="#00FFFFFF"
-        />
+        android:id="@+id/backgroundView"
+        android:background="#00FFFFFF" />
 
     <TextView
         android:id="@+id/activityLabel"
@@ -128,14 +127,15 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical"
-        android:background = "@drawable/add_vocabulary_layout_radius"
+        android:background="@drawable/add_vocabulary_layout_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
         <EditText
             android:id="@+id/vocabularyNameForAdd"
             android:hint="단어장 이름을 입력하세요"
-            android:textSize = "14dp"
+            android:textSize="14dp"
             android:inputType="text"
             android:singleLine="true"
             android:textColorHint="#BDBDBD"
@@ -152,7 +152,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/wordForAdd"
             android:hint="단어 언어"
-            android:textSize = "14dp"
+            android:textSize="14dp"
             android:textAlignment="textStart"
             android:textColorHint="#BDBDBD"
             android:layout_width="360dp"
@@ -168,7 +168,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/wordMeanForAdd"
             android:hint="의미 언어"
-            android:textSize = "14dp"
+            android:textSize="14dp"
             android:textAlignment="textStart"
             android:textColorHint="#BDBDBD"
             android:layout_width="360dp"
@@ -183,7 +183,7 @@
         <Button
             style="?android:attr/borderlessButtonStyle"
             android:text="생성하기"
-            android:textColor = "#FFFFFF"
+            android:textColor="#FFFFFF"
             android:id="@+id/acceptButton"
             android:layout_width="360dp"
             android:layout_height="36dp"
@@ -301,8 +301,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id ="@+id/languagePickerWindow"
+        android:id="@+id/languagePickerWindow"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="400dp"
@@ -313,14 +314,13 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
         <ScrollView
             android:layout_width="400dp"
             android:layout_height="260dp"
-            android:scrollbars ="none"
-            android:layout_gravity = "center"
+            android:scrollbars="none"
+            android:layout_gravity="center"
             android:id="@+id/languagePickerWindowScrollView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -329,78 +329,81 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/koreanPick"
                     android:layout_width="400dp"
                     android:layout_height="35dp"
-                    android:text = "한국어"
+                    android:text="한국어"
                     android:textSize="15dp"
                     android:fontFamily="@font/gmarketsanslight"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    style="?android:attr/borderlessButtonStyle" />
 
                 <View
                     android:layout_width="364dp"
                     android:layout_height="1dp"
                     android:background="#000000"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/englisgPick"
                     android:layout_width="400dp"
                     android:layout_height="35dp"
-                    android:text = "영어"
+                    android:text="영어"
                     android:textSize="15dp"
                     android:fontFamily="@font/gmarketsanslight"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    style="?android:attr/borderlessButtonStyle" />
 
                 <View
                     android:layout_width="364dp"
                     android:layout_height="1dp"
                     android:background="#000000"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/japanesePick"
                     android:layout_width="400dp"
                     android:layout_height="35dp"
-                    android:text = "일본어"
+                    android:text="일본어"
                     android:textSize="15dp"
                     android:fontFamily="@font/gmarketsanslight"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    style="?android:attr/borderlessButtonStyle" />
 
                 <View
                     android:layout_width="364dp"
                     android:layout_height="1dp"
                     android:background="#000000"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
+
                 <TextView
                     android:id="@+id/frenchPick"
                     android:layout_width="400dp"
                     android:layout_height="35dp"
-                    android:text = "프랑스어"
+                    android:text="프랑스어"
                     android:textSize="15dp"
                     android:fontFamily="@font/gmarketsanslight"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    style="?android:attr/borderlessButtonStyle" />
 
                 <View
                     android:layout_width="364dp"
                     android:layout_height="1dp"
                     android:background="#000000"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
+
                 <TextView
                     android:id="@+id/germanPick"
                     android:layout_width="400dp"
                     android:layout_height="35dp"
-                    android:text = "독일어"
+                    android:text="독일어"
                     android:textSize="15dp"
                     android:fontFamily="@font/gmarketsanslight"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    style="?android:attr/borderlessButtonStyle" />
 
                 <View
                     android:layout_width="364dp"
                     android:layout_height="1dp"
                     android:background="#000000"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/chinesePick"
@@ -415,58 +418,61 @@
                     android:layout_width="364dp"
                     android:layout_height="1dp"
                     android:background="#000000"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
+
                 <TextView
                     android:id="@+id/greekPick"
                     android:layout_width="400dp"
                     android:layout_height="35dp"
-                    android:text = "그리스어"
+                    android:text="그리스어"
                     android:textSize="15dp"
                     android:fontFamily="@font/gmarketsanslight"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    style="?android:attr/borderlessButtonStyle" />
 
                 <View
                     android:layout_width="364dp"
                     android:layout_height="1dp"
                     android:background="#000000"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
+
                 <TextView
                     android:id="@+id/spanshPick"
                     android:layout_width="400dp"
                     android:layout_height="35dp"
-                    android:text = "스페인어"
+                    android:text="스페인어"
                     android:textSize="15dp"
                     android:fontFamily="@font/gmarketsanslight"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    style="?android:attr/borderlessButtonStyle" />
 
                 <View
                     android:layout_width="364dp"
                     android:layout_height="1dp"
                     android:background="#000000"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
+
                 <TextView
                     android:id="@+id/portugalPick"
                     android:layout_width="400dp"
                     android:layout_height="35dp"
-                    android:text = "포르투갈어"
+                    android:text="포르투갈어"
                     android:textSize="15dp"
                     android:fontFamily="@font/gmarketsanslight"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    style="?android:attr/borderlessButtonStyle" />
 
                 <View
                     android:layout_width="364dp"
                     android:layout_height="1dp"
                     android:background="#000000"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/russianPick"
                     android:layout_width="400dp"
                     android:layout_height="35dp"
-                    android:text = "러시아어"
+                    android:text="러시아어"
                     android:textSize="15dp"
                     android:fontFamily="@font/gmarketsanslight"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    style="?android:attr/borderlessButtonStyle" />
 
             </LinearLayout>
 
@@ -477,7 +483,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id = "@+id/deleteWindow"
+        android:id="@+id/deleteWindow"
         android:layout_width="400dp"
         android:layout_height="160dp"
         android:background="@drawable/add_vocabulary_layout_radius"
@@ -512,7 +518,7 @@
             android:fontFamily="@font/gmarketsanslight"
             android:textSize="15dp"
             android:textAlignment="center"
-            android:textColor = "#000000"
+            android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -525,6 +531,7 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/serach_none"
         tools:layout_editor_absoluteX="341dp"
-        tools:layout_editor_absoluteY="155dp" />
+        tools:layout_editor_absoluteY="155dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
