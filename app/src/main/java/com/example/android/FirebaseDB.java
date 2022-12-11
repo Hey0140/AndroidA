@@ -405,8 +405,33 @@ public class FirebaseDB {
                 });
     }
 
-    public static void getWordBookList(FirebaseFirestore db, int sortNum, String wordLang, String meanLang, boolean like, String uId, Thread thread, ArrayList<WordBook>[] arrayList) {
-        LinkedList<WordBook> temp = new LinkedList<>();
+    public static void getWordById(FirebaseFirestore db, String wordBookId, String id, Thread thread, Word[] word) {
+        DocumentReference docRef = db.collection("wordbook").document(wordBookId).collection("word").document(id);
+        docRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        word[0] = documentSnapshot.toObject(Word.class);
+                        Log.d(TAG, "Success getting document");
+                        if (thread != null) thread.start();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error getting document", e);
+                    }
+                })
+                .addOnCanceledListener(new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        Log.w(TAG, "Canceled getting document");
+                    }
+                });
+    }
+
+    public static void getWordBookList(FirebaseFirestore db, int sortNum, String wordLang, String meanLang, boolean like, String uId, Thread thread, ArrayList<String>[] arrayList) {
+        LinkedList<String> temp = new LinkedList<>();
         CollectionReference wordBookRef = db.collection("wordbook");
         Query wordBookQuery = wordBookRef;
         switch (sortNum) {
@@ -446,7 +471,7 @@ public class FirebaseDB {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                temp.addLast(documentSnapshot.toObject(WordBook.class));
+                                temp.addLast(documentSnapshot.getId());
                             }
                         }
                         arrayList[0] = new ArrayList<>(temp);
@@ -468,8 +493,8 @@ public class FirebaseDB {
                 });
     }
 
-    public static void getWordList(FirebaseFirestore db, int sortNum, String id, Thread thread, ArrayList<Word>[] arrayList) {
-        LinkedList<Word> temp = new LinkedList<>();
+    public static void getWordList(FirebaseFirestore db, int sortNum, String id, Thread thread, ArrayList<String>[] arrayList) {
+        LinkedList<String> temp = new LinkedList<>();
         CollectionReference wordRef = db.collection("wordbook").document(id).collection("word");
         Query wordQuery = wordRef;
         switch (sortNum) {
@@ -488,7 +513,7 @@ public class FirebaseDB {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                temp.addLast(documentSnapshot.toObject(Word.class));
+                                temp.addLast(documentSnapshot.getId());
                             }
                         }
                         arrayList[0] = new ArrayList<>(temp);
