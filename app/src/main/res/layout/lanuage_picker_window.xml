@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="260dp"
+    android:background="@drawable/language_picker_radius"
+    >
+
+    <ScrollView
+        android:layout_width="400dp"
+        android:layout_height="260dp"
+        android:scrollbars ="none"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/koreanPick"
+                android:background="@null"
+                android:layout_width="400dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="11dp"
+                android:text = "한국어"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <View
+                android:layout_width="382dp"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
+            <TextView
+                android:background="@null"
+                android:id="@+id/englisgPick"
+                android:layout_width="400dp"
+                android:layout_height="33dp"
+                android:text = "한국어"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <View
+                android:layout_width="382dp"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/japanesePick"
+                android:layout_width="400dp"
+                android:layout_height="33dp"
+                android:text = "한국어"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <View
+                android:layout_width="382dp"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/frenchPick"
+                android:layout_width="400dp"
+                android:layout_height="33dp"
+                android:text = "한국어"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <View
+                android:layout_width="382dp"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/germanPick"
+                android:layout_width="400dp"
+                android:layout_height="33dp"
+                android:text = "한국어"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <View
+                android:layout_width="382dp"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
+            <TextView
+                android:id="@+id/chinesePick"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="400dp"
+                android:layout_height="33dp"
+                android:fontFamily="@font/gmarketsanslight"
+                android:text="한국어"
+                android:textSize="15dp" />
+
+            <View
+                android:layout_width="382dp"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/greekPick"
+                android:layout_width="400dp"
+                android:layout_height="33dp"
+                android:text = "한국어"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <View
+                android:layout_width="382dp"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/spanshPick"
+                android:layout_width="400dp"
+                android:layout_height="33dp"
+                android:text = "한국어"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <View
+                android:layout_width="382dp"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <TextView
+                android:id="@+id/portugalPick"
+                android:layout_width="400dp"
+                android:layout_height="33dp"
+                android:text = "한국어"
+                android:textSize="15dp"
+                android:fontFamily="@font/gmarketsanslight"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <View
+                android:layout_width="382dp"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

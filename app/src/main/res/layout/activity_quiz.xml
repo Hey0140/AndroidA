@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MywordQuizActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/layout_quiz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/back_button_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="22dp"
+                android:background="@drawable/back_button" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="53dp"
+                android:layout_centerVertical="true"
+                android:text="Quiz"
+                android:fontFamily="@font/gmarketsans"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/layout_answerbox"
+            android:layout_below="@id/layout_quiz"
+            android:layout_marginBottom="100dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
+
+                <View
+                    android:id="@+id/quiz_text_box"
+                    android:layout_width="268dp"
+                    android:layout_height="93dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_corner_quizbox_1"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/quiz_text"
+                    android:layout_width="268dp"
+                    android:layout_height="93dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/gmarketsanslight"
+                    android:gravity="center"
+                    android:text="@string/example_quiz"
+                    android:textColor="#FFFFFF"
+                    android:textSize="27dp" />
+
+                <View
+                    android:id="@+id/quiz_co_answer_box"
+                    android:layout_width="268dp"
+                    android:layout_height="93dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_corner_quizbox_2"
+                    android:gravity="center"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/quiz_co_answer"
+                    android:layout_width="268dp"
+                    android:layout_height="93dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/example_answer"
+                    android:textColor="#000000"
+                    android:textSize="27dp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/quiz_answer_correct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/o_correct"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/quiz_answer_incorrect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/x_incorrect"
+                    android:visibility="invisible" />
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_answerbox"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <View
+                android:id="@+id/quiz_answer_box"
+                android:layout_width="match_parent"
+                android:layout_height="153dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:background="@drawable/round_corner_quiz_answerbox"
+                android:foregroundGravity="bottom" />
+
+            <EditText
+                android:id="@+id/input_answer"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/round_corner_quiz_answer"
+                android:hint="@string/hint_answer"
+                android:fontFamily="@font/gmarketsanslight"
+                android:textSize="14dp"
+                android:inputType="text"
+                android:paddingLeft="18dp"
+                android:textColorHint="#BDBDBD"
+                android:textCursorDrawable="@drawable/black_cursor" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/submit_answer"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="23dp"
+                android:background="@drawable/round_corner_quiz_submit"
+                android:text="@string/submit_answer"
+                android:fontFamily="@font/gmarketsanslight"
+                android:textSize="14dp"
+                android:textColor="#FFFFFF" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/next_quiz"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="23dp"
+                android:background="@drawable/round_corner_next_quiz"
+                android:visibility="invisible"
+                android:text="@string/next_quiz"
+                android:fontFamily="@font/gmarketsanslight"
+                android:textSize="14dp"
+                android:textColor="#FFFFFF" />
+        </FrameLayout>
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

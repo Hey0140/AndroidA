@@ -1,0 +1,54 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="210dp"
+    android:background = "@drawable/add_vocabulary_layout_radius"
+    android:id="@+id/wordAddWindow">
+
+    <EditText
+        android:id="@+id/EditTextForAddWord"
+        android:hint="단어"
+        android:textSize = "14dp"
+        android:singleLine="true"
+        android:textColorHint="#d9d9d9"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:background="@drawable/add_vocabulary_input_window"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/EditTextForAddWordMean"
+        android:hint="의미"
+        android:textSize = "14dp"
+        android:singleLine="true"
+        android:textColorHint="#d9d9d9"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:background="@drawable/add_vocabulary_input_window"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextForAddWord" />
+
+    <Button
+        android:text="추가하기"
+        android:textColor = "#FFFFFF"
+        android:id="@+id/acceptButtonForAddWord"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:background="@drawable/add_vocabulary_accept_window"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/EditTextForAddWordMean"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

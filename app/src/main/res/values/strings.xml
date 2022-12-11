@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Android</string>
+    <string name="title_activity_add_vocabulary">AddVocabularyActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="hint_answer">정답</string>
+    <string name="submit_answer">제출하기</string>
+    <string name="next_quiz">다음문제</string>
+
+    <string name="example_answer">Dolor sit amet</string>
+    <string name="example_quiz">Lorem ipsum</string>
+</resources>

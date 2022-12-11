@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SharedVocabularyActivity">
+    <TextView
+        android:id="@+id/activityLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="51dp"
+        android:fontFamily="@font/activity_name_font"
+        android:text="공유 단어장"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="34dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/searchWindow2"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="45dp"
+        android:background="@drawable/search_window_radius"
+        android:fontFamily="@font/search_window_font"
+        android:includeFontPadding="true"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activityLabel2"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/searchButton2"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/image_2"
+        app:layout_constraintStart_toStartOf="@id/searchWindow2"
+        app:layout_constraintTop_toBottomOf="@id/activityLabel2" />
+
+    <Button
+        android:id="@+id/searchOptionButton2"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="151dp"
+        android:background="@drawable/image_4"
+        app:layout_constraintStart_toEndOf="@+id/searchWindow2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/pageIndicator12"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="184dp"
+        android:layout_marginBottom="14dp"
+        app:flow_verticalAlign="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ellipse_6" />
+
+    <ImageView
+        android:id="@+id/pageIndicator2_2"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="216dp"
+        android:layout_marginBottom="11dp"
+        app:flow_verticalAlign="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ellipse_7" />
+
+    <ImageView
+        android:id="@+id/pageIndicator22"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginEnd="126dp"
+        android:layout_marginBottom="14dp"
+        app:flow_verticalAlign="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addButtonBackground2"
+        app:srcCompat="@drawable/ellipse_6" />
+
+    <ImageView
+        android:id="@+id/addButtonBackground2"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ellipse" />
+
+    <ImageButton
+        android:id="@+id/addButton2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/image_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addViewWindow2"
+        android:layout_width="400dp"
+        android:layout_height="260dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:background = "@drawable/add_vocabulary_layout_radius"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <EditText
+            android:id="@+id/vocabularyNameForAdd2"
+            android:hint="단어장 이름을 입력하세요"
+            android:textSize = "14dp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColorHint="#d9d9d9"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/gmarketsanslight"
+            android:background="@drawable/add_vocabulary_input_window"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/wordForAdd2"
+            android:hint="단어 언어"
+            android:textSize = "14dp"
+            android:textAlignment="textStart"
+            android:textColorHint="#BDBDBD"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/gmarketsanslight"
+            android:background="@drawable/add_vocabulary_input_window"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vocabularyNameForAdd2" />
+
+        <Button
+            android:id="@+id/wordMeanForAdd2"
+            android:hint="의미 언어"
+            android:textSize = "14dp"
+            android:textAlignment="textStart"
+            android:textColorHint="#BDBDBD"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/gmarketsanslight"
+            android:background="@drawable/add_vocabulary_input_window"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wordForAdd2" />
+
+        <Button
+            android:text="생성하기"
+            android:textColor = "#FFFFFF"
+            android:id="@+id/acceptButton2"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="23dp"
+            android:fontFamily="@font/gmarketsanslight"
+            android:background="@drawable/add_vocabulary_accept_window"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="402dp"
+        android:layout_height="338dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="9dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchWindow2">
+
+        <LinearLayout
+            android:id="@+id/vocabularyListItemContainer2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/networkChecking"
+        android:layout_width="100dp"
+        android:layout_height="101dp"
+        app:tint="@color/AppGray"
+        android:visibility="invisible"
+        app:srcCompat="@android:drawable/stat_notify_sync"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="282dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

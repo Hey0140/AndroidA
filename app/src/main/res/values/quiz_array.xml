@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="quiz">
+
+        <item>사과</item>
+        <item>바나나</item>
+        <item>배</item>
+        <item>포도</item>
+        <item>수박</item>
+    </string-array>
+
+</resources>

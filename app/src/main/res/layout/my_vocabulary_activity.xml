@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/my_vocabulary_activity_xml"
+    tools:context=".MyVocabularyActivity">
+
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id = "@+id/backgroundView"
+        android:background="#00FFFFFF"
+        />
+
+    <TextView
+        android:id="@+id/activityLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="51dp"
+        android:fontFamily="@font/activity_name_font"
+        android:text="내 단어장"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="34dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/searchWindow"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="45dp"
+        android:background="@drawable/search_window_radius"
+        android:fontFamily="@font/gmarketsanslight"
+        android:includeFontPadding="true"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activityLabel"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/image_2"
+        app:layout_constraintStart_toStartOf="@id/searchWindow"
+        app:layout_constraintTop_toBottomOf="@id/activityLabel" />
+
+    <Button
+        android:id="@+id/searchOptionButton"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="151dp"
+        android:background="@drawable/image_4"
+        app:layout_constraintStart_toEndOf="@+id/searchWindow"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/pageIndicator1"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="184dp"
+        android:layout_marginBottom="14dp"
+        app:flow_verticalAlign="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ellipse_6" />
+
+    <ImageView
+        android:id="@+id/pageIndicator1_"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="181dp"
+        android:layout_marginBottom="11dp"
+        app:flow_verticalAlign="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ellipse_7" />
+
+    <ImageView
+        android:id="@+id/pageIndicator2"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginEnd="126dp"
+        android:layout_marginBottom="14dp"
+        app:flow_verticalAlign="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addButtonBackground"
+        app:srcCompat="@drawable/ellipse_6" />
+
+    <ImageView
+        android:id="@+id/addButtonBackground"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ellipse" />
+
+    <ImageButton
+        android:id="@+id/addButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/image_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addViewWindow"
+        android:layout_width="400dp"
+        android:layout_height="260dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:background = "@drawable/add_vocabulary_layout_radius"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <EditText
+            android:id="@+id/vocabularyNameForAdd"
+            android:hint="단어장 이름을 입력하세요"
+            android:textSize = "14dp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColorHint="#BDBDBD"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/gmarketsanslight"
+            android:background="@drawable/add_vocabulary_input_window"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/wordForAdd"
+            android:hint="단어 언어"
+            android:textSize = "14dp"
+            android:textAlignment="textStart"
+            android:textColorHint="#BDBDBD"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/gmarketsanslight"
+            android:background="@drawable/add_vocabulary_input_window"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vocabularyNameForAdd" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/wordMeanForAdd"
+            android:hint="의미 언어"
+            android:textSize = "14dp"
+            android:textAlignment="textStart"
+            android:textColorHint="#BDBDBD"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/gmarketsanslight"
+            android:background="@drawable/add_vocabulary_input_window"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wordForAdd" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:text="생성하기"
+            android:textColor = "#FFFFFF"
+            android:id="@+id/acceptButton"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="23dp"
+            android:fontFamily="@font/gmarketsanslight"
+            android:background="@drawable/add_vocabulary_accept_window"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rewriteViewWindow"
+        android:orientation="vertical"
+        android:layout_width="400dp"
+        android:layout_height="310dp"
+        android:background="@drawable/add_vocabulary_layout_radius"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/vocabularyNameForRewrite"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/add_vocabulary_input_window"
+            android:fontFamily="@font/gmarketsanslight"
+            android:hint="단어장 이름을 입력하세요"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColorHint="#bdbdbd"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/wordForRewrite"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/add_vocabulary_input_window"
+            android:fontFamily="@font/gmarketsanslight"
+            android:hint="단어 언어"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textColorHint="#bdbdbd"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vocabularyNameForRewrite" />
+
+        <Button
+            android:id="@+id/wordMeanForRewrite"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/add_vocabulary_input_window"
+            android:fontFamily="@font/gmarketsanslight"
+            android:hint="의미 언어"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textColorHint="#bdbdbd"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wordForRewrite" />
+
+        <Button
+            android:id="@+id/acceptButtonForRewrite"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/add_vocabulary_accept_window"
+            android:fontFamily="@font/gmarketsanslight"
+            android:text="수정하기"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toTopOf="@+id/acceptButtonForDelete"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/acceptButtonForDelete"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="23dp"
+            android:background="@drawable/add_vocabulary_accept_window"
+            android:fontFamily="@font/gmarketsanslight"
+            android:text="삭제하기"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/listScrollView"
+        android:layout_width="403dp"
+        android:layout_height="505dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="9dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchWindow">
+
+        <LinearLayout
+            android:id="@+id/vocabularyListItemContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id ="@+id/languagePickerWindow"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="400dp"
+        android:layout_height="260dp"
+        android:background="@drawable/language_picker_radius"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <ScrollView
+            android:layout_width="400dp"
+            android:layout_height="260dp"
+            android:scrollbars ="none"
+            android:layout_gravity = "center"
+            android:id="@+id/languagePickerWindowScrollView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/koreanPick"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:text = "한국어"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    android:layout_width="364dp"
+                    android:layout_height="1dp"
+                    android:background="#000000"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/englisgPick"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:text = "영어"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    android:layout_width="364dp"
+                    android:layout_height="1dp"
+                    android:background="#000000"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/japanesePick"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:text = "일본어"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    android:layout_width="364dp"
+                    android:layout_height="1dp"
+                    android:background="#000000"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/frenchPick"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:text = "프랑스어"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    android:layout_width="364dp"
+                    android:layout_height="1dp"
+                    android:background="#000000"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/germanPick"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:text = "독일어"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    android:layout_width="364dp"
+                    android:layout_height="1dp"
+                    android:background="#000000"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/chinesePick"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    android:text="중국어"
+                    android:textSize="15dp" />
+
+                <View
+                    android:layout_width="364dp"
+                    android:layout_height="1dp"
+                    android:background="#000000"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/greekPick"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:text = "그리스어"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    android:layout_width="364dp"
+                    android:layout_height="1dp"
+                    android:background="#000000"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/spanshPick"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:text = "스페인어"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    android:layout_width="364dp"
+                    android:layout_height="1dp"
+                    android:background="#000000"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/portugalPick"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:text = "포르투갈어"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    android:layout_width="364dp"
+                    android:layout_height="1dp"
+                    android:background="#000000"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/russianPick"
+                    android:layout_width="400dp"
+                    android:layout_height="35dp"
+                    android:text = "러시아어"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/gmarketsanslight"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id = "@+id/deleteWindow"
+        android:layout_width="400dp"
+        android:layout_height="160dp"
+        android:background="@drawable/add_vocabulary_layout_radius"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="360dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="23dp"
+            android:background="@drawable/add_vocabulary_accept_window"
+            android:fontFamily="@font/gmarketsanslight"
+            android:text="삭제하기"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/confirmQuestion"
+            android:layout_width="360dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="33dp"
+            android:fontFamily="@font/gmarketsanslight"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:textColor = "#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/searchNone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/serach_none"
+        tools:layout_editor_absoluteX="341dp"
+        tools:layout_editor_absoluteY="155dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
