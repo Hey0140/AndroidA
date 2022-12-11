@@ -67,6 +67,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/searchNone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_marginStart="-25dp"
+        android:layout_marginTop="155dp"
+        app:layout_constraintStart_toEndOf="@+id/searchWindow"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/serach_none" />
+
+
+    <ImageView
         android:id="@+id/pageIndicator1"
         android:layout_width="10dp"
         android:layout_height="10dp"
@@ -525,13 +537,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/searchNone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/serach_none"
-        tools:layout_editor_absoluteX="341dp"
-        tools:layout_editor_absoluteY="155dp"
-        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

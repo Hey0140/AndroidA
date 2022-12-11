@@ -1,14 +1,11 @@
 package com.example.android;
 
-import static android.util.Log.d;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.*;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,29 +19,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.LinkedList;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -52,6 +29,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.LinkedList;
 
 
 public class MyVocabularyActivity extends AppCompatActivity implements View.OnClickListener {
@@ -147,7 +126,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         deleteViewWindow = findViewById(R.id.deleteWindow);
         acceptButtonForDeleteConfirm = findViewById(R.id.deleteButton);
         deleteConfirmText = findViewById(R.id.confirmQuestion);
-        languagePickerScrollView = (ScrollView)findViewById(R.id.languagePickerWindowScrollView);
+        languagePickerScrollView = (ScrollView) findViewById(R.id.languagePickerWindowScrollView);
         backgroundView = findViewById(R.id.backgroundView);
 
         korB = findViewById(R.id.koreanPick);
@@ -207,8 +186,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
         //디비에서 처음에 읽고 화면에 뿌려주는 부분
         myVocaArrayList = vocabularyDB.showVoca();
-        for(int i = 0; i < myVocaArrayList.size(); i++){
-            int idEdit = (i+1)*5;
+        for (int i = 0; i < myVocaArrayList.size(); i++) {
+            int idEdit = (i + 1) * 5;
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
             int _vocaid = myVocaArrayList.get(i).getVocabulary_id();
@@ -219,11 +198,10 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             String date = myVocaArrayList.get(i).getDate();
             //혹시 길이가 0일 경우
             //근데 0일 경우 없도록 밑에서 설정해두기는 함
-            if(relation.length == 0){
+            if (relation.length == 0) {
                 word = "";
                 wordMean = "";
-            }
-            else{
+            } else {
                 word = relation[0];
                 wordMean = relation[1];
             }
@@ -259,12 +237,12 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             });
 
             //수정
-            myVocaArrayList.get(i).v1.setOnClickListener(new View.OnClickListener(){
+            myVocaArrayList.get(i).v1.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
-                    Intent intent = new Intent(MyVocabularyActivity.this,WordBookActivity.class);
+                public void onClick(View v) {
+                    Intent intent = new Intent(MyVocabularyActivity.this, WordBookActivity.class);
                     vocaId = _vocaid;
-                    intent.putExtra("단어장 data",getWordBookNameString(v.getId())+"@"+Integer.toString(v.getId()));
+                    intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
                     intent.putExtra("vocaId", vocaId);
                     Log.d("intent 클릭", "vocaId 전송");
                     startActivity(intent);
@@ -294,21 +272,20 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.searchButton: // 검색 버튼 클릭시
                 String searchWindowString = searchWindow.getText().toString();
-                if(searchWindowString.equals("")){
+                if (searchWindowString.equals("")) {
                     Toast toast = new Toast(MyVocabularyActivity.this);
-                    toast.makeText(MyVocabularyActivity.this,
+                    Toast.makeText(MyVocabularyActivity.this,
                             "검색어를 입력하시오.", Toast.LENGTH_LONG).show();
-                }
-                else{
+                } else {
                     searchNone.setVisibility(View.VISIBLE);
                     Search(searchWindowString);
-                    Log.i("검색","검색가능");
                 }
                 break;
             case R.id.searchNone:
                 searchWindow.setText("");
                 nonSearch();
                 searchNone.setVisibility(View.INVISIBLE);
+                break;
 
             case R.id.addButton: // 단어장 추가 버튼 클릭시
                 vocaNameForAdd.setText("");
@@ -330,13 +307,12 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 String wordLang = wordForAdd.getText().toString();
                 String meanLang = wordMeanForAdd.getText().toString();
                 //셋 중 빈칸이 하나라도 있을 경우 입력되지 못하게 해둠
-                if (vocaName.equals("") || wordLang.equals("") || meanLang.equals("")){
+                if (vocaName.equals("") || wordLang.equals("") || meanLang.equals("")) {
                     Toast toast = new Toast(MyVocabularyActivity.this);
-                    toast.makeText(MyVocabularyActivity.this,
+                    Toast.makeText(MyVocabularyActivity.this,
                             "빈칸을 전부 입력하세요.", Toast.LENGTH_LONG).show();
                     backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
-                }
-                else{
+                } else {
                     addViewWindow.setVisibility(View.GONE);
                     java.util.Date date = new java.util.Date(System.currentTimeMillis());
                     vocabularyDB.addVoca(vocaName, wordLang, meanLang, date);
@@ -365,42 +341,41 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 languagePickerWindow.setVisibility(View.VISIBLE);
                 break;
             case R.id.koreanPick:
-                setLanguageBlank(isSecond, isForRewrite,"한국어");
+                setLanguageBlank(isSecond, isForRewrite, "한국어");
                 break;
             case R.id.chinesePick:
-                setLanguageBlank(isSecond, isForRewrite,"중국어");
+                setLanguageBlank(isSecond, isForRewrite, "중국어");
                 break;
             case R.id.englisgPick:
                 setLanguageBlank(isSecond, isForRewrite, "영어");
                 break;
             case R.id.frenchPick:
-                setLanguageBlank(isSecond, isForRewrite,"프랑스어");
+                setLanguageBlank(isSecond, isForRewrite, "프랑스어");
                 break;
             case R.id.germanPick:
-                setLanguageBlank(isSecond, isForRewrite,"독일어");
+                setLanguageBlank(isSecond, isForRewrite, "독일어");
                 break;
             case R.id.portugalPick:
-                setLanguageBlank(isSecond, isForRewrite,"포르투갈어");
+                setLanguageBlank(isSecond, isForRewrite, "포르투갈어");
                 break;
             case R.id.spanshPick:
-                setLanguageBlank(isSecond, isForRewrite,"스페인어");
+                setLanguageBlank(isSecond, isForRewrite, "스페인어");
                 break;
             case R.id.greekPick:
-                setLanguageBlank(isSecond, isForRewrite,"그리스어");
+                setLanguageBlank(isSecond, isForRewrite, "그리스어");
                 break;
             case R.id.japanesePick:
-                setLanguageBlank(isSecond, isForRewrite,"일본어");
+                setLanguageBlank(isSecond, isForRewrite, "일본어");
                 break;
             case R.id.russianPick:
-                setLanguageBlank(isSecond, isForRewrite,"러시아어");
+                setLanguageBlank(isSecond, isForRewrite, "러시아어");
                 break;
             case R.id.acceptButtonForRewrite:
-                if (vocaNameForRewrite.equals("") || wordForRewrite.equals("") || wordMeanForRewrite.equals("")){
+                if (vocaNameForRewrite.equals("") || wordForRewrite.equals("") || wordMeanForRewrite.equals("")) {
                     Toast toast = new Toast(MyVocabularyActivity.this);
-                    toast.makeText(MyVocabularyActivity.this,
+                    Toast.makeText(MyVocabularyActivity.this,
                             "빈칸을 전부 입력하세요.", Toast.LENGTH_LONG).show();
-                }
-                else{
+                } else {
                     rewriteVocabulary(idForRewrite, vocaId);
                     backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                     backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -427,7 +402,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 deleteViewWindow.setVisibility(View.VISIBLE);
                 rewriteViewWindow.setVisibility(View.GONE);
                 deleteConfirmText.setText("정말로 단어장 [" + vocabularyDB.showName(vocaId) + "]을/를 삭제하시겠습니까?");
-                Log.d("삭제하기","삭제하기 버튼 클릭");
+                Log.d("삭제하기", "삭제하기 버튼 클릭");
                 break;
             case R.id.deleteButton:
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
@@ -462,25 +437,173 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     public void Search(String _str) {
         String str = _str;
         clearVocaView();
-        for(int i = 0; i < myVocaArrayList.size(); i++) {
+        myVocaArrayList.clear();
+        myVocaArrayList = vocabularyDB.showFilterName(str);
+        Log.i("MyVocabularyActiviry", "Search부분");
+        for (int i = 0; i < myVocaArrayList.size(); i++) {
+            int idEdit = (i + 1) * 5;
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
+            int _vocaid = myVocaArrayList.get(i).getVocabulary_id();
             String vocabularyName = myVocaArrayList.get(i).getName();
-            if(str.contains(vocabularyName)){
-
+            String[] relation = myVocaArrayList.get(i).languageRelation.split("/");
+            String word;
+            String wordMean;
+            String date = myVocaArrayList.get(i).getDate();
+            //혹시 길이가 0일 경우
+            //근데 0일 경우 없도록 밑에서 설정해두기는 함
+            if (relation.length == 0) {
+                word = "";
+                wordMean = "";
+            } else {
+                word = relation[0];
+                wordMean = relation[1];
             }
+
+            myVocaArrayList.get(i).v1 = findViewById(R.id.view);
+            myVocaArrayList.get(i).v1.setId(idEdit);
+            myVocaArrayList.get(i).v1.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    //롱클릭 시 발동함
+                    Log.d("롱클릭", Integer.toString(v.getId()));
+                    rewriteViewWindow.setVisibility(View.VISIBLE);
+                    wordForRewrite.setText(word);
+                    wordMeanForRewrite.setText(wordMean);
+                    vocaNameForRewrite.setText(vocabularyName);
+                    idForRewrite = v.getId();
+                    rewriteViewWindow.bringToFront();
+                    backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+                    backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                            addViewWindow.setVisibility(View.GONE);
+                            return false;
+                        }
+                    });
+                    vocaId = _vocaid;
+                    Log.i("롱클릭 시 id", Integer.toString(vocaId));
+                    isForRewrite = true;
+                    return true;
+                }
+            });
+
+            //수정
+            myVocaArrayList.get(i).v1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MyVocabularyActivity.this, WordBookActivity.class);
+                    vocaId = _vocaid;
+                    intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
+                    intent.putExtra("vocaId", vocaId);
+                    Log.d("intent 클릭", "vocaId 전송");
+                    startActivity(intent);
+                    //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
+                }
+            });
+
+            TextView one = myVocaContainer.findViewById(R.id.myVocabularyListItemName);
+            one.setId(idEdit + 1);
+            one.setText(vocabularyName);
+            TextView two = myVocaContainer.findViewById(R.id.languageRelation);
+            two.setId(idEdit + 2);
+            two.setText(word + "/" + wordMean);
+            TextView three = myVocaContainer.findViewById(R.id.myVocabularyBirthDay);
+            three.setId(idEdit + 3);
+            three.setText(date);
+            TextView five = myVocaContainer.findViewById(R.id.wordCount);
+            five.setId(idEdit + 4);
+//            five.setText(Integer.toString(word_count));
         }
     }
 
     public void nonSearch() {
         clearVocaView();
-        for(int i = 0; i < myVocaArrayList.size(); i++) {
+        myVocaArrayList.clear();
+        myVocaArrayList = vocabularyDB.showVoca();
+        for (int i = 0; i < myVocaArrayList.size(); i++) {
+            int idEdit = (i + 1) * 5;
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
+            int _vocaid = myVocaArrayList.get(i).getVocabulary_id();
+            String vocabularyName = myVocaArrayList.get(i).getName();
+            String[] relation = myVocaArrayList.get(i).languageRelation.split("/");
+            String word;
+            String wordMean;
+            String date = myVocaArrayList.get(i).getDate();
+            //혹시 길이가 0일 경우
+            //근데 0일 경우 없도록 밑에서 설정해두기는 함
+            if (relation.length == 0) {
+                word = "";
+                wordMean = "";
+            } else {
+                word = relation[0];
+                wordMean = relation[1];
+            }
+//            int word_count = myVocaArrayList.get(i).getLikeCount();
 
+
+            myVocaArrayList.get(i).v1 = findViewById(R.id.view);
+            myVocaArrayList.get(i).v1.setId(idEdit);
+            myVocaArrayList.get(i).v1.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    //롱클릭 시 발동함
+                    Log.d("롱클릭", Integer.toString(v.getId()));
+                    rewriteViewWindow.setVisibility(View.VISIBLE);
+                    wordForRewrite.setText(word);
+                    wordMeanForRewrite.setText(wordMean);
+                    vocaNameForRewrite.setText(vocabularyName);
+                    idForRewrite = v.getId();
+                    rewriteViewWindow.bringToFront();
+                    backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+                    backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                            addViewWindow.setVisibility(View.GONE);
+                            return false;
+                        }
+                    });
+                    vocaId = _vocaid;
+                    Log.i("롱클릭 시 id", Integer.toString(vocaId));
+                    isForRewrite = true;
+                    return true;
+                }
+            });
+
+            //수정
+            myVocaArrayList.get(i).v1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MyVocabularyActivity.this, WordBookActivity.class);
+                    vocaId = _vocaid;
+                    intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
+                    intent.putExtra("vocaId", vocaId);
+                    Log.d("intent 클릭", "vocaId 전송");
+                    startActivity(intent);
+                    //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
+                }
+            });
+
+            TextView one = myVocaContainer.findViewById(R.id.myVocabularyListItemName);
+            one.setId(idEdit + 1);
+            one.setText(vocabularyName);
+            TextView two = myVocaContainer.findViewById(R.id.languageRelation);
+            two.setId(idEdit + 2);
+            two.setText(word + "/" + wordMean);
+            TextView three = myVocaContainer.findViewById(R.id.myVocabularyBirthDay);
+            three.setId(idEdit + 3);
+            three.setText(date);
+            TextView five = myVocaContainer.findViewById(R.id.wordCount);
+            five.setId(idEdit + 4);
+//            five.setText(Integer.toString(word_count));
         }
     }
 
 
     // 단어장 목록 아이템 inflate 및 생성된 단어장의 롱클릭 리스너 구현
     public void initMyVocabulary(String vocabularyName, String word, String wordMean) {
-        int _id =vocabularyDB.showId(vocabularyName, word, wordMean);
+        int _id = vocabularyDB.showId(vocabularyName, word, wordMean);
         myVocaArrayList.addLast(new LocalWordBook(vocabularyName, word, wordMean, _id));
         int idEdit = myVocaArrayList.size() * 5;
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -510,12 +633,12 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 return true;
             }
         });
-        myVocaArrayList.getLast().v1.setOnClickListener(new View.OnClickListener(){
+        myVocaArrayList.getLast().v1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                Intent intent = new Intent(MyVocabularyActivity.this,WordBookActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(MyVocabularyActivity.this, WordBookActivity.class);
                 vocaId = _id;
-                intent.putExtra("단어장 data",getWordBookNameString(v.getId())+"@"+Integer.toString(v.getId()));
+                intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
                 intent.putExtra("현재 클릭된 단어장 id", vocaId);
                 Log.d("intent 클릭", "vocaId 전송");
                 startActivity(intent);
@@ -537,25 +660,23 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
 
     // 롱클릭을 통해 선택된 아이템의 삭제 메소드
-    public void deleteVoca(int id, int voca_id)
-    {
+    public void deleteVoca(int id, int voca_id) {
 
         int idx = (id / 5) - 1;
         myVocaArrayList.remove(idx);
-        View delView = (View)findViewById(id);
-        myVocaContainer.removeView((View)delView.getParent());
-        for(int i = id+5;i<=myVocaArrayList.size() * 5+5;i+=5)
-        {
+        View delView = (View) findViewById(id);
+        myVocaContainer.removeView((View) delView.getParent());
+        for (int i = id + 5; i <= myVocaArrayList.size() * 5 + 5; i += 5) {
             View v = myVocaContainer.findViewById(i);
-            v.setId(i-5);
-            TextView one = myVocaContainer.findViewById(i+1);
-            one.setId(i-4);
-            TextView two = myVocaContainer.findViewById(i+2);
-            two.setId(i-3);
-            TextView the = myVocaContainer.findViewById(i+3);
-            the.setId(i-2);
-            TextView fiv = myVocaContainer.findViewById(i+4);
-            fiv.setId(i-1);
+            v.setId(i - 5);
+            TextView one = myVocaContainer.findViewById(i + 1);
+            one.setId(i - 4);
+            TextView two = myVocaContainer.findViewById(i + 2);
+            two.setId(i - 3);
+            TextView the = myVocaContainer.findViewById(i + 3);
+            the.setId(i - 2);
+            TextView fiv = myVocaContainer.findViewById(i + 4);
+            fiv.setId(i - 1);
         }
         vocabularyDB.deleteVoca(voca_id);
         Log.d("뷰 삭제", Integer.toString(id));
@@ -564,7 +685,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     }
 
     // 삭제 확인 창에서 단어장 목록 이름을 가져오는 메소드
-    public String getWordBookNameStringForDeleteWindow(){
+    public String getWordBookNameStringForDeleteWindow() {
 
         TextView temp = findViewById(idForRewrite + 1);
         String str = temp.getText().toString();
@@ -572,9 +693,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    public String getWordBookNameString(int id)
-    {
-        TextView temp = findViewById(id+1);
+    public String getWordBookNameString(int id) {
+        TextView temp = findViewById(id + 1);
         String str = temp.getText().toString();
         return str;
     }
@@ -587,9 +707,9 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
     public void setLanguageBlank(boolean isS, boolean isR, String str) {
         if (isR) {
-            if (isS){
+            if (isS) {
                 wordForRewrite.setText(str);
-            }else{
+            } else {
                 wordMeanForRewrite.setText(str);
             }
             isSecond = !isSecond;
@@ -597,9 +717,9 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             languagePickerScrollView.fullScroll(0);
             return;
         } else {
-            if (isS){
+            if (isS) {
                 wordForAdd.setText(str);
-            }else{
+            } else {
                 wordMeanForAdd.setText(str);
             }
             isSecond = !isSecond;
@@ -610,15 +730,14 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     }
 
 
-    public void rewriteVocabulary(int reId, int id)
-    {
+    public void rewriteVocabulary(int reId, int id) {
 
         int idx = (reId / 5) - 1;
 
         myVocaArrayList.get(idx).name = vocaNameForRewrite.toString();
         myVocaArrayList.get(idx).languageRelation = wordForRewrite.toString() + "/" + wordMeanForRewrite.toString();
-        TextView v1 = myVocaContainer.findViewById(reId+1);
-        TextView v2 = myVocaContainer.findViewById(reId+2);
+        TextView v1 = myVocaContainer.findViewById(reId + 1);
+        TextView v2 = myVocaContainer.findViewById(reId + 2);
         Log.i("dd", v1.getText().toString());
         v1.setText(vocaNameForRewrite.getText().toString());
         v2.setText(wordForRewrite.getText().toString() + "/" + wordMeanForRewrite.getText().toString());
@@ -635,7 +754,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(rewriteViewWindow.getVisibility() == View.VISIBLE) {
+            if (rewriteViewWindow.getVisibility() == View.VISIBLE) {
                 rewriteViewWindow.setVisibility(View.GONE);
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -645,7 +764,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                     }
                 });
             }
-            if(addViewWindow.getVisibility() == View.VISIBLE) {
+            if (addViewWindow.getVisibility() == View.VISIBLE) {
                 addViewWindow.setVisibility(View.GONE);
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -654,7 +773,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                         return false;
                     }
                 });
-            }if(deleteViewWindow.getVisibility() == View.VISIBLE){
+            }
+            if (deleteViewWindow.getVisibility() == View.VISIBLE) {
                 deleteViewWindow.setVisibility(View.GONE);
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -670,7 +790,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public void clearVocaView(){
+    public void clearVocaView() {
         myVocaContainer.removeAllViews();
 
     }
@@ -683,7 +803,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInAnonymously:success "+mAuth.getUid());
+                            Log.d(TAG, "signInAnonymously:success " + mAuth.getUid());
                             FirebaseUser user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.

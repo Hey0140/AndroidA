@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -43,7 +44,6 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     private final static String TAG = "SharedVocabularyActivity";
 
 
-    Handler handler = new Handler();
     // 화면 스와이프를 위한 좌표
     float x1, x2, y1, y2;
 
@@ -115,6 +115,89 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     boolean isForRewrite = false;
     boolean isReset = false;
     int idForRewrite;
+    int i;
+    String vocaBookId;
+    WordBook vocaWordBook;
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            Bundle bundle = msg.getData();
+
+            vocaWordBook = (WordBook) bundle.getSerializable("wordBooks");
+            vocaBookId = bundle.getString("wordBookId");
+            i = bundle.getInt("iData");
+
+            int idEdit = (i - 1) * 5;
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
+            String _vocaid = vocaBookId;
+            String vocabularyName = vocaWordBook.getName();
+            String word = vocaWordBook.getWordLang();
+            String wordMean = vocaWordBook.getMeanLang();
+            Timestamp date = vocaWordBook.getCreateDate();
+            View v1;
+
+            v1 = findViewById(R.id.view);
+            v1.setId(idEdit);
+            v1.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    //롱클릭 시 발동함
+                    Log.d("롱클릭", Integer.toString(v.getId()));
+                    rewriteViewWindow.setVisibility(View.VISIBLE);
+                    wordForRewrite.setText(word);
+                    wordMeanForRewrite.setText(wordMean);
+                    vocaNameForRewrite.setText(vocabularyName);
+                    idForRewrite = v.getId();
+                    rewriteViewWindow.bringToFront();
+                    backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+                    backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                            addViewWindow.setVisibility(View.GONE);
+                            return false;
+                        }
+                    });
+                    vocaId = _vocaid;
+                    Log.i("롱클릭 시 id", vocaId);
+                    isForRewrite = true;
+                    return true;
+                }
+            });
+
+            //수정
+            v1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(SharedVocabularyActivity.this, SharedWordBookActivity.class);
+                    vocaId = _vocaid;
+                    intent.putExtra("단어장 data", vocaWordBook + "@" + v.getId());
+                    intent.putExtra("vocaId", vocaId);
+                    Log.d("intent 클릭", "vocaId 전송");
+                    startActivity(intent);
+                    //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
+                }
+            });
+
+            TextView one = myVocaContainer.findViewById(R.id.myVocabularyListItemName);
+            one.setId(idEdit + 1);
+            one.setText(vocabularyName);
+            TextView two = myVocaContainer.findViewById(R.id.languageRelation);
+            two.setId(idEdit + 2);
+            two.setText(word + "/" + wordMean);
+            TextView three = myVocaContainer.findViewById(R.id.myVocabularyBirthDay);
+            three.setId(idEdit + 3);
+            Date d = date.toDate();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            String shared_date = formatter.format(d);
+            three.setText(shared_date);
+            TextView five = myVocaContainer.findViewById(R.id.wordCount);
+            five.setId(idEdit + 4);
+//            five.setText(Integer.toString(word_count));
+        }
+    };
 
 
     @Override
@@ -186,87 +269,24 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                 for (DocumentSnapshot ds : vocaBook[0]) {
                     wordBookId[0] = ds.getId();
                     wordBooks[0] = ds.toObject(WordBook.class);
-                    handler.post(new Runnable() {
-                                     @Override
-                                     public void run() {
-                                         int idEdit = (i[0] - 1) * 5;
-                                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                                         inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
-                                         String _vocaid = wordBookId[0];
-                                         String vocabularyName = wordBooks[0].getName();
-                                         String word = wordBooks[0].getWordLang();
-                                         String wordMean = wordBooks[0].getMeanLang();
-                                         Timestamp date = wordBooks[0].getCreateDate();
-                                         View v1;
+                    Message m = Message.obtain(handler);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("wordBookId", wordBookId[0]);
+                    bundle.putSerializable("wordBooks", wordBooks[0]);
+                    bundle.putInt("iData", i[0]);
+                    m.setData(bundle);
 
-                                         v1 = findViewById(R.id.view);
-                                         v1.setId(idEdit);
-                                         v1.setOnLongClickListener(new View.OnLongClickListener() {
-                                             @Override
-                                             public boolean onLongClick(View v) {
-                                                 //롱클릭 시 발동함
-                                                 Log.d("롱클릭", Integer.toString(v.getId()));
-                                                 rewriteViewWindow.setVisibility(View.VISIBLE);
-                                                 wordForRewrite.setText(word);
-                                                 wordMeanForRewrite.setText(wordMean);
-                                                 vocaNameForRewrite.setText(vocabularyName);
-                                                 idForRewrite = v.getId();
-                                                 rewriteViewWindow.bringToFront();
-                                                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
-                                                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
-                                                     @Override
-                                                     public boolean onTouch(View view, MotionEvent motionEvent) {
-                                                         addViewWindow.setVisibility(View.GONE);
-                                                         return false;
-                                                     }
-                                                 });
-                                                 vocaId = _vocaid;
-                                                 Log.i("롱클릭 시 id", vocaId);
-                                                 isForRewrite = true;
-                                                 return true;
-                                             }
-                                         });
-
-                                         //수정
-                                         v1.setOnClickListener(new View.OnClickListener() {
-                                             @Override
-                                             public void onClick(View v) {
-                                                 Intent intent = new Intent(SharedVocabularyActivity.this, SharedWordBookActivity.class);
-                                                 vocaId = _vocaid;
-                                                 intent.putExtra("단어장 data", wordBooks[0] + "@" + v.getId());
-                                                 intent.putExtra("vocaId", vocaId);
-                                                 Log.d("intent 클릭", "vocaId 전송");
-                                                 startActivity(intent);
-                                                 //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
-                                             }
-                                         });
-
-                                         TextView one = myVocaContainer.findViewById(R.id.myVocabularyListItemName);
-                                         one.setId(idEdit + 1);
-                                         one.setText(vocabularyName);
-                                         TextView two = myVocaContainer.findViewById(R.id.languageRelation);
-                                         two.setId(idEdit + 2);
-                                         two.setText(word + "/" + wordMean);
-                                         TextView three = myVocaContainer.findViewById(R.id.myVocabularyBirthDay);
-                                         three.setId(idEdit + 3);
-                                         Date d = date.toDate();
-                                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-                                         String shared_date = formatter.format(d);
-                                         three.setText(shared_date);
-                                         TextView five = myVocaContainer.findViewById(R.id.wordCount);
-                                         five.setId(idEdit + 4);
-//            five.setText(Integer.toString(word_count));
-                                     }
-                                 });
+                    handler.sendMessage(m);
                     i[0]--;
                 }
             }
+
+            //처음 시작될 때 화면에 데이터뿌리기
+
+
         };
         FirebaseDB.getWordBookList(db, 0, null, null, false, mAuth.getUid(), getVocaIdThread, vocaBook);
-        //처음 시작될 때 화면에 데이터뿌리기
-
         Log.i("SharedVocabulary", "create success complete");
-
     }
 
 

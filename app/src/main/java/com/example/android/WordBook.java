@@ -3,10 +3,11 @@ package com.example.android;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordBook {
+public class WordBook implements Serializable {
     private String name;
     @ServerTimestamp
     private Timestamp createDate;
