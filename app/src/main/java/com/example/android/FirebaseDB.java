@@ -431,8 +431,8 @@ public class FirebaseDB {
                 });
     }
 
-    public static void getWordBookList(FirebaseFirestore db, int sortNum, String wordLang, String meanLang, boolean like, String uId, Thread thread, ArrayList<String>[] arrayList) {
-        LinkedList<String> temp = new LinkedList<>();
+    public static void getWordBookList(FirebaseFirestore db, int sortNum, String wordLang, String meanLang, boolean like, String uId, Thread thread, ArrayList<DocumentSnapshot>[] arrayList) {
+        LinkedList<DocumentSnapshot> temp = new LinkedList<>();
         CollectionReference wordBookRef = db.collection("wordbook");
         Query wordBookQuery = wordBookRef;
         switch (sortNum) {
@@ -472,7 +472,7 @@ public class FirebaseDB {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                temp.addLast(documentSnapshot.getId());
+                                temp.addLast(documentSnapshot);
                             }
                         }
                         arrayList[0] = new ArrayList<>(temp);
@@ -494,8 +494,8 @@ public class FirebaseDB {
                 });
     }
 
-    public static void getWordList(FirebaseFirestore db, int sortNum, String id, Thread thread, ArrayList<String>[] arrayList) {
-        LinkedList<String> temp = new LinkedList<>();
+    public static void getWordList(FirebaseFirestore db, int sortNum, String id, Thread thread, ArrayList<DocumentSnapshot>[] arrayList) {
+        LinkedList<DocumentSnapshot> temp = new LinkedList<>();
         CollectionReference wordRef = db.collection("wordbook").document(id).collection("word");
         Query wordQuery = wordRef;
         switch (sortNum) {
@@ -514,7 +514,7 @@ public class FirebaseDB {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                temp.addLast(documentSnapshot.getId());
+                                temp.addLast(documentSnapshot);
                             }
                         }
                         arrayList[0] = new ArrayList<>(temp);
