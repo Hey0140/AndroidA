@@ -6,21 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".SharedVocabularyActivity">
 
-    <ImageView
-        android:id="@+id/networkChecking"
-        android:layout_width="100dp"
-        android:layout_height="101dp"
-        app:tint="@color/AppGray"
-        android:visibility="invisible"
-        app:srcCompat="@android:drawable/stat_notify_sync"
-        tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="282dp" />
-
     <View
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00FFFFFF"
+        android:id="@+id/sharedBackgroundOfFull" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/shearedBackgroundView"
-        android:background="#00FFFFFF" />
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/networkChecking"
+            android:layout_width="100dp"
+            android:layout_height="101dp"
+            app:tint="@color/AppGray"
+            android:layout_gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            app:srcCompat="@android:drawable/stat_notify_sync" />
+
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/activityLabel2"

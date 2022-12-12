@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,11 +16,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,7 +57,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     Button searchButton;
     ImageButton addButton;
     ImageView networkChecking;
-    View sharedBackgroundView;
+    View backgroundViewOfFull;
 
 
     // 단어장 뷰 생성을 위한 콘테이너
@@ -71,7 +74,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     boolean isNetWork;
 
 
-    View backgroundView;
+    FrameLayout sharedbackgroundView;
     ScrollView myVocaListScrollView;
 
     // 단어생성 뷰 연결
@@ -119,7 +122,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     String vocaBookId;
     WordBook vocaWordBook;
 
-    Handler handler = new Handler() {
+    Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -152,8 +155,8 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                     vocaNameForRewrite.setText(vocabularyName);
                     idForRewrite = v.getId();
                     rewriteViewWindow.bringToFront();
-                    backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
-                    backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    backgroundViewOfFull.setBackgroundColor(Color.parseColor("#85323232"));
+                    backgroundViewOfFull.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
                             addViewWindow.setVisibility(View.GONE);
@@ -200,6 +203,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     };
 
 
+    @SuppressLint({"LongLogTag", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,7 +213,8 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
 
 
         // 객체 연결
-        sharedBackgroundView = findViewById(R.id.shearedBackgroundView);
+        backgroundViewOfFull = findViewById(R.id.sharedBackgroundOfFull);
+        sharedbackgroundView = findViewById(R.id.shearedBackgroundView);
         networkChecking = findViewById(R.id.networkChecking);
         searchWindow = findViewById(R.id.searchWindow2);
         searchOptionButton = findViewById(R.id.searchOptionButton2);
@@ -222,6 +227,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
         acceptsecond = findViewById(R.id.wordForAdd2);
         acceptthird = findViewById(R.id.wordMeanForAdd2);
         myVocaContainer = findViewById(R.id.vocabularyListItemContainer2);
+        sharedbackgroundView.bringToFront();
 
         //맨 위로 backgroundview 빼내기
         /*
@@ -233,6 +239,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
             }
         });
         */
+
         Log.i("SharedVocabulary", "create success");
 
         // 객체 이벤트 리스너 등
@@ -244,17 +251,18 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
 
         isNetWork = isConnected(SharedVocabularyActivity.this);
         if (isNetWork == false) {
-            sharedBackgroundView.setBackgroundColor(Color.parseColor("#85323232"));
-            networkChecking.setVisibility(View.VISIBLE);
-            networkChecking.bringToFront();
-            sharedBackgroundView.setOnTouchListener(new View.OnTouchListener() {
+            sharedbackgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+            sharedbackgroundView.setVisibility(View.VISIBLE);
+            sharedbackgroundView.setOnTouchListener(new View.OnTouchListener() {
+
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     return true;
                 }
             });
-
+            Log.i(TAG, "network가 꺼짐");
         }
+
 
         WordBook[] wordBooks = new WordBook[1];
         String[] wordBookId = new String[1];
@@ -298,22 +306,28 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
 
 
     // 버튼 클릭 이벤트 구현
-    @SuppressLint("LongLogTag")
+    @SuppressLint({"LongLogTag", "ClickableViewAccessibility"})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.networkChecking:
                 isNetWork = isConnected(SharedVocabularyActivity.this);
                 if (isNetWork == true) {
-                    sharedBackgroundView.setBackgroundColor(Color.parseColor("#00FFFFFF"));
-                    networkChecking.setVisibility(View.INVISIBLE);
-                    sharedBackgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    sharedbackgroundView.setVisibility(View.INVISIBLE);
+                    sharedbackgroundView.setOnTouchListener(new View.OnTouchListener() {
+
+
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
                             return false;
                         }
                     });
                     Log.i(TAG, "network가 켜짐");
+                } else {
+                    Toast toast = Toast.makeText(SharedVocabularyActivity.this,
+                            "네트워크 상태를 확인해주세요.", Toast.LENGTH_LONG);
+                    toast.show();
                 }
             case R.id.searchButton2: // 검색 버튼 (미완료)
                 String searchWindowString = getSearchWindowString();
