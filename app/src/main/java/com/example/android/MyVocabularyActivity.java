@@ -301,6 +301,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             five.setText(Integer.toString(voca_count));
         }
         slide.bringToFront();
+        addButtonBackground.bringToFront();
+        addButton.bringToFront();
     }
 
     // 버튼 클릭 이벤트 구현
@@ -318,6 +320,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                     Search(searchWindowString);
                 }
                 break;
+            case R.id.addButton:
             case R.id.addButtonBackground:
                 Log.d(TAG, "");
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
