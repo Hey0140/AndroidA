@@ -7,18 +7,19 @@
     android:id="@+id/my_vocabulary_activity_xml"
     tools:context=".MyVocabularyActivity">
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/slide_view"
-        android:background="#00000000"
-        tools:ignore="MissingConstraints" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/backgroundView"
         android:background="#00FFFFFF" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/slide_view"
+        android:background="#00000000"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/activityLabel"
@@ -213,6 +214,18 @@
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <include
+        layout="@layout/select_filter_or_sort_view"
+        android:id="@+id/select_filter_sort"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rewriteViewWindow"
         android:orientation="vertical"
@@ -319,6 +332,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/languagePickerWindow"

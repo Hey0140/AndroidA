@@ -138,7 +138,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         addButtonBackground = findViewById(R.id.addButtonBackground);
 
         slide = findViewById(R.id.slide_view);
-        slide.setOnTouchListener(new OnSwipeTouchListener(this){
+        slide.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
                 Intent i = new Intent(MyVocabularyActivity.this, SharedVocabularyActivity.class);
@@ -152,7 +152,6 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 return super.onTouch(v, event);
             }
         });
-
 
 
         korB = findViewById(R.id.koreanPick);
@@ -206,12 +205,11 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-
         languagePickerWindow.setVisibility(View.GONE);
         rewriteViewWindow.setVisibility(View.GONE);
         deleteViewWindow.setVisibility(View.GONE);
 
-        //디비에서 처음에 읽고 화면에 뿌려주는 부분
+
         myVocaArrayList = vocabularyDB.showVoca();
         for (int i = 0; i < myVocaArrayList.size(); i++) {
             int idEdit = (i + 1) * 5;
@@ -232,8 +230,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             } else {
                 word = relation[0];
                 wordMean = relation[1];
-            }
 
+            }
             backgroundView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -243,6 +241,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
             myVocaArrayList.get(i).v1 = findViewById(R.id.view);
             myVocaArrayList.get(i).v1.setId(idEdit);
+            myVocaArrayList.get(i).v1.bringToFront();
             myVocaArrayList.get(i).v1.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -275,9 +274,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MyVocabularyActivity.this, WordBookActivity.class);
-
                     vocaId = _vocaid;
-                    intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
+                    intent.putExtra("vocaName", getWordBookNameString(v.getId()));
                     intent.putExtra("vocaId", vocaId);
                     Log.d(TAG, "단어장 SQLite _id : " + vocaId);
                     Log.d(TAG, "단어장 단어부분으로 intent 이동");
@@ -299,8 +297,9 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             Log.d(TAG, "단어장 ArrayList id : " + _vocaid);
             Log.d(TAG, Integer.toString(vocaId));
             five.setText(Integer.toString(voca_count));
+
+            myVocaContainer.bringToFront();
         }
-        slide.bringToFront();
         addButtonBackground.bringToFront();
         addButton.bringToFront();
     }

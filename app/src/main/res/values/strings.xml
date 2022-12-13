@@ -7,6 +7,8 @@
     <string name="hint_answer">정답</string>
     <string name="submit_answer">제출하기</string>
     <string name="next_quiz">다음문제</string>
+    <string name="sort">정렬</string>
+    <string name="filter">필터</string>
 
     <string name="example_answer">Dolor sit amet</string>
     <string name="example_quiz">Lorem ipsum</string>

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -112,8 +113,8 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<String> showWord(int voca_id) {
-        List<String> wordlist = new LinkedList<>();
+    public ArrayList<String> showWord(int voca_id) {
+        ArrayList<String> wordlist = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("select *" +
                 "from wordDB where vocaId = " + voca_id + " order by _id asc", null);
@@ -172,8 +173,8 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<String> showMean(int voca_id) {
-        List<String> meanlist = new LinkedList<>();
+    public ArrayList<String> showMean(int voca_id) {
+        ArrayList<String> meanlist = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("select *" +
                 "from wordDB where vocaId = " + voca_id + " order by _id asc", null);

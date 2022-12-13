@@ -7,17 +7,13 @@
     android:id="@+id/activity_word_book_xml"
     tools:context=".WordBookActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/backgroundViewForWordActivity"
-        android:background="#00FFFFFF" />
+        android:background="#00FFFFFF"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/wordBookNameLabel"
@@ -117,6 +113,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="402dp"
@@ -128,11 +125,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchWindow">
 
-        <LinearLayout
-            android:id="@+id/wordListItemContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="515dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="9dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchWindow"
+            android:id="@+id/wordRecyclerView" />
+
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout

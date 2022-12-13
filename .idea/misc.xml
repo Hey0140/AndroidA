@@ -3,22 +3,34 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/drawable-v24/round_corner_quiz_answerbox.xml" value="0.18" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/drawable/add_button_img.xml" value="0.18" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/drawable/add_button_radius.xml" value="0.18" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/drawable/filter_box.xml" value="0.179" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/drawable/horizon_line.xml" value="0.4" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/drawable/quiz_select_view.xml" value="0.1" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/activiry_shared_word_book.xml" value="0.20878623188405798" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/activity_quiz.xml" value="0.4" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/activity_quiz_result.xml" value="0.1" />
-        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/activity_word_book.xml" value="0.264" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/activity_word_book.xml" value="0.152" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/add_vocabulary_window.xml" value="0.23385416666666667" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/add_word_window.xml" value="0.23385416666666667" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/delete_voca_confirm_window.xml" value="0.23385416666666667" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/empty_layout.xml" value="0.23385416666666667" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/filter_view.xml" value="0.2" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/lanuage_picker_window.xml" value="0.23020833333333332" />
-        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_activity.xml" value="0.1" />
-        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_listitem.xml" value="0.1" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_activity.xml" value="0.4" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_listitem.xml" value="0.264" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_word_listitem.xml" value="0.21145833333333333" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_word_listitem_for_quiz_result.xml" value="0.12056737588652482" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/rewrite_word_window.xml" value="0.1" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/select_filter_or_sort_view.xml" value="0.264" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/shared_vocabulary_activity.xml" value="0.1" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/shared_vocabulary_checking.xml" value="0.23020833333333332" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/sort_view.xml" value="0.23385416666666667" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/word.xml" value="0.1" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/word_list_item.xml" value="0.24791666666666667" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1875" />
       </map>
     </option>

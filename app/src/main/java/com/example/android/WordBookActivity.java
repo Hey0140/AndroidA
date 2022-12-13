@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -74,6 +77,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
     Button wordQuizButton;
     Button meanQuizButton;
     View backgroundView;
+    View myWordListItem;
 
 
     wordDataBaseHelper wordDB;
@@ -87,8 +91,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
     boolean isWordQuiz = false;
 
     LinkedList<LocalWordBook> myWordBookList;
-    List<String> word;
-    List<String> mean;
+    ArrayList<String> word;
+    ArrayList<String> mean;
 
 
     @Override
@@ -96,14 +100,14 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_book);
 
-        wordDB = new wordDataBaseHelper(WordBookActivity.this);
-        vocaDB = new vocaDataBaseHelper(WordBookActivity.this);
 
         mAuth = FirebaseAuth.getInstance();
         signInAnonymously();
         searchButton = findViewById(R.id.searchButton);
         searchNone = findViewById(R.id.searchNone);
         searchWindow = findViewById(R.id.searchWindow);
+
+        myWordListItem = findViewById(R.id.myWordListItem);
         vocaNameLabel = findViewById(R.id.wordBookNameLabel);
         rewriteWordWindow = findViewById(R.id.wordRewriteWindow);
         addWordWindow = findViewById(R.id.addWordWindow);
@@ -147,30 +151,23 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         rewriteWordWindow.setVisibility(View.GONE);
         wordDeleteViewWindow.setVisibility(View.GONE);
 
-
         Intent intent = getIntent();
-        String getName = intent.getStringExtra("단어장 data");
-        int tempInt = getName.indexOf("@");
+        String getName = intent.getStringExtra("vocaName");
         voca_id = intent.getIntExtra("vocaId", 0);
 
+        wordDB = new wordDataBaseHelper(WordBookActivity.this);
+        vocaDB = new vocaDataBaseHelper(WordBookActivity.this);
 
-        wordIdString = getName.substring(0, tempInt);
-        String temp2 = getName.substring(tempInt + 1);
-
-        wordId = Integer.parseInt(temp2);
-
-        vocaNameLabel.setText(wordIdString);
-
+        vocaNameLabel.setText(getName);
         Log.i(TAG, "퀴즈를 한 번 실행 시 모든 배열 초기화");
         quizButton.setVisibility(View.VISIBLE);
 
-        word = new LinkedList<>(wordDB.showWord(voca_id));
-        mean = new LinkedList<>(wordDB.showMean(voca_id));
+        RecyclerView wordRecyclerView = findViewById(R.id.wordRecyclerView);
+        word = new ArrayList<>(wordDB.showWord(voca_id));
+        mean = new ArrayList<>(wordDB.showMean(voca_id));
+        wordRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        wordRecyclerView.setAdapter(new VocaAdapter(word, mean));
 
-        int tempidx = wordId / 5 - 1;
-        String _mean, _word;
-        myVocaArrayList.get(tempidx).word.clear();
-        myVocaArrayList.get(tempidx).mean.clear();
 
         backgroundView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -178,53 +175,54 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 return false;
             }
         });
+    }
 
-        //처음 시작될 때 화면에 데이터뿌리기
-        for (int i = 0; i < mean.size(); i++) {
+    private class ViewHolder extends RecyclerView.ViewHolder {
+        TextView word;
+        TextView mean;
+        View wordItem;
 
-            _mean = mean.get(i);
-            _word = word.get(i);
-            int idx = wordId / 5 - 1;
-            int wid = wordDB.showIdOfWord(_word, _mean, voca_id);
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater.inflate(R.layout.my_word_listitem, myWordListItemContainer, true);
-            myVocaArrayList.get(idx).word.add(i, _word);
-            myVocaArrayList.get(idx).mean.add(i, _mean);
-            View tempView = myWordListItemContainer.findViewById(R.id.wordView);
-            tempView.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5); // 뷰 id
-            Log.d("setID : ", Integer.toString(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5));
-            tempView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    backgroundView.bringToFront();
-                    backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
-                    backgroundView.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View view, MotionEvent motionEvent) {
-                            addWordWindow.setVisibility(View.GONE);
-                            return true;
-                        }
-                    });
-                    rewriteWordWindow.bringToFront();
-                    rewriteWordWindow.setVisibility(View.VISIBLE);
-                    quizButton.setVisibility(View.GONE);
-                    idForRewrite = v.getId();
-                    word_id = wid;
-                    Log.d("idForRewrite : ", Integer.toString(idForRewrite));
-                    return true;
-                }
-            });
-            myVocaArrayList.get(idx).wordView.addLast(tempView);
-            TextView tempWord = myWordListItemContainer.findViewById(R.id.word);
-            tempWord.setText(_word);
-            tempWord.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5 + 1); // 단어 id
-            TextView tempMean = myWordListItemContainer.findViewById(R.id.mean);
-            tempMean.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5 + 2); // 단어 뜻 id
-            tempMean.setText(_mean);
-            CheckBox tempBox = myWordListItemContainer.findViewById(R.id.checkBox);
-            tempBox.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5 + 3); // 체크 박스 id
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            word = findViewById(R.id.word);
+            mean = findViewById(R.id.mean);
+            wordItem = findViewById(R.id.myWordListItem);
         }
     }
+
+    private class VocaAdapter extends RecyclerView.Adapter<ViewHolder> {
+        private final ArrayList<String> word;
+        private final ArrayList<String> mean;
+
+        public VocaAdapter(ArrayList<String> word, ArrayList<String> mean) {
+            this.word = word;
+            this.mean = mean;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.word_list_item, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+            String temp1 = word.get(position);
+            String temp2 = mean.get(position);
+            assert temp1 != null;
+            assert temp2 != null;
+            viewHolder.word.setText(temp1);
+            viewHolder.mean.setText(temp2);
+        }
+
+        @Override
+        public int getItemCount() {
+            return word.size();
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
