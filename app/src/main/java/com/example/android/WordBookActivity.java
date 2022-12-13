@@ -57,6 +57,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
     ConstraintLayout addWordWindow;
     ImageView backButton;
     ImageButton addButton;
+
     ImageView uploadButton;
     Button quizButton;
     LinearLayout myWordListItemContainer;
@@ -137,6 +138,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         searchNone.setOnClickListener(this);
         searchButton.setOnClickListener(this);
         wordAcceptButtonForDeleteConfirm.setOnClickListener(this);
+        addButton.setOnClickListener(this);
 
         meanQuizButton.setOnClickListener(this);
         wordQuizButton.setOnClickListener(this);
@@ -169,6 +171,14 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         String _mean, _word;
         myVocaArrayList.get(tempidx).word.clear();
         myVocaArrayList.get(tempidx).mean.clear();
+
+        backgroundView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return false;
+            }
+        });
+
         //처음 시작될 때 화면에 데이터뿌리기
         for (int i = 0; i < mean.size(); i++) {
 
@@ -214,8 +224,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
             CheckBox tempBox = myWordListItemContainer.findViewById(R.id.checkBox);
             tempBox.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5 + 3); // 체크 박스 id
         }
-
-
     }
 
     @Override
@@ -237,10 +245,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 nonSearch();
                 searchNone.setVisibility(View.INVISIBLE);
                 break;
-            case R.id.backButton:
-                finish();
-                break;
             case R.id.addButton:
+                Log.i("add", "Click");
                 backgroundView.bringToFront();
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -266,6 +272,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                     Log.d("asdasd", str1);
                     Log.d("asdasd", str2);
                     initWord(str1, str2);
+                    vocaDB.updatePlusCount(voca_id);
                     Log.d("hello", "123123");
                     quizButton.setVisibility(View.VISIBLE);
                     backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
@@ -304,7 +311,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                         "uploadButton", Toast.LENGTH_LONG);
                 t.show();
                 break;
-
             case R.id.acceptButtonForDeleteWord:
                 backgroundView.bringToFront();
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
@@ -325,13 +331,13 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 deleteWord(idForRewrite, word_id);
                 wordDeleteViewWindow.setVisibility(View.GONE);
                 quizButton.setVisibility(View.VISIBLE);
+                vocaDB.updateMinusCount(voca_id);
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View view, MotionEvent motionEvent) {
                         return false;
                     }
                 });
-
                 break;
             case R.id.acceptButtonForRewriteWord:
                 String temp1 = wordNameForRewrite.getText().toString();
@@ -469,6 +475,11 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                     quizButton.setVisibility(View.VISIBLE);
                 }
                 break;
+            case R.id.backButton:
+                Intent backintent = new Intent(WordBookActivity.this, MyVocabularyActivity.class);
+                backintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(backintent);
+                break;
         }
     }
 
@@ -598,6 +609,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         inflater.inflate(R.layout.my_word_listitem, myWordListItemContainer, true);
         myVocaArrayList.get(idx).word.addLast(word);
         myVocaArrayList.get(idx).mean.addLast(wordMean);
+        myVocaArrayList.get(idx).setCount(myVocaArrayList.get(idx).getCount() + 1);
         View tempView = myWordListItemContainer.findViewById(R.id.wordView);
         tempView.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5); // 뷰 id
         Log.d("setID : ", Integer.toString(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5));
@@ -659,6 +671,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         myVocaArrayList.get(index).word.remove(arrIndex);
         myVocaArrayList.get(index).mean.remove(arrIndex);
         myVocaArrayList.get(index).wordView.remove(arrIndex);
+        myVocaArrayList.get(index).setCount(myVocaArrayList.get(index).getCount() - 1);
 
         View delView = findViewById(reId);
         myWordListItemContainer.removeView((View) delView.getParent());
@@ -718,8 +731,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                         return false;
                     }
                 });
-            }
-            if (quizSelectWindow.getVisibility() == View.VISIBLE) {
+            } else if (quizSelectWindow.getVisibility() == View.VISIBLE) {
                 quizSelectWindow.setVisibility(View.GONE);
                 quizButton.setVisibility(View.VISIBLE);
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
@@ -729,9 +741,9 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                         return false;
                     }
                 });
-            }
-            if (wordDeleteViewWindow.getVisibility() == View.VISIBLE) {
+            } else if (wordDeleteViewWindow.getVisibility() == View.VISIBLE) {
                 wordDeleteViewWindow.setVisibility(View.GONE);
+                quizButton.setVisibility(View.VISIBLE);
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -739,9 +751,9 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                         return false;
                     }
                 });
-            }
-            if (rewriteWordWindow.getVisibility() == View.VISIBLE) {
+            } else if (rewriteWordWindow.getVisibility() == View.VISIBLE) {
                 rewriteWordWindow.setVisibility(View.GONE);
+                quizButton.setVisibility(View.VISIBLE);
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -749,16 +761,10 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                         return false;
                     }
                 });
-            }
-            if (quizSelectWindow.getVisibility() == View.VISIBLE) {
-                quizSelectWindow.setVisibility(View.GONE);
-                backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
-                backgroundView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        return false;
-                    }
-                });
+            } else {
+                Intent backintent = new Intent(WordBookActivity.this, MyVocabularyActivity.class);
+                backintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(backintent);
             }
             return true;
         } else {

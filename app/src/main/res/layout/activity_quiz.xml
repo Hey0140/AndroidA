@@ -100,8 +100,6 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="105dp"
-                    android:layout_marginTop="220dp"
                     android:background="@drawable/o_correct"
                     android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"

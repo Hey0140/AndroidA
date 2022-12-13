@@ -18,6 +18,7 @@ public class LocalWordBook {
     //추가 필요함
     private int vocabulary_id;
     public String date;
+    int count = 0;
     int likeCount;
     public int word_id;
     public String voca_word;
@@ -44,14 +45,14 @@ public class LocalWordBook {
         createDate = new Timestamp(System.currentTimeMillis());
         this.voca_word = word;
         this.voca_mean = wordMean;
-        likeCount = 0;
+        this.count = 0;
         this.vocabulary_id = id;
         this.word = new LinkedList<>();
         this.mean = new LinkedList<>();
         this.wordView = new LinkedList<>();
     }
 
-    public LocalWordBook(String name, String word, String wordMean, int id, String date) {
+    public LocalWordBook(String name, String word, String wordMean, int id, String date, int count) {
         // 단어장 이름 초기화
         this.name = name;
         // 단어장 생성 날짜 초기화
@@ -60,6 +61,7 @@ public class LocalWordBook {
         this.voca_word = word;
         this.voca_mean = wordMean;
         //추가 부분
+        this.count = count;
         languageRelation = word + "/" + wordMean;
         this.word = new LinkedList<>();
         this.mean = new LinkedList<>();
@@ -139,4 +141,11 @@ public class LocalWordBook {
         return likeCount;
     }
 
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getCount() {
+        return count;
+    }
 }
