@@ -32,7 +32,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 public class SharedWordBookActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -111,17 +110,13 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         int tempInt = getName.indexOf("@");
         voca_id = intent.getIntExtra("vocaId", 0);
 
-
         wordIdString = getName.substring(0, tempInt);
-        String temp2 = getName.substring(tempInt + 1);
+        String temp2 = getName.substring(tempInt + 2);
 
         wordId = Integer.parseInt(temp2);
+        wordId = wordId * -1;
 
         vocaNameLabel.setText(wordIdString);
-
-        List<String> word = new LinkedList<>(wordDB.showWord(voca_id));
-        List<String> mean = new LinkedList<>(wordDB.showMean(voca_id));
-        String _mean, _word;
 
 
         //처음 시작될 때 화면에 데이터뿌리기

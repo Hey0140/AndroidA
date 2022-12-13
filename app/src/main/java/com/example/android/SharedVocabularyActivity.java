@@ -182,7 +182,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                 public void onClick(View v) {
                     Intent intent = new Intent(SharedVocabularyActivity.this, SharedWordBookActivity.class);
                     vocaId = _vocaid;
-                    intent.putExtra("단어장 data", vocaWordBook + "@" + v.getId());
+                    intent.putExtra("단어장 data", vocaWordBook.getName() + "@" + v.getId());
                     intent.putExtra("vocaId", vocaId);
                     Log.d("intent 클릭", "vocaId 전송");
                     startActivity(intent);
@@ -322,7 +322,6 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                 if (isNetWork == true) {
                     sharedbackgroundView.setVisibility(View.INVISIBLE);
                     sharedbackgroundView.setOnTouchListener(new View.OnTouchListener() {
-
 
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {

@@ -89,7 +89,7 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
         answer_data = new wordDataBaseHelper(this);
         //리스너
         submit_answer.setOnClickListener(this);
-        submit_answer.setVisibility(View.INVISIBLE);
+        submit_answer.setVisibility(View.GONE);
         next_quiz.setVisibility(View.VISIBLE);
         next_quiz.setOnClickListener(this);
         back_button_image.setOnClickListener(this);
@@ -115,17 +115,17 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
             quiz_text.setVisibility(View.VISIBLE);
             quiz_text_box.setVisibility(View.VISIBLE);
             submit_answer.setVisibility(View.VISIBLE);
-            next_quiz.setVisibility(View.INVISIBLE);
-            quiz_text2.setVisibility(View.INVISIBLE);
-            quiz_text_box2.setVisibility(View.INVISIBLE);
+            next_quiz.setVisibility(View.GONE);
+            quiz_text2.setVisibility(View.GONE);
+            quiz_text_box2.setVisibility(View.GONE);
         } else {
             quiz_text.setText(meanList.get(randomIndexList.get(quizIndex)));
             quiz_text.setVisibility(View.VISIBLE);
             quiz_text_box.setVisibility(View.VISIBLE);
             submit_answer.setVisibility(View.VISIBLE);
-            next_quiz.setVisibility(View.INVISIBLE);
-            quiz_text2.setVisibility(View.INVISIBLE);
-            quiz_text_box2.setVisibility(View.INVISIBLE);
+            next_quiz.setVisibility(View.GONE);
+            quiz_text2.setVisibility(View.GONE);
+            quiz_text_box2.setVisibility(View.GONE);
         }
     }
 
@@ -156,21 +156,24 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
                         quiz_answer_incorrect.setAnimation(_animation);
                         quiz_answer_incorrect.setVisibility(View.INVISIBLE);
                     }
+                    quiz_text.setVisibility(View.GONE);
+                    quiz_text_box.setVisibility(View.GONE);
+                    submit_answer.setVisibility(View.GONE);
                     quiz_text2.setText(meanList.get(randomIndexList.get(quizIndex)));
                     quiz_text2.setVisibility(View.VISIBLE);
                     quiz_text_box2.setVisibility(View.VISIBLE);
-                    quiz_text.setVisibility(View.INVISIBLE);
-                    quiz_text_box.setVisibility(View.INVISIBLE);
-                    submit_answer.setVisibility(View.INVISIBLE);
                     next_quiz.setVisibility(View.VISIBLE);
+                    if (quizIndex + 1 >= size) {
+                        next_quiz.setText("끝내기");
+                    }
                 } else {
                     if (input_answer.getText().toString().equals(wordList.get(randomIndexList.get(quizIndex)))) {
                         Animation animation = new AlphaAnimation(0, 1);
                         animation.setDuration(500);
                         Animation _animation = new AlphaAnimation(1, 0);
-                        _animation.setDuration(1500);
-                        quiz_answer_correct.setAnimation(animation);
+                        _animation.setDuration(2000);
                         quiz_answer_correct.setVisibility(View.VISIBLE);
+                        quiz_answer_correct.setAnimation(animation);
                         quiz_answer_correct.setAnimation(_animation);
                         quiz_answer_correct.setVisibility(View.INVISIBLE);
                         clearQuizIndex.add(randomIndexList.get(quizIndex));
@@ -178,24 +181,28 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
                         Animation animation = new AlphaAnimation(0, 1);
                         animation.setDuration(500);
                         Animation _animation = new AlphaAnimation(1, 0);
-                        _animation.setDuration(1500);
-
-                        quiz_answer_incorrect.setAnimation(animation);
+                        _animation.setDuration(2000);
                         quiz_answer_incorrect.setVisibility(View.VISIBLE);
+                        quiz_answer_incorrect.setAnimation(animation);
                         quiz_answer_incorrect.setAnimation(_animation);
                         quiz_answer_incorrect.setVisibility(View.INVISIBLE);
                     }
+                    quiz_text.setVisibility(View.GONE);
+                    quiz_text_box.setVisibility(View.GONE);
+                    submit_answer.setVisibility(View.GONE);
                     quiz_text2.setText(wordList.get(randomIndexList.get(quizIndex)));
                     quiz_text2.setVisibility(View.VISIBLE);
                     quiz_text_box2.setVisibility(View.VISIBLE);
-                    quiz_text.setVisibility(View.INVISIBLE);
-                    quiz_text_box.setVisibility(View.INVISIBLE);
-                    submit_answer.setVisibility(View.INVISIBLE);
-                    next_quiz.bringToFront();
                     next_quiz.setVisibility(View.VISIBLE);
+                    if (quizIndex + 1 >= size) {
+                        next_quiz.setText("끝내기");
+                    }
                 }
+                break;
+            case R.id.next_quiz:
                 quizIndex++;
                 if (quizIndex >= size) {
+                    Log.d("종료", "종료하고 다른 창 띄우기");
                     Intent intent = new Intent(MywordQuizActivity.this, QuizResultActivity.class);
                     intent.putIntegerArrayListExtra("clearList", clearQuizIndex);
                     intent.putExtra("wholeSize", size);
@@ -206,76 +213,32 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
                     }
                     startActivity(intent);
                     finish();
-                }
-                break;
-            case R.id.next_quiz:
-                if (!isWordQuiz) {
-                    if (check) {
-                        quiz_text2.setText(wordList.get(randomIndexList.get(quizIndex)));
-                        quiz_text2.setVisibility(View.VISIBLE);
-                        quiz_text_box2.setVisibility(View.VISIBLE);
-                        quiz_text.setVisibility(View.INVISIBLE);
-                        quiz_text_box.setVisibility(View.INVISIBLE);
-                        if (input_answer.getText().toString().equals(meanList.get(randomIndexList.get(quizIndex)))) {
-                            input_answer.setText("");
-                            correctAnswer();
-                        } else {
-                            incorrectAnswer();
-                            input_answer.setText("");
-                        }
-                    } else {
+                } else {
+                    if (!isWordQuiz) {
                         quiz_text.setText(wordList.get(randomIndexList.get(quizIndex)));
+                        next_quiz.setVisibility(View.GONE);
+                        quiz_text2.setVisibility(View.GONE);
+                        quiz_text_box2.setVisibility(View.GONE);
                         quiz_text.setVisibility(View.VISIBLE);
                         quiz_text_box.setVisibility(View.VISIBLE);
-                        quiz_text2.setVisibility(View.INVISIBLE);
-                        quiz_text_box2.setVisibility(View.INVISIBLE);
-                        if (input_answer.getText().toString().equals(meanList.get(randomIndexList.get(quizIndex - 1)))) {
-                            input_answer.setText("");
-                            correctAnswer();
-                        } else {
-                            incorrectAnswer();
-                            input_answer.setText("");
-                        }
-                    }
-                    ////
-                } else {
-                    if (check) {
-                        quiz_text2.setText(meanList.get(randomIndexList.get(quizIndex)));
-                        quiz_text2.setVisibility(View.VISIBLE);
-                        quiz_text_box2.setVisibility(View.VISIBLE);
-                        quiz_text.setVisibility(View.INVISIBLE);
-                        quiz_text_box.setVisibility(View.INVISIBLE);
-                        if (input_answer.getText().toString().equals(wordList.get(randomIndexList.get(quizIndex - 1)))) {
-                            input_answer.setText("");
-                            correctAnswer();
-                        } else {
-                            incorrectAnswer();
-                            input_answer.setText("");
-                        }
+                        submit_answer.setVisibility(View.VISIBLE);
+                        input_answer.setText("");
+                        ////
                     } else {
+                        next_quiz.setVisibility(View.GONE);
+                        quiz_text2.setVisibility(View.GONE);
+                        quiz_text_box2.setVisibility(View.GONE);
                         quiz_text.setText(meanList.get(randomIndexList.get(quizIndex)));
                         quiz_text.setVisibility(View.VISIBLE);
                         quiz_text_box.setVisibility(View.VISIBLE);
-                        quiz_text2.setVisibility(View.INVISIBLE);
-                        quiz_text_box2.setVisibility(View.INVISIBLE);
-                        if (input_answer.getText().toString().equals(wordList.get(randomIndexList.get(quizIndex - 1)))) {
-                            input_answer.setText("");
-                            correctAnswer();
-                        } else {
-                            incorrectAnswer();
-                            input_answer.setText("");
-                        }
-
+                        submit_answer.setVisibility(View.VISIBLE);
+                        input_answer.setText("");
                     }
                 }
-                if (quizIndex == size) {
-                    next_quiz.setVisibility(View.INVISIBLE);
-                    submit_answer.setVisibility(View.VISIBLE);
-                    break;
-                }
-        }
-        if (view.getId() == R.id.back_button_image) {
-            finish();
+                break;
+            case R.id.back_button_image:
+                finish();
+                break;
         }
     }
 

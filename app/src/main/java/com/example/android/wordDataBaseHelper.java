@@ -126,6 +126,19 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
         return wordlist;
     }
 
+    public int showWordCount(int voca_id) {
+        int count = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("select *" +
+                "from wordDB where vocaId = " + voca_id + " order by _id asc", null);
+        count = c.getCount();
+        Log.i(TAG, "Read word List success");
+        Log.i(TAG, Integer.toString(count));
+        db.close();
+        return count;
+    }
+
+
     public List<String> showFilterWordOnWord(int voca_id, String word) {
         List<String> wordlist = new LinkedList<>();
         SQLiteDatabase db = this.getWritableDatabase();

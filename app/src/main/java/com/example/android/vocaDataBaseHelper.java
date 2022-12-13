@@ -50,7 +50,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
         values.put(vocaDataBaseHelper.wordLang, wordLang);
         values.put(vocaDataBaseHelper.meanLang, meanLang);
         values.put(vocaDataBaseHelper.date, da);
-//        values.put(count, 0);
+        values.put(vocaDataBaseHelper.count, 0);
         db.insert("vocaDB", null, values);
         Log.i("add", "success");
         db.close();
@@ -72,15 +72,36 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateCount(int id, int word_count) {
+    public void updatePlusCount(int id) {
         //단어장 내에 단어의 갯수가 변경될 때 로딩하는 함수
         SQLiteDatabase db = this.getWritableDatabase();
-
+        int count = 0;
+        Cursor c = db.rawQuery("select * from vocaDB where _id = " + id, null);
+        if (c.moveToNext()) {
+            count = c.getInt(5);
+            count++;
+        }
         db.execSQL("UPDATE vocaDB " +
-                "SET count = " + word_count + " Where _id = " + id);
+                "SET count = " + count + " Where _id = " + id);
         Log.i("update", "count");
         db.close();
     }
+
+    public void updateMinusCount(int id) {
+        //단어장 내에 단어의 갯수가 변경될 때 로딩하는 함수
+        SQLiteDatabase db = this.getWritableDatabase();
+        int count = 0;
+        Cursor c = db.rawQuery("select * from vocaDB where _id = " + id, null);
+        if (c.moveToNext()) {
+            count = c.getInt(5);
+            count--;
+        }
+        db.execSQL("UPDATE vocaDB " +
+                "SET count = " + count + " Where _id = " + id);
+        Log.i("update", "count");
+        db.close();
+    }
+
 
     public void deleteVoca(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -101,9 +122,9 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
             String word = c.getString(2);
             String wordMean = c.getString(3);
             String date = c.getString(4);
-//            Integer count = c.getInt(5);
+            Integer count = c.getInt(5);
 //            table이 있는 상태에서 실행 시 에러 발생
-            vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date));
+            vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date, count));
         }
         Log.i("read", "success");
         db.close();
@@ -155,8 +176,9 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
             String word = c.getString(2);
             String wordMean = c.getString(3);
             String date = c.getString(4);
+            int count = c.getInt(5);
 //            table이 있는 상태에서 실행 시 에러 발생
-            vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date));
+            vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date, count));
         }
         db.close();
         return vocalist;
@@ -171,8 +193,9 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
             String word = c.getString(2);
             String wordMean = c.getString(3);
             String date = c.getString(4);
+            int count = c.getInt(5);
             db.close();
-            return new LocalWordBook(vocabularyName, word, wordMean, id, date);
+            return new LocalWordBook(vocabularyName, word, wordMean, id, date, count);
         } else {
             db.close();
             return null;

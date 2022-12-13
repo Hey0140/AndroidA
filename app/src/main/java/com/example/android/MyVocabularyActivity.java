@@ -43,6 +43,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     float x1, x2, y1, y2;
     public static LinkedList<LocalWordBook> myVocaArrayList = new LinkedList<>();
 
+
     // 객체 연결
     EditText searchWindow;
     Button searchOptionButton;
@@ -90,6 +91,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
     //디비 관련 변수
     public vocaDataBaseHelper vocabularyDB;
+    public wordDataBaseHelper wordDataBase;
+    public static int vcount = 0;
     int vocaId;
 
 
@@ -99,6 +102,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     boolean isReset = false;
     int idForRewrite;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +111,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         signInAnonymously();
 
         vocabularyDB = new vocaDataBaseHelper(this);
+        wordDataBase = new wordDataBaseHelper(this);
 
         // 객체 연결
         searchNone = findViewById(R.id.searchNone);
@@ -126,7 +131,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         deleteViewWindow = findViewById(R.id.deleteWindow);
         acceptButtonForDeleteConfirm = findViewById(R.id.deleteButton);
         deleteConfirmText = findViewById(R.id.confirmQuestion);
-        languagePickerScrollView = (ScrollView) findViewById(R.id.languagePickerWindowScrollView);
+        languagePickerScrollView = findViewById(R.id.languagePickerWindowScrollView);
         backgroundView = findViewById(R.id.backgroundView);
 
         korB = findViewById(R.id.koreanPick);
@@ -191,6 +196,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
             int _vocaid = myVocaArrayList.get(i).getVocabulary_id();
+            int voca_count = myVocaArrayList.get(i).getCount();
             String vocabularyName = myVocaArrayList.get(i).getName();
             String[] relation = myVocaArrayList.get(i).languageRelation.split("/");
             String word;
@@ -205,7 +211,6 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 word = relation[0];
                 wordMean = relation[1];
             }
-//            int word_count = myVocaArrayList.get(i).getLikeCount();
 
             backgroundView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -247,12 +252,12 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MyVocabularyActivity.this, WordBookActivity.class);
+
                     vocaId = _vocaid;
                     intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
                     intent.putExtra("vocaId", vocaId);
                     Log.d("intent 클릭", "vocaId 전송");
                     startActivity(intent);
-                    //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
                 }
             });
 
@@ -267,7 +272,9 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             three.setText(date);
             TextView five = myVocaContainer.findViewById(R.id.wordCount);
             five.setId(idEdit + 4);
-//            five.setText(Integer.toString(word_count));
+            Log.i(TAG, Integer.toString(_vocaid));
+            Log.i(TAG, Integer.toString(vocaId));
+            five.setText(Integer.toString(voca_count));
         }
 
     }
@@ -451,6 +458,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
             int _vocaid = myVocaArrayList.get(i).getVocabulary_id();
+            int voca_count = myVocaArrayList.get(i).getCount();
             String vocabularyName = myVocaArrayList.get(i).getName();
             String[] relation = myVocaArrayList.get(i).languageRelation.split("/");
             String word;
@@ -519,7 +527,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             three.setText(date);
             TextView five = myVocaContainer.findViewById(R.id.wordCount);
             five.setId(idEdit + 4);
-//            five.setText(Integer.toString(word_count));
+            five.setText(Integer.toString(voca_count));
         }
     }
 
@@ -532,6 +540,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
             int _vocaid = myVocaArrayList.get(i).getVocabulary_id();
+            int voca_count = myVocaArrayList.get(i).getCount();
             String vocabularyName = myVocaArrayList.get(i).getName();
             String[] relation = myVocaArrayList.get(i).languageRelation.split("/");
             String word;
@@ -602,7 +611,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             three.setText(date);
             TextView five = myVocaContainer.findViewById(R.id.wordCount);
             five.setId(idEdit + 4);
-//            five.setText(Integer.toString(word_count));
+            five.setText(Integer.toString(voca_count));
         }
     }
 
@@ -661,7 +670,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         three.setText(myVocaArrayList.getLast().getCreateDateToString());
         TextView five = myVocaContainer.findViewById(R.id.wordCount);
         five.setId(idEdit + 4);
-        five.setText("0");
+        five.setText(Integer.toString(myVocaArrayList.getLast().getCount()));
     }
 
 
@@ -670,7 +679,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
         int idx = (id / 5) - 1;
         myVocaArrayList.remove(idx);
-        View delView = (View) findViewById(id);
+        View delView = findViewById(id);
         myVocaContainer.removeView((View) delView.getParent());
         for (int i = id + 5; i <= myVocaArrayList.size() * 5 + 5; i += 5) {
             View v = myVocaContainer.findViewById(i);
@@ -798,7 +807,6 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
     public void clearVocaView() {
         myVocaContainer.removeAllViews();
-
     }
 
     private void signInAnonymously() {
