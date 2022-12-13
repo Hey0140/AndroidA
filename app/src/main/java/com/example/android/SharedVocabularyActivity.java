@@ -248,6 +248,21 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
 
         Log.i("SharedVocabulary", "create success");
 
+        View slide = findViewById(R.id.slide_view);
+        slide.setOnTouchListener(new OnSwipeTouchListener(this){
+            @Override
+            public void onSwipeRight() {
+                addViewWindow.setVisibility(View.GONE);
+                finish();
+                overridePendingTransition(R.anim.slide_left_enter, R.anim.slide_left_exit);
+            }
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return super.onTouch(v, event);
+            }
+        });
+
         // 객체 이벤트 리스너 등
         addButton.setOnClickListener(this);
         acceptButton.setOnClickListener(this);
@@ -351,22 +366,6 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     }
 
     // 화면 스와이프를 통한 내 단어장 액티비티로 전환
-    public boolean onTouchEvent(MotionEvent touchEvent) {
-        switch (touchEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                x1 = touchEvent.getX();
-                y1 = touchEvent.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                x2 = touchEvent.getX();
-                y2 = touchEvent.getY();
-                if (x2 + 500 > x1) {
-                    addViewWindow.setVisibility(View.GONE);
-                    finish();
-                }
-        }
-        return false;
-    }
 
 
     // 검색창의 값을 리턴. 빈 값이면 null을 리턴.

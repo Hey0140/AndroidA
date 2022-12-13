@@ -7,6 +7,13 @@
     tools:context=".SharedVocabularyActivity">
 
     <View
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/slide_view"
+        android:background="#00000000"
+        tools:ignore="MissingConstraints" />
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00FFFFFF"

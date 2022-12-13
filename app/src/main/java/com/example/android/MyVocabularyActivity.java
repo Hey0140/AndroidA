@@ -43,6 +43,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     float x1, x2, y1, y2;
     public static LinkedList<LocalWordBook> myVocaArrayList = new LinkedList<>();
 
+    View slide;
+
     // 객체 연결
     EditText searchWindow;
     Button searchOptionButton;
@@ -99,13 +101,13 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     boolean isReset = false;
     int idForRewrite;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_vocabulary_activity);
         mAuth = FirebaseAuth.getInstance();
         signInAnonymously();
-
         vocabularyDB = new vocaDataBaseHelper(this);
 
         // 객체 연결
@@ -128,6 +130,24 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         deleteConfirmText = findViewById(R.id.confirmQuestion);
         languagePickerScrollView = (ScrollView) findViewById(R.id.languagePickerWindowScrollView);
         backgroundView = findViewById(R.id.backgroundView);
+
+        slide = findViewById(R.id.slide_view);
+        slide.setOnTouchListener(new OnSwipeTouchListener(this){
+            @Override
+            public void onSwipeLeft() {
+                Intent i = new Intent(MyVocabularyActivity.this, SharedVocabularyActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.slide_right_enter, R.anim.slide_right_exit);
+                addViewWindow.setVisibility(View.GONE);
+            }
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return super.onTouch(v, event);
+            }
+        });
+
+
 
         korB = findViewById(R.id.koreanPick);
         chiB = findViewById(R.id.chinesePick);
@@ -269,7 +289,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             five.setId(idEdit + 4);
 //            five.setText(Integer.toString(word_count));
         }
-
+        slide.bringToFront();
     }
 
     // 버튼 클릭 이벤트 구현
@@ -339,9 +359,6 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
             case R.id.wordForAdd:
-                languagePickerWindow.bringToFront();
-                languagePickerWindow.setVisibility(View.VISIBLE);
-                break;
             case R.id.wordMeanForAdd:
                 languagePickerWindow.bringToFront();
                 languagePickerWindow.setVisibility(View.VISIBLE);
@@ -398,8 +415,6 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 vocaNameForRewrite.setText("");
                 break;
             case R.id.wordMeanForRewrite:
-                languagePickerWindow.setVisibility(View.VISIBLE);
-                break;
             case R.id.wordForRewrite:
                 languagePickerWindow.setVisibility(View.VISIBLE);
                 break;
@@ -421,23 +436,6 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     }
 
     // 화면 스와이프를 통한 공유 단어장 액티비티로 전환
-    public boolean onTouchEvent(MotionEvent touchEvent) {
-        switch (touchEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                x1 = touchEvent.getX();
-                y1 = touchEvent.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                x2 = touchEvent.getX();
-                y2 = touchEvent.getY();
-                if (x1 + 500 > x2) {
-                    Intent i = new Intent(MyVocabularyActivity.this, SharedVocabularyActivity.class);
-                    startActivity(i);
-                    addViewWindow.setVisibility(View.GONE);
-                }
-        }
-        return false;
-    }
 
     // 검색창의 문자열을 얻어오는 함수 (검색버튼 클릭시만 호출)
     public void Search(String _str) {

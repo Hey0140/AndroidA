@@ -7,6 +7,12 @@
     android:id="@+id/my_vocabulary_activity_xml"
     tools:context=".MyVocabularyActivity">
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/slide_view"
+        android:background="#00000000"
+        tools:ignore="MissingConstraints" />
 
     <View
         android:layout_width="fill_parent"
