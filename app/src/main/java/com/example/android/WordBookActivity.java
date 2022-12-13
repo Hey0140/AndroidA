@@ -96,6 +96,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
 
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,15 +180,18 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {
-        TextView word;
-        TextView mean;
-        View wordItem;
+        TextView mWord;
+        TextView mMean;
+        View mWordItem;
+        CheckBox mCheckBox;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            word = itemView.findViewById(R.id.word);
-            mean = itemView.findViewById(R.id.mean);
-            wordItem = itemView.findViewById(R.id.myWordListItem);
+            mWord = itemView.findViewById(R.id.word);
+            mMean = itemView.findViewById(R.id.mean);
+            mWordItem = itemView.findViewById(R.id.myWordListItem);
+            mCheckBox = itemView.findViewById(R.id.checkBox);
         }
     }
 
@@ -204,7 +208,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.word_list_item, parent, false);
+                    .inflate(R.layout.my_word_listitem, parent, false);
             return new ViewHolder(view);
         }
 
@@ -214,8 +218,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
             String temp2 = mean.get(position);
             assert temp1 != null;
             assert temp2 != null;
-            viewHolder.word.setText(temp1);
-            viewHolder.mean.setText(temp2);
+            viewHolder.mWord.setText(temp1);
+            viewHolder.mMean.setText(temp2);
         }
 
         @Override
