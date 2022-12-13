@@ -213,6 +213,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
 
     @SuppressLint({"LongLogTag", "ClickableViewAccessibility"})
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shared_vocabulary_activity);
@@ -251,7 +252,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
         Log.i("SharedVocabulary", "create success");
 
         View slide = findViewById(R.id.slide_view);
-        slide.setOnTouchListener(new OnSwipeTouchListener(this){
+        slide.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeRight() {
                 addViewWindow.setVisibility(View.GONE);

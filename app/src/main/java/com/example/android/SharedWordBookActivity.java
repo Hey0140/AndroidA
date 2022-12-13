@@ -1,17 +1,28 @@
 package com.example.android;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.paging.PagingConfig;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,17 +37,34 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.LinkedList;
-
 public class SharedWordBookActivity extends AppCompatActivity implements View.OnClickListener {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
-    private final static String TAG = "SharedVocabularyActivity";
+    private final static String TAG = "WordBook";
 
     wordDataBaseHelper wordDB;
     vocaDataBaseHelper vocaDB;
 
+    View backgroundView;
+    TextView wordBookNameLabel;
+    EditText searchWindow;
+    Button searchButton;
+    Button searchOptionButton;
+    ImageView searchNone;
+    ImageView downloadButton;
+    ConstraintLayout wordRewriteWindow;
+
+    FrameLayout FilterSortWindow;
+    TextView selectedSort;
+    TextView selectedFilter;
+    EditText TextForRewrtieWord;
+    EditText TextForRewrtieWordMean;
+    Button acceptButtonForRewriteWord;
+    Button acceptButtonForDeleteWord;
+    ImageView networkingChecking;
+
+    boolean isNetWork;
     int voca_id;
     FirestorePagingAdapter<Word, WordViewHolder> adapter;
     RecyclerView recyclerView;
@@ -44,7 +72,40 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shared_wordbook_activity);
+        setContentView(R.layout.activiry_shared_word_book);
+
+        backgroundView = findViewById(R.id.backgroundViewForWordActivity);
+        wordBookNameLabel = findViewById(R.id.wordBookNameLabel);
+        searchWindow = findViewById(R.id.searchWindow);
+        searchButton = findViewById(R.id.searchButton);
+        searchOptionButton = findViewById(R.id.searchOptionButton);
+        searchNone = findViewById(R.id.searchNone);
+        wordRewriteWindow = findViewById(R.id.wordRewriteWindow)
+        TextForRewrtieWord = findViewById(R.id.EditTextForRewriteWord);
+        TextForRewrtieWordMean = findViewById(R.id.EditTextForAddWordMean);
+        acceptButtonForRewriteWord = findViewById(R.id.acceptButtonForRewriteWord);
+        acceptButtonForDeleteWord = findViewById(R.id.acceptButtonForDeleteWord);
+        FilterSortWindow = findViewById(R.id.myVocaFilterSortWindow);
+        selectedFilter = findViewById(R.id.myVocaFilter);
+        selectedSort = findViewById(R.id.myVocaSort);
+        downloadButton = findViewById(R.id.downloadButton);
+        networkingChecking = findViewById(R.id.networkChecking);
+        backgroundView.bringToFront();
+        backgroundView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return false;
+            }
+        });
+
+        searchButton.setOnClickListener(this);
+        searchOptionButton.setOnClickListener(this);
+        searchNone.setOnClickListener(this);
+        acceptButtonForDeleteWord.setOnClickListener(this);
+        acceptButtonForRewriteWord.setOnClickListener(this);
+        selectedFilter.setOnClickListener(this);
+        selectedSort.setOnClickListener(this);
+
 
         recyclerView = findViewById(R.id.sharedWordRecyclerView);
 
@@ -55,6 +116,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         String id = intent.getStringExtra("WordBookId");
 
         int sortNum = 0;
+
 
         Query query = FirebaseDB.getWordList(db, sortNum, id);
         PagingConfig config = new PagingConfig(4, 2, false);
@@ -73,16 +135,55 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
             public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.shared_vocabulary_list_item, parent, false);
+                view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+                        backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View view, MotionEvent motionEvent) {
+                                return true;
+                            }
+                        });
+                        wordRewriteWindow.setVisibility(View.VISIBLE);
+                        return true;
+                    }
+                });
                 return new WordViewHolder(view);
             }
+
         };
+
+
+        //네트워크 연경
+        backgroundView.bringToFront();
+        networkingChecking.bringToFront();
+        isNetWork = isConnected(SharedWordBookActivity.this);
+        if (isNetWork == false) {
+            backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+            backgroundView.setVisibility(View.VISIBLE);
+            backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return true;
+                }
+            });
+            networkingChecking.setVisibility(View.VISIBLE);
+        }
 
         RecyclerView recyclerView = findViewById(R.id.sharedWordRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener());
+
+
     }
 
-
+    public boolean isConnected(Context context) {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
 
     @Override
     public void onClick(View v) {
@@ -90,34 +191,63 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
             case R.id.backButton:
                 finish();
                 break;
-            case R.id.uploadButton:
-                LocalWordBook lw = vocaDB.showWordBook(voca_id);
-                WordBook wordBook = new WordBook(lw.getName(), 0, 0, mAuth.getUid(), lw.getVoca_mean(), lw.getVoca_word(), null);
-                LinkedList<String> mean = new LinkedList<>(wordDB.showMean(voca_id));
-                LinkedList<String> word = new LinkedList<>(wordDB.showWord(voca_id));
-                int size = mean.size();
-                String[] docId = new String[1];
-                Thread getWordId = new Thread("getWordId") {
-                    @Override
-                    public void run() {
-                        super.run();
-                        String sMean, sWord;
-
-                        for (int i = 0; i < size; i++) {
-                            sMean = mean.removeFirst();
-                            sWord = word.removeFirst();
-                            FirebaseDB.addWord(db, docId[0], sWord, sMean, mAuth.getUid(), null);
-                        }
-                    }
-                };
-                FirebaseDB.setWordBook(db, wordBook, getWordId, docId);
-                Toast t = Toast.makeText(SharedWordBookActivity.this,
-                        "uploadButton", Toast.LENGTH_LONG);
-                t.show();
+            case R.id.downloadButton:
+                //내 단어장으로 다운로드
                 break;
+            case R.id.networkChecking:
+                isNetWork = isConnected(SharedWordBookActivity.this);
+                if (isNetWork) {
+                    backgroundView.setBackgroundColor(Color.parseColor("#00FFFFFF"));
+                    networkingChecking.setVisibility(View.GONE);
+                    backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                            return false;
+                        }
+                    });
+                    networkingChecking.setVisibility(View.GONE);
+                } else {
+                    Toast toast = Toast.makeText(SharedWordBookActivity.this,
+                            "네트워크 상태를 확인해주세요.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             case R.id.acceptButtonForDeleteWord:
+                //리사이클러 뷰 롱클릭시 나오는 뷰에 있음
                 break;
             case R.id.acceptButtonForRewriteWord:
+                //리사이클러 뷰 롱클릭시 나오는 뷰에 있음
+                break;
+            case R.id.searchButton:
+                String searchContent = searchWindow.getText().toString();
+                if (searchContent.equals("")) {
+                    Toast toast = new Toast(SharedWordBookActivity.this);
+                    Toast.makeText(SharedWordBookActivity.this,
+                            "검색어를 입력하시오.", Toast.LENGTH_LONG).show();
+                } else {
+                    searchNone.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.searchNone:
+                searchWindow.setText("");
+                searchNone.setVisibility(View.GONE);
+                break;
+            case R.id.searchOptionButton:
+                FilterSortWindow.setVisibility(View.VISIBLE);
+                FilterSortWindow.bringToFront();
+                backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+                backgroundView.setVisibility(View.VISIBLE);
+                backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return true;
+                    }
+                });
+                break;
+            case R.id.myVocaFilter:
+                //필터 레이아웃 제작 필요
+                break;
+            case R.id.myVocaSort:
+                //필터 레이아웃 제작 필요
                 break;
         }
     }
@@ -152,4 +282,31 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         super.onStop();
         adapter.stopListening();
     }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (wordRewriteWindow.getVisibility() == View.VISIBLE) {
+                wordRewriteWindow.setVisibility(View.GONE);
+                backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
+                backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return false;
+                    }
+                });
+            }
+            if (FilterSortWindow.getVisibility() == View.VISIBLE) {
+                FilterSortWindow.setVisibility(View.GONE);
+                backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
+                backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return false;
+                    }
+                });
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

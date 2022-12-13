@@ -11,7 +11,27 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/backgroundViewForWordActivity"
-        android:background="#00FFFFFF" />
+        android:background="#00FFFFFF"
+        tools:ignore="MissingConstraints" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/shearedBackgroundView">
+
+        <ImageView
+            android:id="@+id/networkChecking"
+            android:layout_width="100dp"
+            android:layout_height="101dp"
+            app:tint="@color/AppGray"
+            android:layout_gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"
+            app:srcCompat="@android:drawable/stat_notify_sync" />
+
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/wordBookNameLabel"
@@ -78,39 +98,6 @@
         android:background="@drawable/serach_none" />
 
 
-    <ImageView
-        android:id="@+id/addButtonBackground"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ellipse" />
-
-    <ImageButton
-        android:id="@+id/addButton"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="34dp"
-        android:background="@drawable/image_1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        android:text="Quiz"
-        android:textColor="#FFFFFF"
-        android:id="@+id/quizButton"
-        android:layout_width="110dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginBottom="21dp"
-        android:fontFamily="@font/gmarketsanslight"
-        android:background="@drawable/add_vocabulary_accept_window"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="402dp"
@@ -122,17 +109,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchWindow">
 
-        <LinearLayout
-            android:id="@+id/wordListItemContainer"
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_height="match_parent"
+            android:id="@+id/sharedWordRecyclerView" />
     </ScrollView>
+
+    <include
+        layout="@layout/select_filter_or_sort_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="7dp"
+        android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/wordRewriteWindow"
         android:layout_width="400dp"
         android:layout_height="260dp"
+        android:visibility="invisible"
         android:background="@drawable/add_vocabulary_layout_radius"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="7dp"
@@ -199,109 +198,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="400dp"
-        android:layout_height="210dp"
-        android:background="@drawable/add_vocabulary_layout_radius"
-        android:id="@+id/addWordWindow"
-        android:layout_marginStart="7dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <EditText
-            android:id="@+id/EditTextForAddWord"
-            android:hint="단어"
-            android:textSize="14dp"
-            android:singleLine="true"
-            android:textColorHint="#d9d9d9"
-            android:layout_width="360dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/gmarketsanslight"
-            android:background="@drawable/add_vocabulary_input_window"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/EditTextForAddWordMean"
-            android:hint="의미"
-            android:textSize="14dp"
-            android:singleLine="true"
-            android:textColorHint="#d9d9d9"
-            android:layout_width="360dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/gmarketsanslight"
-            android:background="@drawable/add_vocabulary_input_window"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EditTextForAddWord" />
-
-        <Button
-            android:text="추가하기"
-            android:textColor="#FFFFFF"
-            android:id="@+id/acceptButtonForAddWord"
-            android:layout_width="360dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/gmarketsanslight"
-            android:background="@drawable/add_vocabulary_accept_window"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/EditTextForAddWordMean" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="400dp"
-        android:layout_height="120dp"
-        android:background="@drawable/quiz_select_view"
-        android:id="@+id/quizChooseView"
-        android:layout_marginStart="7dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:text="단어 퀴즈"
-            android:textColor="#454c50"
-            android:id="@+id/wordQuiz"
-            android:layout_width="360dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/gmarketsanslight"
-            android:background="@drawable/add_vocabulary_layout_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:text="의미 퀴즈"
-            android:textColor="#454c50"
-            android:id="@+id/meanQuiz"
-            android:layout_width="360dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/gmarketsanslight"
-            android:background="@drawable/add_vocabulary_layout_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/wordQuiz" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/backButton"
@@ -314,13 +210,13 @@
         app:srcCompat="@drawable/image_6" />
 
     <ImageView
-        android:id="@+id/uploadButton"
-        android:layout_width="21dp"
-        android:layout_height="21dp"
+        android:id="@+id/downloadButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="13dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image_8" />
+        app:srcCompat="@drawable/download" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@
     android:layout_weight="1">
 
     <FrameLayout
+        android:id="@+id/myVocaFilterSortWindow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
@@ -28,21 +29,23 @@
 
             <TextView
                 android:layout_marginBottom="13dp"
-                android:id="@+id/sort"
-                android:layout_width="wrap_content"
+                android:id="@+id/myVocaSort"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gmarketsanslight"
                 android:text="@string/sort"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:textSize="17dp"
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/filter"
+                android:id="@+id/myVocaFilter"
                 android:layout_marginTop="13dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:fontFamily="@font/gmarketsanslight"
                 android:text="@string/filter"
                 android:textSize="17dp"

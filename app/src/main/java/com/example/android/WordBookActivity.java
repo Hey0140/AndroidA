@@ -114,7 +114,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         rewriteWordWindow = findViewById(R.id.wordRewriteWindow);
         addWordWindow = findViewById(R.id.addWordWindow);
         backButton = findViewById(R.id.backButton);
-        myWordListItemContainer = findViewById(R.id.wordListItemContainer);
         wordNameForAdd = findViewById(R.id.EditTextForAddWord);
         wordMeanForAdd = findViewById(R.id.EditTextForAddWordMean);
         addButton = findViewById(R.id.addButton);

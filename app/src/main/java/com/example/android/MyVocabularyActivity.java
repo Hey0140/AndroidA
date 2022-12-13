@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -78,6 +79,10 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     Button wordMeanForRewrite;
     Button acceptButtonForDeleteConfirm;
     TextView deleteConfirmText;
+    FrameLayout filterSort;
+    TextView myVocaFilter;
+    TextView myVocaSort;
+
 
     // 단어 피커 뷰 버튼 연결
     TextView korB;
