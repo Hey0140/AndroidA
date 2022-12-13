@@ -184,9 +184,9 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            word = findViewById(R.id.word);
-            mean = findViewById(R.id.mean);
-            wordItem = findViewById(R.id.myWordListItem);
+            word = itemView.findViewById(R.id.word);
+            mean = itemView.findViewById(R.id.mean);
+            wordItem = itemView.findViewById(R.id.myWordListItem);
         }
     }
 
