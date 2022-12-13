@@ -3,9 +3,6 @@ package com.example.android;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,19 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.firebase.ui.firestore.paging.FirestorePagingSource;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Objects;
 
 public class SharedWordBookActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,7 +38,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
     vocaDataBaseHelper vocaDB;
 
     int voca_id;
-    FirestorePagingAdapter<Word, ViewHolder> adapter;
+    FirestorePagingAdapter<Word, WordViewHolder> adapter;
     RecyclerView recyclerView;
 
     @Override
@@ -69,44 +62,24 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
                 .setLifecycleOwner(this)
                 .setQuery(query, config, Word.class)
                 .build();
-        adapter = new FirestorePagingAdapter<Word, ViewHolder>(options) {
+        adapter = new FirestorePagingAdapter<Word, WordViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Word model) {
+            protected void onBindViewHolder(@NonNull WordViewHolder holder, int position, @NonNull Word model) {
                 holder.bind(model);
             }
 
             @NonNull
             @Override
-            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.shared_vocabulary_list_item, parent, false);
-                return new ViewHolder(view);
+                return new WordViewHolder(view);
             }
         };
 
         RecyclerView recyclerView = findViewById(R.id.sharedWordRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-    }
-
-
-
-    private class ViewHolder extends RecyclerView.ViewHolder{
-        TextView mWord;
-        TextView mMean;
-        View mWordItem;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mWord = itemView.findViewById(R.id.word);
-            mMean = itemView.findViewById(R.id.mean);
-            mWordItem = itemView.findViewById(R.id.myWordListItem);
-        }
-
-        void bind(@NonNull Word word){
-            mWord.setText(word.getWord());
-            mMean.setText(word.getMean());
-        }
     }
 
 

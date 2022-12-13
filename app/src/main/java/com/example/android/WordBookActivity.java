@@ -95,6 +95,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<String> mean;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
