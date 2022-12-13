@@ -63,5 +63,37 @@ public class WordBook implements Serializable {
     public List<String> getLikeId() {
         return likeId;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public void setWordCount(int wordCount) {
+        this.wordCount = wordCount;
+    }
+
+    public void setuID(String uID) {
+        this.uID = uID;
+    }
+
+    public void setMeanLang(String meanLang) {
+        this.meanLang = meanLang;
+    }
+
+    public void setWordLang(String wordLang) {
+        this.wordLang = wordLang;
+    }
+
+    public void setLikeId(List<String> likeId) {
+        this.likeId = likeId;
+    }
 }
 

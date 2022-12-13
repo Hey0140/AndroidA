@@ -494,6 +494,44 @@ public class FirebaseDB {
                 });
     }
 
+    public static Query getWordBookList(FirebaseFirestore db, int sortNum, String wordLang, String meanLang, boolean like, String uId) {
+        LinkedList<DocumentSnapshot> temp = new LinkedList<>();
+        CollectionReference wordBookRef = db.collection("wordbook");
+        Query wordBookQuery = wordBookRef;
+        switch (sortNum) {
+            case 0:
+                break;
+            case 1:
+                wordBookQuery = wordBookRef.orderBy("name", Query.Direction.ASCENDING);
+                break;
+            case 2:
+                wordBookQuery = wordBookRef.orderBy("name", Query.Direction.DESCENDING);
+                break;
+            case 3:
+                wordBookQuery = wordBookRef.orderBy("createDate", Query.Direction.ASCENDING);
+                break;
+            case 4:
+                wordBookQuery = wordBookRef.orderBy("createDate", Query.Direction.DESCENDING);
+                break;
+            case 5:
+                wordBookQuery = wordBookRef.orderBy("likeCount", Query.Direction.ASCENDING);
+                break;
+            case 6:
+                wordBookQuery = wordBookRef.orderBy("likeCount", Query.Direction.DESCENDING);
+                break;
+        }
+        if (wordLang != null) {
+            wordBookQuery = wordBookQuery.whereEqualTo("wordLang", wordLang);
+        }
+        if (meanLang != null) {
+            wordBookQuery = wordBookQuery.whereEqualTo("meanLang", meanLang);
+        }
+        if (like) {
+            wordBookQuery = wordBookQuery.whereArrayContains("likeId", uId);
+        }
+        return wordBookQuery;
+    }
+
     public static void getWordList(FirebaseFirestore db, int sortNum, String id, Thread thread, ArrayList<DocumentSnapshot>[] arrayList) {
         LinkedList<DocumentSnapshot> temp = new LinkedList<>();
         CollectionReference wordRef = db.collection("wordbook").document(id).collection("word");
@@ -534,5 +572,22 @@ public class FirebaseDB {
                         Log.w(TAG, "Canceled getting Task");
                     }
                 });
+    }
+
+    public static Query getWordList(FirebaseFirestore db, int sortNum, String id) {
+        LinkedList<DocumentSnapshot> temp = new LinkedList<>();
+        CollectionReference wordRef = db.collection("wordbook").document(id).collection("word");
+        Query wordQuery = wordRef;
+        switch (sortNum) {
+            case 0:
+                break;
+            case 1:
+                wordQuery = wordRef.orderBy("name", Query.Direction.ASCENDING);
+                break;
+            case 2:
+                wordQuery = wordRef.orderBy("name", Query.Direction.DESCENDING);
+                break;
+        }
+        return wordQuery;
     }
 }

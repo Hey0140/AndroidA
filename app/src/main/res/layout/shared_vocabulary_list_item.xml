@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/myWordListItem"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="9dp"
+        android:background="@drawable/my_vocabulary_listitem_window"
+        app:layout_constraintBottom_toBottomOf="@+id/wordView"
+        tools:layout_editor_absoluteX="2dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/word"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="41dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:text="단어"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myWordListItem"
+        app:layout_constraintStart_toStartOf="@+id/myWordListItem"
+        app:layout_constraintTop_toTopOf="@+id/myWordListItem" />
+
+
+    <TextView
+        android:id="@+id/mean"
+        android:layout_width="150dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginBottom="17dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:text="뜻"
+        android:textColor="#000000"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myWordListItem"
+        app:layout_constraintStart_toStartOf="@+id/myWordListItem" />
+
+    <View
+        android:id="@+id/wordView"
+        android:layout_width="400dp"
+        android:layout_height="84dp"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="184dp"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

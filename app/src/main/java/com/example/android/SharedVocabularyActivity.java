@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -182,8 +183,9 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                 public void onClick(View v) {
                     Intent intent = new Intent(SharedVocabularyActivity.this, SharedWordBookActivity.class);
                     vocaId = _vocaid;
-                    intent.putExtra("단어장 data", vocaWordBook.getName() + "@" + v.getId());
-                    intent.putExtra("vocaId", vocaId);
+                    WordBooKParcel temp = new WordBooKParcel(vocaWordBook);
+                    intent.putExtra("WordBook", (Parcelable) temp);
+                    intent.putExtra("WordBookId", vocaId);
                     Log.d("intent 클릭", "vocaId 전송");
                     startActivity(intent);
                     //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
