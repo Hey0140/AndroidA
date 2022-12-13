@@ -105,6 +105,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
 
         addWordWindow.setVisibility(View.GONE);
         rewriteWordWindow.setVisibility(View.GONE);
+
         Intent intent = getIntent();
         String getName = intent.getStringExtra("단어장 data");
         int tempInt = getName.indexOf("@");

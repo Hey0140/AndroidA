@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +18,7 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
     public static final String date = "date";
     public static final String quizInclude = "quizInclude";
     public static final String vocaId = "vocaId";
+    public static final String TAG = "SQLite";
 
 
     vocaDataBaseHelper vocaDB;
@@ -53,20 +52,17 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
         values.put(vocaId, voca_id);
         db.insert("wordDB", null, values);
         db.close();
-        Log.i("add", "단어success");
+        Log.i(TAG, "add WordVoca success");
     }
 
-    public void updateWordVoca(int id, String _word, String _mean, Date _date) {
+    public void updateWordVoca(int id, String _word, String _mean, int voca_id) {
         // calling a method to get writable database.
         SQLiteDatabase db = this.getWritableDatabase();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        String da = formatter.format(_date);
         db.execSQL("UPDATE wordDB " +
                 "SET word = '" + _word +
                 "', mean = '" + _mean +
-                "', date '" + da +
-                "' Where _id = " + id);
-        Log.i("update", "단어success");
+                "' Where _id = " + id + " and vocaId = " + voca_id);
+        Log.i(TAG, "word update success");
         db.close();
     }
 
@@ -90,28 +86,29 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void deleteWordVoca(int id) {
+    public void deleteWordVoca(int id, int voca_id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from wordDB Where _id = " + id + ";");
+        db.execSQL("delete from wordDB Where _id = " + id + " and vocaId = " + voca_id + ";");
         db.close();
-        Log.i("SQLite", "단어삭제");
+        Log.i(TAG, "delete WordVoca success");
     }
 
-
-    public LinkedList<LocalWordBook> showAllWord(int voca_id) {
-        LinkedList<LocalWordBook> vocalist = new LinkedList<>();
+    public String showWordVoca(int id, int voca_id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor c = db.rawQuery("select *" +
-                "from wordDB where vocaId = " + voca_id + " order by _id asc", null);
-        while (c.moveToNext()) {
-            int id = c.getInt(0);
-            String word = c.getString(1);
-            String mean = c.getString(2);
-//            vocalist.addLast(new LocalWordBook(word, mean, id));
+        String wordName;
+        Cursor c = db.rawQuery("select * from wordDB " +
+                "Where _id = " + id +
+                " and vocaId = " + voca_id +
+                " order by _id asc", null);
+        if (c.moveToNext()) {
+            wordName = c.getString(1);
+        } else {
+            wordName = "None";
         }
-        Log.i("read", "success");
         db.close();
-        return vocalist;
+
+        Log.i(TAG, "Show WordName success");
+        return wordName;
     }
 
 
@@ -124,10 +121,43 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
             String word = c.getString(1);
             wordlist.add(word);
         }
-        Log.i("read", "success");
+        Log.i(TAG, "Read word List success");
         db.close();
         return wordlist;
     }
+
+    public List<String> showFilterWordOnWord(int voca_id, String word) {
+        List<String> wordlist = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("select * from wordDB " +
+                "where word = '" + word + "' " +
+                "and vocaId = " + voca_id +
+                " order by _id asc", null);
+        while (c.moveToNext()) {
+            String _word = c.getString(1);
+            wordlist.add(_word);
+        }
+        Log.i(TAG, "Searching the word name. And read Word List success");
+        db.close();
+        return wordlist;
+    }
+
+    public List<String> showFilterWordOnMean(int voca_id, String word) {
+        List<String> meanlist = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("select * from wordDB " +
+                "where word = '" + word + "' " +
+                "and vocaId = " + voca_id +
+                " order by _id asc", null);
+        while (c.moveToNext()) {
+            String _mean = c.getString(2);
+            meanlist.add(_mean);
+        }
+        Log.i(TAG, "Searching the word name. And read Mean List success");
+        db.close();
+        return meanlist;
+    }
+
 
     public List<String> showMean(int voca_id) {
         List<String> meanlist = new LinkedList<>();
@@ -138,7 +168,7 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
             String mean = c.getString(2);
             meanlist.add(mean);
         }
-        Log.i("read", "success");
+        Log.i(TAG, "Read mean List success");
         db.close();
         return meanlist;
 
@@ -162,13 +192,13 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
 
     public int showIdOfWord(String _word, String _mean, int voca_id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * From vocaDB" +
+        Cursor c = db.rawQuery("SELECT * From wordDB" +
                 " Where word = '" + _word +
                 "'and mean = '" + _mean +
                 "'and vocaId = " + voca_id, null);
         if (c.moveToNext()) {
             int id = c.getInt(0);
-            Log.i("showId", Integer.toString(id));
+            Log.i(TAG, "Find the Id of the word");
             db.close();
             return id;
         } else {
@@ -176,4 +206,20 @@ public class wordDataBaseHelper extends SQLiteOpenHelper {
             return -1;
         }
     }
+//
+//    public List<String> showFilterWord(String _word) {
+//        List<String> wordlist = new LinkedList<>();
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor c = db.rawQuery("select * " +
+//                "from wordDB where word = '" + _word + "'", null);
+//        while (c.moveToNext()) {
+//            String word = c.getString(1);
+//            wordlist.add(word);
+//        }
+//        Log.i(TAG, "Filter Word Name success");
+//        db.close();
+//        return wordlist;
+//    }
+
+
 }

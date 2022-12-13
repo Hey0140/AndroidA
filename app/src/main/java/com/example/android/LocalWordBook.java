@@ -4,9 +4,7 @@ import android.view.View;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 public class LocalWordBook {
 
@@ -27,7 +25,7 @@ public class LocalWordBook {
 
     View v1;
 
-    public LocalWordBook(String name, String word, String wordMean){
+    public LocalWordBook(String name, String word, String wordMean) {
         // 단어장 이름 초기화
         this.name = name;
         // 단어장 생성 날짜 초기화
@@ -39,7 +37,7 @@ public class LocalWordBook {
         this.wordView = new LinkedList<>();
     }
 
-    public LocalWordBook(String name, String word, String wordMean, int id){
+    public LocalWordBook(String name, String word, String wordMean, int id) {
         // 단어장 이름 초기화
         this.name = name;
         // 단어장 생성 날짜 초기화
@@ -53,7 +51,7 @@ public class LocalWordBook {
         this.wordView = new LinkedList<>();
     }
 
-    public LocalWordBook(String name, String word, String wordMean, int id, String date){
+    public LocalWordBook(String name, String word, String wordMean, int id, String date) {
         // 단어장 이름 초기화
         this.name = name;
         // 단어장 생성 날짜 초기화
@@ -68,25 +66,28 @@ public class LocalWordBook {
         this.wordView = new LinkedList<>();
     }
 
-    public LocalWordBook(int word_id, String voca_word, String voca_mean, String date){
+    public LocalWordBook(int word_id, String voca_word, String voca_mean, String date, int vocabulary_id) {
         // 단어장 이름 초기화
-        this.name = name;
         // 단어장 생성 날짜 초기화
         this.date = date;
-        this.vocabulary_id = word_id;
+        this.word_id = word_id;
+        this.vocabulary_id = vocabulary_id;
         this.voca_word = voca_word;
         this.voca_mean = voca_mean;
     }
 
 
     // createDate를 문자열 형식으로 리턴하는 메소드
-    public String getCreateDateToString(){
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy/MM/dd");
+    public String getCreateDateToString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         return formatter.format(createDate);
     }
 
-    public int getVocabulary_id(){return vocabulary_id; }
-    public String getName(){
+    public int getVocabulary_id() {
+        return vocabulary_id;
+    }
+
+    public String getName() {
         return name;
     }
 
@@ -130,7 +131,12 @@ public class LocalWordBook {
         return v1;
     }
 
-    public String getDate() {return date;}
-    public int getLikeCount(){return likeCount;}
+    public String getDate() {
+        return date;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
 
 }

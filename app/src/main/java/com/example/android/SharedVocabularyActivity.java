@@ -78,6 +78,10 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     ScrollView myVocaListScrollView;
 
     // 단어생성 뷰 연결
+    Button buttonForAddWordBook;
+    EditText nameForAddWordBook;
+    Button wordForAddWordBook;
+    Button wordMeanForAddWordBook;
     ScrollView languagePickerScrollView;
     Button acceptButtonForAdd;
     EditText vocaNameForAdd;
@@ -108,6 +112,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     TextView rusB;
     TextView engB;
 
+
     //디비 관련 변수
     public vocaDataBaseHelper vocabularyDB;
     String vocaId;
@@ -121,6 +126,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
     int i;
     String vocaBookId;
     WordBook vocaWordBook;
+
 
     Handler handler = new Handler(Looper.myLooper()) {
         @Override

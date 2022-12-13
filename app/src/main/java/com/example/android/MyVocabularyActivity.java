@@ -207,6 +207,12 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             }
 //            int word_count = myVocaArrayList.get(i).getLikeCount();
 
+            backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return false;
+                }
+            });
 
             myVocaArrayList.get(i).v1 = findViewById(R.id.view);
             myVocaArrayList.get(i).v1.setId(idEdit);
@@ -226,7 +232,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
                             addViewWindow.setVisibility(View.GONE);
-                            return false;
+                            return true;
                         }
                     });
                     vocaId = _vocaid;
@@ -284,15 +290,10 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             case R.id.searchNone:
                 searchWindow.setText("");
                 nonSearch();
-                searchNone.setVisibility(View.INVISIBLE);
+                searchNone.setVisibility(View.GONE);
                 break;
-
             case R.id.addButton: // 단어장 추가 버튼 클릭시
-                vocaNameForAdd.setText("");
-                wordForAdd.setText("");
-                wordMeanForAdd.setText("");
-                addViewWindow.setVisibility(View.VISIBLE);
-                addViewWindow.bringToFront();
+                Log.i(TAG, "click");
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -300,6 +301,12 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                         return true;
                     }
                 });
+                vocaNameForAdd.setText("");
+                wordForAdd.setText("");
+                wordMeanForAdd.setText("");
+                addViewWindow.bringToFront();
+                addViewWindow.setVisibility(View.VISIBLE);
+                Log.i(TAG, "show add View");
                 isForRewrite = false;
                 break;
             case R.id.acceptButton: // 단어장 [생성하기] 버튼 클릭시
@@ -311,7 +318,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                     Toast toast = new Toast(MyVocabularyActivity.this);
                     Toast.makeText(MyVocabularyActivity.this,
                             "빈칸을 전부 입력하세요.", Toast.LENGTH_LONG).show();
-                    backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
+//                    backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 } else {
                     addViewWindow.setVisibility(View.GONE);
                     java.util.Date date = new java.util.Date(System.currentTimeMillis());
@@ -330,7 +337,6 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                         }
                     });
                 }
-
                 break;
             case R.id.wordForAdd:
                 languagePickerWindow.bringToFront();

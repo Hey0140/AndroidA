@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/myWordListItemForQuizResult"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="9dp"
+        android:background="@drawable/my_vocabulary_listitem_window"
+        app:layout_constraintBottom_toBottomOf="@+id/wordViewForQuizResult"
+        tools:layout_editor_absoluteX="2dp" />
+
+    <TextView
+        android:id="@+id/wordForQuizResult"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="41dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:text="단어"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myWordListItemForQuizResult"
+        app:layout_constraintStart_toStartOf="@+id/myWordListItemForQuizResult"
+        app:layout_constraintTop_toTopOf="@+id/myWordListItemForQuizResult" />
+
+
+    <TextView
+        android:id="@+id/meanForQuizResult"
+        android:layout_width="150dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginBottom="17dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:text="뜻"
+        android:textColor="#000000"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myWordListItemForQuizResult"
+        app:layout_constraintStart_toStartOf="@+id/myWordListItemForQuizResult" />
+
+    <View
+        android:id="@+id/wordViewForQuizResult"
+        android:layout_width="400dp"
+        android:layout_height="84dp"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="184dp" />
+
+    <ImageView
+        android:id="@+id/imageViewForQuizResult"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/myWordListItemForQuizResult"
+        app:srcCompat="@drawable/o_correct" />
+
+    <ImageView
+        android:id="@+id/imageViewForQuizResult2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/myWordListItemForQuizResult"
+        app:srcCompat="@drawable/x_incorrect" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

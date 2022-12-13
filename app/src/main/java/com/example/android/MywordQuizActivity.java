@@ -2,17 +2,19 @@ package com.example.android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class MywordQuizActivity extends AppCompatActivity implements View.OnClickListener {
@@ -20,171 +22,289 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
     //데이터
     wordDataBaseHelper wordDB = new wordDataBaseHelper(this);
 
+    boolean isWordQuiz;
+
     Button submit_answer;
     ImageView back_button_image;
     Button next_quiz;
     TextView quiz_text;
-    TextView quiz_co_answer;
+    TextView quiz_text2;
     TextView input_answer;
-    View quiz_co_answer_box;
+    View quiz_text_box2;
     View quiz_text_box;
     ImageView quiz_answer_correct;
     ImageView quiz_answer_incorrect;
     wordDataBaseHelper quiz_data;
     wordDataBaseHelper answer_data;
 
-    String[] quiz;
-    String[] answer;
-    int[] check = {1,1,0,1,1};
 //    List<String> quiz;
-//    List<String> answer;
+//    List<String> answer
 //    List<Integer> check;
     //1이 나오는 상태 0이 나오지 않는 상태
 
 
-
-
-
-    int[] randomIndex;
     Random random = new Random();
-    int bound;
-    Handler mHandler = new Handler();
-
-    public int quiz_answer (int i){
-        while(check[randomIndex[i]] == 0){
-            i++;
-            if(i >= randomIndex.length){
-                finish();
-            }
-        }
-        if(i >= randomIndex.length){
-            finish();
-        }
-
-        return i;
-    }
-
-    int indexOfQuiz = 0;
+    int quizIndex = 0;
+    boolean check = true;
+    int size = 0;
+    ArrayList<Integer> clearQuizIndex = new ArrayList<>();
+    ArrayList<Integer> randomIndexList = new ArrayList<>();
+    ArrayList<String> wordList;
+    ArrayList<String> meanList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        Intent intent = new Intent(this.getIntent());
+        size = intent.getIntExtra("size", 0);
+        wordList = intent.getStringArrayListExtra("wordList");
+        meanList = intent.getStringArrayListExtra("meanList");
+
+
+        isWordQuiz = intent.getBooleanExtra("isWordQuiz", false);
+        Log.d("isWordQuiz", Boolean.toString(isWordQuiz));
+        if (wordList.size() == 0) {
+            Toast toast = new Toast(MywordQuizActivity.this);
+            Toast.makeText(MywordQuizActivity.this,
+                    "퀴즈로 낼 수 있는 단어가 없습니다..", Toast.LENGTH_LONG).show();
+            finish();
+        }
+        Log.d("size : ", Integer.toString(size));
+
         next_quiz = findViewById(R.id.next_quiz);
-        quiz_co_answer = findViewById(R.id.quiz_co_answer);
-        quiz_co_answer_box = findViewById(R.id.quiz_co_answer_box);
+        quiz_text2 = findViewById(R.id.quiz_co_answer);
+        quiz_text_box2 = findViewById(R.id.quiz_co_answer_box);
         quiz_text_box = findViewById(R.id.quiz_text_box);
-        input_answer =  findViewById(R.id.input_answer);
-        quiz_text =  findViewById(R.id.quiz_text);
+        input_answer = findViewById(R.id.input_answer);
+        quiz_text = findViewById(R.id.quiz_text);
         submit_answer = findViewById(R.id.submit_answer);
         back_button_image = findViewById(R.id.back_button_image);
         quiz_answer_correct = findViewById(R.id.quiz_answer_correct);
         quiz_answer_incorrect = findViewById(R.id.quiz_answer_incorrect);
+        quiz_answer_correct.bringToFront();
+        quiz_answer_incorrect.bringToFront();
         quiz_data = new wordDataBaseHelper(this);
         answer_data = new wordDataBaseHelper(this);
         //리스너
         submit_answer.setOnClickListener(this);
+        submit_answer.setVisibility(View.INVISIBLE);
+        next_quiz.setVisibility(View.VISIBLE);
         next_quiz.setOnClickListener(this);
         back_button_image.setOnClickListener(this);
-        quiz = getResources().getStringArray(R.array.quiz);
-        answer = getResources().getStringArray(R.array.answer);
-        bound = quiz.length;
-        randomIndex = new int[bound];
+        for (int i = 0; i < size; i++) {
+            randomIndexList.add(i);
+        }
+        Collections.shuffle(randomIndexList);
 
-        Thread randThread = new Thread("random Thread"){
-            public void run(){
-                int[] a = new int[bound];
-                for(int i = 0; i < bound; i++){
-                    a[i] = random.nextInt(bound);
-                    for(int j = 0; j < i; j ++){
-                        if(a[i] == a[j]){
-                            i--;
-                        }
-                    }
-                }
+        for (int i = 0; i < size; i++) {
+            Log.i("word : ", wordList.get(randomIndexList.get(i)));
+            Log.i("mean : ", meanList.get(randomIndexList.get(i)));
+        }
+//        quiz = getResources().getStringArray(R.array.quiz);
+//        answer = getResources().getStringArray(R.array.answer);
 
-                for(int i = 0; i <bound; i++){
-                    randomIndex[i] = a[i];
-                }
+        //error 발생 추측
+        if (size == 0) {
+            finish();
+        }
 
-                Runnable callback = new Runnable() {
-                    @Override
-                    public void run() {
-                        if(randomIndex.length >=1){
-                            indexOfQuiz = quiz_answer(0);
-                            quiz_text.setText(quiz[randomIndex[indexOfQuiz]]);
-                            quiz_co_answer.setText(answer[randomIndex[indexOfQuiz]]);
-                        }
-                    }
-                };
-                Message m = Message.obtain(mHandler, callback);
-                mHandler.sendMessage(m);
-            }
-        };
-        randThread.start();
-
-
-        int vocaId = getIntent().getIntExtra("vocaId", 0);
+        if (!isWordQuiz) {
+            quiz_text.setText(wordList.get(randomIndexList.get(quizIndex)));
+            quiz_text.setVisibility(View.VISIBLE);
+            quiz_text_box.setVisibility(View.VISIBLE);
+            submit_answer.setVisibility(View.VISIBLE);
+            next_quiz.setVisibility(View.INVISIBLE);
+            quiz_text2.setVisibility(View.INVISIBLE);
+            quiz_text_box2.setVisibility(View.INVISIBLE);
+        } else {
+            quiz_text.setText(meanList.get(randomIndexList.get(quizIndex)));
+            quiz_text.setVisibility(View.VISIBLE);
+            quiz_text_box.setVisibility(View.VISIBLE);
+            submit_answer.setVisibility(View.VISIBLE);
+            next_quiz.setVisibility(View.INVISIBLE);
+            quiz_text2.setVisibility(View.INVISIBLE);
+            quiz_text_box2.setVisibility(View.INVISIBLE);
+        }
     }
-
-
-
 
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.submit_answer) {
-            Animation animation = new AlphaAnimation(0, 1);
-            animation.setDuration(1500);
-            try{
-                Thread.sleep(1000);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
-            Animation _animation = new AlphaAnimation(1, 0);
-            _animation.setDuration(1500);
+        switch (view.getId()) {
+            case R.id.submit_answer:
+                Log.i("submit", "submit");
+                if (!isWordQuiz) {
+                    if (input_answer.getText().toString().equals(meanList.get(randomIndexList.get(quizIndex)))) {
+                        Animation animation = new AlphaAnimation(0, 1);
+                        animation.setDuration(500);
+                        Animation _animation = new AlphaAnimation(1, 0);
+                        _animation.setDuration(2000);
+                        quiz_answer_correct.setVisibility(View.VISIBLE);
+                        quiz_answer_correct.setAnimation(animation);
+                        quiz_answer_correct.setAnimation(_animation);
+                        quiz_answer_correct.setVisibility(View.INVISIBLE);
+                        clearQuizIndex.add(randomIndexList.get(quizIndex));
+                    } else {
+                        Animation animation = new AlphaAnimation(0, 1);
+                        animation.setDuration(500);
+                        Animation _animation = new AlphaAnimation(1, 0);
+                        _animation.setDuration(2000);
+                        quiz_answer_incorrect.setVisibility(View.VISIBLE);
+                        quiz_answer_incorrect.setAnimation(animation);
+                        quiz_answer_incorrect.setAnimation(_animation);
+                        quiz_answer_incorrect.setVisibility(View.INVISIBLE);
+                    }
+                    quiz_text2.setText(meanList.get(randomIndexList.get(quizIndex)));
+                    quiz_text2.setVisibility(View.VISIBLE);
+                    quiz_text_box2.setVisibility(View.VISIBLE);
+                    quiz_text.setVisibility(View.INVISIBLE);
+                    quiz_text_box.setVisibility(View.INVISIBLE);
+                    submit_answer.setVisibility(View.INVISIBLE);
+                    next_quiz.setVisibility(View.VISIBLE);
+                } else {
+                    if (input_answer.getText().toString().equals(wordList.get(randomIndexList.get(quizIndex)))) {
+                        Animation animation = new AlphaAnimation(0, 1);
+                        animation.setDuration(500);
+                        Animation _animation = new AlphaAnimation(1, 0);
+                        _animation.setDuration(1500);
+                        quiz_answer_correct.setAnimation(animation);
+                        quiz_answer_correct.setVisibility(View.VISIBLE);
+                        quiz_answer_correct.setAnimation(_animation);
+                        quiz_answer_correct.setVisibility(View.INVISIBLE);
+                        clearQuizIndex.add(randomIndexList.get(quizIndex));
+                    } else {
+                        Animation animation = new AlphaAnimation(0, 1);
+                        animation.setDuration(500);
+                        Animation _animation = new AlphaAnimation(1, 0);
+                        _animation.setDuration(1500);
 
-            quiz_co_answer.setText(answer[randomIndex[indexOfQuiz]]);
-            quiz_text.setVisibility(View.INVISIBLE);
-            quiz_co_answer.setVisibility(View.VISIBLE);
-            quiz_text_box.setVisibility(View.INVISIBLE);
-            submit_answer.setVisibility(View.INVISIBLE);
-            quiz_text.setVisibility(View.INVISIBLE);
-            quiz_co_answer.setVisibility(View.VISIBLE);
-            next_quiz.setVisibility(View.VISIBLE);
-            quiz_co_answer_box.setVisibility(View.VISIBLE);
+                        quiz_answer_incorrect.setAnimation(animation);
+                        quiz_answer_incorrect.setVisibility(View.VISIBLE);
+                        quiz_answer_incorrect.setAnimation(_animation);
+                        quiz_answer_incorrect.setVisibility(View.INVISIBLE);
+                    }
+                    quiz_text2.setText(wordList.get(randomIndexList.get(quizIndex)));
+                    quiz_text2.setVisibility(View.VISIBLE);
+                    quiz_text_box2.setVisibility(View.VISIBLE);
+                    quiz_text.setVisibility(View.INVISIBLE);
+                    quiz_text_box.setVisibility(View.INVISIBLE);
+                    submit_answer.setVisibility(View.INVISIBLE);
+                    next_quiz.bringToFront();
+                    next_quiz.setVisibility(View.VISIBLE);
+                }
+                quizIndex++;
+                if (quizIndex >= size) {
+                    Intent intent = new Intent(MywordQuizActivity.this, QuizResultActivity.class);
+                    intent.putIntegerArrayListExtra("clearList", clearQuizIndex);
+                    intent.putExtra("wholeSize", size);
+                    intent.putStringArrayListExtra("wordList", wordList);
+                    intent.putStringArrayListExtra("meanList", meanList);
+                    for (int i = 0; i < clearQuizIndex.size(); i++) {
+                        Log.d("맞춘 퀴즈의 인덱스 : ", Integer.toString(clearQuizIndex.get(i)));
+                    }
+                    startActivity(intent);
+                    finish();
+                }
+                break;
+            case R.id.next_quiz:
+                if (!isWordQuiz) {
+                    if (check) {
+                        quiz_text2.setText(wordList.get(randomIndexList.get(quizIndex)));
+                        quiz_text2.setVisibility(View.VISIBLE);
+                        quiz_text_box2.setVisibility(View.VISIBLE);
+                        quiz_text.setVisibility(View.INVISIBLE);
+                        quiz_text_box.setVisibility(View.INVISIBLE);
+                        if (input_answer.getText().toString().equals(meanList.get(randomIndexList.get(quizIndex)))) {
+                            input_answer.setText("");
+                            correctAnswer();
+                        } else {
+                            incorrectAnswer();
+                            input_answer.setText("");
+                        }
+                    } else {
+                        quiz_text.setText(wordList.get(randomIndexList.get(quizIndex)));
+                        quiz_text.setVisibility(View.VISIBLE);
+                        quiz_text_box.setVisibility(View.VISIBLE);
+                        quiz_text2.setVisibility(View.INVISIBLE);
+                        quiz_text_box2.setVisibility(View.INVISIBLE);
+                        if (input_answer.getText().toString().equals(meanList.get(randomIndexList.get(quizIndex - 1)))) {
+                            input_answer.setText("");
+                            correctAnswer();
+                        } else {
+                            incorrectAnswer();
+                            input_answer.setText("");
+                        }
+                    }
+                    ////
+                } else {
+                    if (check) {
+                        quiz_text2.setText(meanList.get(randomIndexList.get(quizIndex)));
+                        quiz_text2.setVisibility(View.VISIBLE);
+                        quiz_text_box2.setVisibility(View.VISIBLE);
+                        quiz_text.setVisibility(View.INVISIBLE);
+                        quiz_text_box.setVisibility(View.INVISIBLE);
+                        if (input_answer.getText().toString().equals(wordList.get(randomIndexList.get(quizIndex - 1)))) {
+                            input_answer.setText("");
+                            correctAnswer();
+                        } else {
+                            incorrectAnswer();
+                            input_answer.setText("");
+                        }
+                    } else {
+                        quiz_text.setText(meanList.get(randomIndexList.get(quizIndex)));
+                        quiz_text.setVisibility(View.VISIBLE);
+                        quiz_text_box.setVisibility(View.VISIBLE);
+                        quiz_text2.setVisibility(View.INVISIBLE);
+                        quiz_text_box2.setVisibility(View.INVISIBLE);
+                        if (input_answer.getText().toString().equals(wordList.get(randomIndexList.get(quizIndex - 1)))) {
+                            input_answer.setText("");
+                            correctAnswer();
+                        } else {
+                            incorrectAnswer();
+                            input_answer.setText("");
+                        }
 
-            if (input_answer.getText().toString().equals(answer[randomIndex[indexOfQuiz]])) {
-                quiz_answer_correct.setVisibility(View.VISIBLE);
-                quiz_answer_correct.setAnimation(animation);
-                quiz_answer_correct.setVisibility(View.INVISIBLE);
-                quiz_answer_correct.setAnimation(_animation);
-            } else {
-                quiz_answer_incorrect.setVisibility(View.VISIBLE);
-                quiz_answer_incorrect.setAnimation(animation);
-                quiz_answer_incorrect.setVisibility(View.INVISIBLE);
-                quiz_answer_incorrect.setAnimation(_animation);
-            }
-            indexOfQuiz++;
+                    }
+                }
+                if (quizIndex == size) {
+                    next_quiz.setVisibility(View.INVISIBLE);
+                    submit_answer.setVisibility(View.VISIBLE);
+                    break;
+                }
         }
-
-        if(view.getId() == R.id.next_quiz){
-            input_answer.setText("");
-            indexOfQuiz = quiz_answer(indexOfQuiz);
-            quiz_text.setText(quiz[randomIndex[indexOfQuiz]]);
-            next_quiz.setVisibility(View.INVISIBLE);
-            quiz_co_answer_box.setVisibility(View.INVISIBLE);
-            quiz_text.setVisibility(View.VISIBLE);
-            quiz_co_answer.setVisibility(View.INVISIBLE);
-            quiz_text_box.setVisibility(View.VISIBLE);
-            submit_answer.setVisibility(View.VISIBLE);
-
-        }
-        if(view.getId() == R.id.back_button_image){
+        if (view.getId() == R.id.back_button_image) {
             finish();
         }
+    }
 
+    public void correctAnswer() {
+        Animation animation = new AlphaAnimation(0, 1);
+        animation.setDuration(500);
+        Animation _animation = new AlphaAnimation(1, 0);
+        _animation.setDuration(1500);
+        quiz_answer_correct.setAnimation(animation);
+        quiz_answer_correct.setVisibility(View.VISIBLE);
+        quiz_answer_correct.setAnimation(_animation);
+        quiz_answer_correct.setVisibility(View.INVISIBLE);
+        clearQuizIndex.add(randomIndexList.get(quizIndex - 1));
+        quizIndex++;
+        check = !check;
+
+    }
+
+    public void incorrectAnswer() {
+        Animation animation = new AlphaAnimation(0, 1);
+        animation.setDuration(500);
+        Animation _animation = new AlphaAnimation(1, 0);
+        _animation.setDuration(1500);
+        quiz_answer_incorrect.setAnimation(animation);
+        quiz_answer_incorrect.setVisibility(View.VISIBLE);
+        quiz_answer_incorrect.setAnimation(_animation);
+        quiz_answer_incorrect.setVisibility(View.INVISIBLE);
+        quizIndex++;
+        check = !check;
     }
 
 }
