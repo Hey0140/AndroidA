@@ -37,7 +37,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
-    private final static String TAG = "MyVocabularyActivity";
+    private final static String TAG = "WordBook";
 
     // 화면 스와이프를 위한 좌표
     float x1, x2, y1, y2;
@@ -68,6 +68,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     ConstraintLayout languagePickerWindow;
 
     // 단어수정 뷰 연결
+    ImageView addButtonBackground;
     ConstraintLayout rewriteViewWindow;
     ConstraintLayout deleteViewWindow;
     EditText vocaNameForRewrite;
@@ -134,6 +135,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         deleteConfirmText = findViewById(R.id.confirmQuestion);
         languagePickerScrollView = findViewById(R.id.languagePickerWindowScrollView);
         backgroundView = findViewById(R.id.backgroundView);
+        addButtonBackground = findViewById(R.id.addButtonBackground);
 
         slide = findViewById(R.id.slide_view);
         slide.setOnTouchListener(new OnSwipeTouchListener(this){
@@ -173,6 +175,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         myVocaListScrollView = findViewById(R.id.listScrollView);
 
         // 객체 이벤트 리스너 등록
+        addButtonBackground.setOnClickListener(this);
         searchNone.setOnClickListener(this);
         searchButton.setOnClickListener(this);
         addButton.setOnClickListener(this);
@@ -244,7 +247,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 @Override
                 public boolean onLongClick(View v) {
                     //롱클릭 시 발동함
-                    Log.d("롱클릭", Integer.toString(v.getId()));
+                    Log.d(TAG, "뷰의 아이디 : " + v.getId());
                     rewriteViewWindow.setVisibility(View.VISIBLE);
                     wordForRewrite.setText(word);
                     wordMeanForRewrite.setText(wordMean);
@@ -260,7 +263,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                         }
                     });
                     vocaId = _vocaid;
-                    Log.i("롱클릭 시 id", Integer.toString(vocaId));
+                    Log.d(TAG, "단어장 SQLite _id : " + vocaId);
+                    Log.d(TAG, "단어장 수정" + vocaId);
                     isForRewrite = true;
                     return true;
                 }
@@ -271,10 +275,12 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MyVocabularyActivity.this, WordBookActivity.class);
+
                     vocaId = _vocaid;
                     intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
                     intent.putExtra("vocaId", vocaId);
-                    Log.d("intent 클릭", "vocaId 전송");
+                    Log.d(TAG, "단어장 SQLite _id : " + vocaId);
+                    Log.d(TAG, "단어장 단어부분으로 intent 이동");
                     startActivity(intent);
                 }
             });
@@ -290,8 +296,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             three.setText(date);
             TextView five = myVocaContainer.findViewById(R.id.wordCount);
             five.setId(idEdit + 4);
-            Log.i(TAG, Integer.toString(_vocaid));
-            Log.i(TAG, Integer.toString(vocaId));
+            Log.d(TAG, "단어장 ArrayList id : " + _vocaid);
+            Log.d(TAG, Integer.toString(vocaId));
             five.setText(Integer.toString(voca_count));
         }
         slide.bringToFront();
@@ -312,13 +318,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                     Search(searchWindowString);
                 }
                 break;
-            case R.id.searchNone:
-                searchWindow.setText("");
-                nonSearch();
-                searchNone.setVisibility(View.GONE);
-                break;
-            case R.id.addButton: // 단어장 추가 버튼 클릭시
-                Log.i(TAG, "click");
+            case R.id.addButtonBackground:
+                Log.d(TAG, "");
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -331,8 +332,13 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 wordMeanForAdd.setText("");
                 addViewWindow.bringToFront();
                 addViewWindow.setVisibility(View.VISIBLE);
-                Log.i(TAG, "show add View");
+                Log.d(TAG, "show add View");
                 isForRewrite = false;
+                break;
+            case R.id.searchNone:
+                searchWindow.setText("");
+                nonSearch();
+                searchNone.setVisibility(View.GONE);
                 break;
             case R.id.acceptButton: // 단어장 [생성하기] 버튼 클릭시
                 String vocaName = vocaNameForAdd.getText().toString();

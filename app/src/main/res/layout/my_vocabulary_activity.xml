@@ -305,7 +305,7 @@
     <ScrollView
         android:id="@+id/listScrollView"
         android:layout_width="403dp"
-        android:layout_height="505dp"
+        android:layout_height="470dp"
         android:layout_marginStart="9dp"
         android:layout_marginTop="38dp"
         android:layout_marginEnd="9dp"
