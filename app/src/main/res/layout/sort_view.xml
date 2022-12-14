@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sortWindow"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="346dp"
+    android:layout_width="400dp"
+    android:visibility="visible"
     android:layout_height="300dp"
+    android:layout_marginStart="7dp"
+    android:layout_marginEnd="7dp"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/sort_layout_window"
-    tools:context=".MyVocabularyActivity">
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,7 +30,7 @@
         android:id="@+id/filterview1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_width="306dp"
+        android:layout_width="360dp"
         android:layout_height="36dp"
         android:layout_marginTop="45dp"
         android:background="@drawable/add_vocabulary_input_window"
@@ -49,45 +55,45 @@
         android:id="@+id/nameInc"
         android:layout_width="11dp"
         android:layout_height="11dp"
-        android:layout_marginLeft="138dp"
+        android:layout_marginRight="20dp"
         android:button="@null"
         android:background="@drawable/custom_checkbox"
         android:layout_marginTop="57dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/verticalLine1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/verticalLine1"
         android:layout_width="0.5dp"
         android:layout_height="26dp"
-        android:layout_marginLeft="174dp"
-        android:layout_marginBottom="223dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="50dp"
         android:background="#979797"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
         android:id="@+id/textNamedesc"
         android:text="내림차순"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="198dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="55dp"
         android:textSize="14dp"
         android:fontFamily="@font/gmarketsanslight"
         android:textColorHint="#454C50"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/verticalLine1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/nameDesc"
         android:layout_width="11dp"
         android:layout_height="11dp"
-        android:layout_marginLeft="298dp"
+        android:layout_marginLeft="-30dp"
         android:button="@null"
         android:background="@drawable/custom_checkbox"
         android:layout_marginTop="57dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/filterview1"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -108,7 +114,7 @@
         android:id="@+id/filterview2"
         android:textSize="14dp"
         android:singleLine="true"
-        android:layout_width="306dp"
+        android:layout_width="360dp"
         android:layout_height="36dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="35dp"
@@ -145,11 +151,11 @@
         android:id="@+id/verticalLine2"
         android:layout_width="0.5dp"
         android:layout_height="26dp"
-        android:layout_marginLeft="174dp"
-        android:layout_marginBottom="153dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="48dp"
         android:background="#979797"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/verticalLine1" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -173,7 +179,6 @@
         app:layout_constraintStart_toStartOf="@id/nameDesc"
         app:layout_constraintTop_toBottomOf="@id/nameDesc" />
 
-
     <TextView
         android:id="@+id/constraint_like"
         android:layout_width="wrap_content"
@@ -189,7 +194,7 @@
 
     <View
         android:id="@+id/filterview3"
-        android:layout_width="306dp"
+        android:layout_width="360dp"
         android:layout_height="36dp"
         android:layout_marginTop="37dp"
         android:background="@drawable/add_vocabulary_input_window"
@@ -223,11 +228,11 @@
         android:id="@+id/verticalLine3"
         android:layout_width="0.5dp"
         android:layout_height="26dp"
-        android:layout_marginLeft="174dp"
-        android:layout_marginBottom="81dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="46dp"
         android:background="#979797"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/verticalLine2" />
 
 
     <TextView
@@ -254,10 +259,10 @@
 
 
     <Button
-        android:text="생성하기"
+        android:text="적용하기"
         android:textColor="#FFFFFF"
         android:id="@+id/sortAcceptButton"
-        android:layout_width="306dp"
+        android:layout_width="360dp"
         android:layout_height="36dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="19dp"
@@ -265,6 +270,5 @@
         android:background="@drawable/add_vocabulary_accept_window"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

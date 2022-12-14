@@ -102,8 +102,6 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     CheckBox nameDecs;
     CheckBox dateInc;
     CheckBox dateDesc;
-    CheckBox likeInc;
-    CheckBox likeDesc;
     Button sortAcceptButton;
 
 
@@ -119,6 +117,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     boolean isForRewrite = false;
     boolean isReset = false;
     int idForRewrite;
+
+    int[] checked = new int[4];
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -162,8 +162,6 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         nameDecs = findViewById(R.id.nameDesc);
         dateInc = findViewById(R.id.dateInc);
         dateDesc = findViewById(R.id.dateDesc);
-        likeInc = findViewById(R.id.likeInc);
-        likeDesc = findViewById(R.id.likeDesc);
         sortAcceptButton = findViewById(R.id.sortAcceptButton);
         sortAcceptButton.setOnClickListener(this);
         filterSort.setOnClickListener(this);
@@ -171,6 +169,13 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         myVocaFilter.setOnClickListener(this);
         searchOptionButton.setOnClickListener(this);
 
+        nameInc.setOnClickListener(this);
+        nameDecs.setOnClickListener(this);
+        dateInc.setOnClickListener(this);
+        dateDesc.setOnClickListener(this);
+        for (int i = 0; i < 4; i++) {
+            checked[i] = 0;
+        }
 
         slide = findViewById(R.id.slide_view);
         slide.setOnTouchListener(new OnSwipeTouchListener(this) {
@@ -178,7 +183,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             public void onSwipeLeft() {
                 Intent i = new Intent(MyVocabularyActivity.this, RefinedSharedVocabularyActivity.class);
                 startActivity(i);
-                Log.d(TAG,"MyWordBook| start shared wordbook activity");
+                Log.d(TAG, "MyWordBook| start shared wordbook activity");
                 overridePendingTransition(R.anim.slide_right_enter, R.anim.slide_right_exit);
                 addViewWindow.setVisibility(View.GONE);
             }
@@ -285,7 +290,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 @Override
                 public boolean onLongClick(View v) {
                     //롱클릭 시 발동함
-                    Log.d(TAG,"MyWordBook| longClick id : "+ v.getId());
+                    Log.d(TAG, "MyWordBook| longClick id : " + v.getId());
 
                     rewriteViewWindow.setVisibility(View.VISIBLE);
                     wordForRewrite.setText(word);
@@ -317,7 +322,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                     vocaId = _vocaid;
                     intent.putExtra("vocaName", getWordBookNameString(v.getId()) + "@" + v.getId());
                     intent.putExtra("vocaId", vocaId);
-                    Log.d(TAG,"MyWordBook| start voca activity, sqlite id: "+ vocaId);
+                    Log.d(TAG, "MyWordBook| start voca activity, sqlite id: " + vocaId);
                     startActivity(intent);
                 }
             });
@@ -348,7 +353,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.searchButton: // 검색 버튼 클릭시
-                Log.d(TAG,"MyWordBook| clicked search button");
+                Log.d(TAG, "MyWordBook| clicked search button");
                 String searchWindowString = searchWindow.getText().toString();
                 if (searchWindowString.equals("")) {
                     Toast toast = new Toast(MyVocabularyActivity.this);
@@ -361,7 +366,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.addButton:
             case R.id.addButtonBackground:
-                Log.d(TAG,"MyWordBook| clicked add button");
+                Log.d(TAG, "MyWordBook| clicked add button");
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -378,14 +383,14 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 isForRewrite = false;
                 break;
             case R.id.searchNone:
-                Log.d(TAG,"MyWordBook| clicked search name");
+                Log.d(TAG, "MyWordBook| clicked search name");
 
                 searchWindow.setText("");
                 nonSearch();
                 searchNone.setVisibility(View.GONE);
                 break;
             case R.id.acceptButton: // 단어장 [생성하기] 버튼 클릭시
-                Log.d(TAG,"MyWordBook| clicked accept button");
+                Log.d(TAG, "MyWordBook| clicked accept button");
 
                 String vocaName = vocaNameForAdd.getText().toString();
                 String wordLang = wordForAdd.getText().toString();
@@ -417,7 +422,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.wordForAdd:
             case R.id.wordMeanForAdd:
-                Log.d(TAG,"MyWordBook| clicked lang select");
+                Log.d(TAG, "MyWordBook| clicked lang select");
                 languagePickerWindow.bringToFront();
                 languagePickerWindow.setVisibility(View.VISIBLE);
                 break;
@@ -452,7 +457,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 setLanguageBlank(isSecond, isForRewrite, "러시아어");
                 break;
             case R.id.acceptButtonForRewrite:
-                Log.d(TAG,"MyWordBook| rewrite button");
+                Log.d(TAG, "MyWordBook| rewrite button");
                 if (vocaNameForRewrite.equals("") || wordForRewrite.equals("") || wordMeanForRewrite.equals("")) {
                     Toast toast = new Toast(MyVocabularyActivity.this);
                     Toast.makeText(MyVocabularyActivity.this,
@@ -475,12 +480,12 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.wordMeanForRewrite:
             case R.id.wordForRewrite:
-                Log.d(TAG,"MyWordBook| rewrite button");
+                Log.d(TAG, "MyWordBook| rewrite button");
 
                 languagePickerWindow.setVisibility(View.VISIBLE);
                 break;
             case R.id.acceptButtonForDelete:
-                Log.d(TAG,"MyWordBook| delete button");
+                Log.d(TAG, "MyWordBook| delete button");
 
                 deleteViewWindow.bringToFront();
                 deleteViewWindow.setVisibility(View.VISIBLE);
@@ -489,14 +494,14 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 Log.d("삭제하기", "삭제하기 버튼 클릭");
                 break;
             case R.id.deleteButton:
-                Log.d(TAG,"MyWordBook| delete button");
+                Log.d(TAG, "MyWordBook| delete button");
 
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 deleteVoca(idForRewrite, vocaId);
                 deleteViewWindow.setVisibility(View.GONE);
                 break;
             case R.id.searchOptionButton:
-                Log.d(TAG,"MyWordBook| search option button");
+                Log.d(TAG, "MyWordBook| search option button");
 
                 filterSort.bringToFront();
                 filterSort.setVisibility(View.VISIBLE);
@@ -510,12 +515,12 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 });
                 break;
             case R.id.myVocaFilter:
-                Log.d(TAG,"MyWordBook| filter button");
+                Log.d(TAG, "MyWordBook| filter button");
 
                 filterSort.setVisibility(View.GONE);
                 break;
             case R.id.myVocaSort:
-                Log.d(TAG,"MyWordBook| sort button");
+                Log.d(TAG, "MyWordBook| sort button");
 
                 filterSort.setVisibility(View.GONE);
                 sortWindow.setVisibility(View.VISIBLE);
@@ -531,10 +536,64 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 });*/
                 break;
             case R.id.sortAcceptButton:
-                Log.d(TAG,"MyWordBook| accept button");
+                Log.d(TAG, "MyWordBook| accept button");
 
                 sortWindow.setVisibility(View.INVISIBLE);
-                sortWindow.bringToFront();
+                int type = 0;
+                for (int i = 0; i < 4; i++) {
+                    if (checked[i] == 1) {
+                        type = i;
+                        break;
+                    }
+                }
+                StartSort(type);
+                backgroundView.setBackgroundColor(Color.parseColor("#00FFFFFF"));
+                backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return false;
+                    }
+                });
+                break;
+            case R.id.nameInc:
+                for (int i = 0; i < 4; i++) {
+                    checked[i] = 0;
+                }
+                checked[0] = 1;
+                nameInc.setChecked(true);
+                nameDecs.setChecked(false);
+                dateInc.setChecked(false);
+                dateDesc.setChecked(false);
+                break;
+            case R.id.nameDesc:
+                for (int i = 0; i < 4; i++) {
+                    checked[i] = 0;
+                }
+                checked[1] = 1;
+                nameInc.setChecked(false);
+                nameDecs.setChecked(true);
+                dateInc.setChecked(false);
+                dateDesc.setChecked(false);
+                break;
+            case R.id.dateInc:
+                for (int i = 0; i < 4; i++) {
+                    checked[i] = 0;
+                }
+                checked[2] = 1;
+                nameInc.setChecked(false);
+                nameDecs.setChecked(false);
+                dateInc.setChecked(true);
+                dateDesc.setChecked(false);
+                break;
+            case R.id.dateDesc:
+                for (int i = 0; i < 4; i++) {
+                    checked[i] = 0;
+                }
+                checked[3] = 1;
+                nameInc.setChecked(false);
+                nameDecs.setChecked(false);
+                dateInc.setChecked(false);
+                dateDesc.setChecked(true);
                 break;
             default: // 단어장 클릭 시
                 break;
@@ -542,47 +601,19 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     }
 
 
-    public void StartSort() {
-        if (nameInc.isChecked()) {
-            nameDecs.setChecked(false);
-            nameDecs.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast toast = Toast.makeText(
-                            MyVocabularyActivity.this, "하나만 선택해주세요.", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            });
-            dateInc.setChecked(false);
-            dateInc.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast toast = Toast.makeText(
-                            MyVocabularyActivity.this, "하나만 선택해주세요.", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            });
-            dateDesc.setChecked(false);
-            dateDesc.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast toast = Toast.makeText(
-                            MyVocabularyActivity.this, "하나만 선택해주세요.", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            });
-        }
-    }
-
-    // 화면 스와이프를 통한 공유 단어장 액티비티로 전환
-
-    // 검색창의 문자열을 얻어오는 함수 (검색버튼 클릭시만 호출)
-    public void Search(String _str) {
-        String str = _str;
+    public void StartSort(int type) {
         clearVocaView();
         myVocaArrayList.clear();
-        myVocaArrayList = vocabularyDB.showFilterName(str);
-        Log.d(TAG,"MyWordBook| search");
+        if (type == 1) {
+            myVocaArrayList = vocabularyDB.showFilterNameIncVoca();
+        } else if (type == 2) {
+            myVocaArrayList = vocabularyDB.showFilterNamedescVoca();
+        } else if (type == 3) {
+            myVocaArrayList = vocabularyDB.showFilterDateIncVoca();
+        } else {
+            myVocaArrayList = vocabularyDB.showFilterDateDescVoca();
+        }
+        Log.i("MyVocabularyActiviry", "Search부분");
         for (int i = 0; i < myVocaArrayList.size(); i++) {
             int idEdit = (i + 1) * 5;
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -610,7 +641,94 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 @Override
                 public boolean onLongClick(View v) {
                     //롱클릭 시 발동함
-                    Log.d(TAG,"MyWordBook| long click" + v.getId());
+                    Log.d("롱클릭", Integer.toString(v.getId()));
+                    rewriteViewWindow.setVisibility(View.VISIBLE);
+                    wordForRewrite.setText(word);
+                    wordMeanForRewrite.setText(wordMean);
+                    vocaNameForRewrite.setText(vocabularyName);
+                    idForRewrite = v.getId();
+                    rewriteViewWindow.bringToFront();
+                    backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+                    backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                            addViewWindow.setVisibility(View.GONE);
+                            return false;
+                        }
+                    });
+                    vocaId = _vocaid;
+                    Log.i("롱클릭 시 id", Integer.toString(vocaId));
+                    isForRewrite = true;
+                    return true;
+                }
+            });
+
+            //수정
+            myVocaArrayList.get(i).v1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MyVocabularyActivity.this, WordBookActivity.class);
+                    vocaId = _vocaid;
+                    intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
+                    intent.putExtra("vocaId", vocaId);
+                    Log.d("intent 클릭", "vocaId 전송");
+                    startActivity(intent);
+                    //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
+                }
+            });
+
+            TextView one = myVocaContainer.findViewById(R.id.myVocabularyListItemName);
+            one.setId(idEdit + 1);
+            one.setText(vocabularyName);
+            TextView two = myVocaContainer.findViewById(R.id.languageRelation);
+            two.setId(idEdit + 2);
+            two.setText(word + "/" + wordMean);
+            TextView three = myVocaContainer.findViewById(R.id.myVocabularyBirthDay);
+            three.setId(idEdit + 3);
+            three.setText(date);
+            TextView five = myVocaContainer.findViewById(R.id.wordCount);
+            five.setId(idEdit + 4);
+            five.setText(Integer.toString(voca_count));
+        }
+    }
+
+    // 화면 스와이프를 통한 공유 단어장 액티비티로 전환
+
+    // 검색창의 문자열을 얻어오는 함수 (검색버튼 클릭시만 호출)
+    public void Search(String _str) {
+        String str = _str;
+        clearVocaView();
+        myVocaArrayList.clear();
+        myVocaArrayList = vocabularyDB.showFilterName(str);
+        Log.d(TAG, "MyWordBook| search");
+        for (int i = 0; i < myVocaArrayList.size(); i++) {
+            int idEdit = (i + 1) * 5;
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater.inflate(R.layout.my_vocabulary_listitem, myVocaContainer, true);
+            int _vocaid = myVocaArrayList.get(i).getVocabulary_id();
+            int voca_count = myVocaArrayList.get(i).getCount();
+            String vocabularyName = myVocaArrayList.get(i).getName();
+            String[] relation = myVocaArrayList.get(i).languageRelation.split("/");
+            String word;
+            String wordMean;
+            String date = myVocaArrayList.get(i).getDate();
+            //혹시 길이가 0일 경우
+            //근데 0일 경우 없도록 밑에서 설정해두기는 함
+            if (relation.length == 0) {
+                word = "";
+                wordMean = "";
+            } else {
+                word = relation[0];
+                wordMean = relation[1];
+            }
+
+            myVocaArrayList.get(i).v1 = findViewById(R.id.view);
+            myVocaArrayList.get(i).v1.setId(idEdit);
+            myVocaArrayList.get(i).v1.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    //롱클릭 시 발동함
+                    Log.d(TAG, "MyWordBook| long click" + v.getId());
                     rewriteViewWindow.setVisibility(View.VISIBLE);
                     wordForRewrite.setText(word);
                     wordMeanForRewrite.setText(wordMean);
@@ -639,7 +757,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                     vocaId = _vocaid;
                     intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
                     intent.putExtra("vocaId", vocaId);
-                    Log.d(TAG,"MyWordBook| start my voca activity" );
+                    Log.d(TAG, "MyWordBook| start my voca activity");
                     startActivity(intent);
                     //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
                 }
@@ -693,7 +811,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 @Override
                 public boolean onLongClick(View v) {
                     //롱클릭 시 발동함
-                    Log.d(TAG,"MyWordBook| long click : "+ v.getId() );
+                    Log.d(TAG, "MyWordBook| long click : " + v.getId());
                     rewriteViewWindow.setVisibility(View.VISIBLE);
                     wordForRewrite.setText(word);
                     wordMeanForRewrite.setText(wordMean);
@@ -722,7 +840,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                     vocaId = _vocaid;
                     intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
                     intent.putExtra("vocaId", vocaId);
-                    Log.d(TAG,"MyWordBook| start my voca activity" );
+                    Log.d(TAG, "MyWordBook| start my voca activity");
                     startActivity(intent);
                     //어떤 걸로 액티비티끼리 다시 정보를 받을 수 있는 거지
                 }
@@ -756,7 +874,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         myVocaArrayList.getLast().v1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.d(TAG,"MyWordBook| long click : "+ v.getId() );
+                Log.d(TAG, "MyWordBook| long click : " + v.getId());
                 rewriteViewWindow.setVisibility(View.VISIBLE);
                 rewriteViewWindow.bringToFront();
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
@@ -783,7 +901,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 vocaId = _id;
                 intent.putExtra("단어장 data", getWordBookNameString(v.getId()) + "@" + v.getId());
                 intent.putExtra("현재 클릭된 단어장 id", vocaId);
-                Log.d(TAG,"MyWordBook| start my voca activity" );
+                Log.d(TAG, "MyWordBook| start my voca activity");
                 startActivity(intent);
             }
         });
@@ -822,7 +940,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             fiv.setId(i - 1);
         }
         vocabularyDB.deleteVoca(voca_id);
-        Log.d(TAG,"MyWordBook| delete" );
+        Log.d(TAG, "MyWordBook| delete");
 
         rewriteViewWindow.setVisibility(View.GONE);
 
@@ -891,7 +1009,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         java.util.Date date = new java.util.Date(System.currentTimeMillis());
         vocabularyDB.updateVoca(id, voca_name, word_lang, mean_lang, date);
 
-        Log.d(TAG,"MyWordBook| update" );
+        Log.d(TAG, "MyWordBook| update");
     }
 
 

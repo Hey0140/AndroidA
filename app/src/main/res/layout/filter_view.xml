@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sortWindow"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="400dp"
+    android:visibility="visible"
+    android:layout_height="300dp"
+    android:layout_marginStart="7dp"
+    android:layout_marginEnd="7dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/sort_layout_window"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <Button
+        android:hint="단어 언어"
+        android:textSize="14dp"
+        android:textAlignment="textStart"
+        android:textColorHint="#BDBDBD"
+        android:singleLine="true"
+        android:id="@+id/wordLangFilter"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:background="@drawable/add_vocabulary_input_window"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:textAlignment="textStart"
+        android:textColorHint="#BDBDBD"
+        android:id="@+id/meanLangFilter"
+        android:hint="의미 언어"
+        android:textSize="14dp"
+        android:singleLine="true"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="35dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:background="@drawable/add_vocabulary_input_window"
+        app:layout_constraintLeft_toLeftOf="@id/wordLangFilter"
+        app:layout_constraintTop_toBottomOf="@id/wordLangFilter" />
+
+
+    <View
+        android:id="@+id/likeFilter"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="37dp"
+        android:background="@drawable/add_vocabulary_input_window"
+        app:layout_constraintLeft_toLeftOf="@id/meanLangFilter"
+        app:layout_constraintTop_toBottomOf="@id/meanLangFilter" />
+
+
+    <CheckBox
+        android:id="@+id/nameDesc"
+        android:layout_width="11dp"
+        android:layout_height="11dp"
+        android:singleLine="true"
+        android:layout_marginLeft="-30dp"
+        android:visibility="visible"
+        android:background="@drawable/custom_checkbox"
+        android:layout_marginTop="200dp"
+        app:layout_constraintLeft_toRightOf="@id/wordLangFilter"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/textNameInc"
+        android:text="좋아요"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="200dp"
+        android:textSize="14dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:textColorHint="#454C50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:text="적용하기"
+        android:textColor="#FFFFFF"
+        android:id="@+id/sortAcceptButton"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="19dp"
+        android:fontFamily="@font/gmarketsanslight"
+        android:background="@drawable/add_vocabulary_accept_window"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

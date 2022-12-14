@@ -209,6 +209,7 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
                 .setLifecycleOwner(this)
                 .setQuery(query, config, WordBook.class)
                 .build();
+
         adapter = new FirestorePagingAdapter<WordBook, WordBookViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull WordBookViewHolder holder, int position, @NonNull WordBook model) {
@@ -290,8 +291,13 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
                 break;
             case R.id.searchButton2: // 검색 버튼 (미완료)
                 String searchString = searchWindow.getText().toString();
-                
-                //
+                Query query = FirebaseDB.getWordBookList(db, searchString);
+                PagingConfig config = new PagingConfig(4, 2, false);
+                FirestorePagingOptions<WordBook> options = new FirestorePagingOptions.Builder<WordBook>()
+                        .setLifecycleOwner(this)
+                        .setQuery(query, config, WordBook.class)
+                        .build();
+                searchNone2
                 break;
             case R.id.koreanPick:
                 setLanguageBlank(isSecond, isForRewrite, "한국어");

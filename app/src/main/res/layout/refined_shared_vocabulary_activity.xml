@@ -92,6 +92,18 @@
 
 
     <ImageView
+        android:id="@+id/searchNone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginStart="-25dp"
+        android:layout_marginTop="155dp"
+        app:layout_constraintStart_toEndOf="@+id/searchWindow2"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/sharedserach_none" />
+
+
+    <ImageView
         android:id="@+id/pageIndicator12"
         android:layout_width="10dp"
         android:layout_height="10dp"
@@ -219,7 +231,7 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="402dp"
-        android:layout_height="338dp"
+        android:layout_height="440dp"
         android:layout_marginStart="9dp"
         android:layout_marginTop="38dp"
         android:layout_marginEnd="9dp"

@@ -136,6 +136,88 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
         return vocalist;
     }
 
+    public LinkedList<LocalWordBook> showFilterDateIncVoca() {
+        LinkedList<LocalWordBook> vocalist = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("select *" +
+                "from vocaDB order by vocaDate asc", null);
+        while (c.moveToNext()) {
+            int id = c.getInt(0);
+            String vocabularyName = c.getString(1);
+            String word = c.getString(2);
+            String wordMean = c.getString(3);
+            String date = c.getString(4);
+            Integer count = c.getInt(5);
+//            table이 있는 상태에서 실행 시 에러 발생
+            vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date, count));
+        }
+        Log.i("read", "success");
+        db.close();
+
+        return vocalist;
+    }
+
+    public LinkedList<LocalWordBook> showFilterDateDescVoca() {
+        LinkedList<LocalWordBook> vocalist = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("select *" +
+                "from vocaDB order by vocaDate desc", null);
+        while (c.moveToNext()) {
+            int id = c.getInt(0);
+            String vocabularyName = c.getString(1);
+            String word = c.getString(2);
+            String wordMean = c.getString(3);
+            String date = c.getString(4);
+            Integer count = c.getInt(5);
+//            table이 있는 상태에서 실행 시 에러 발생
+            vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date, count));
+        }
+        Log.i("read", "success");
+        db.close();
+
+        return vocalist;
+    }
+
+    public LinkedList<LocalWordBook> showFilterNameIncVoca() {
+        LinkedList<LocalWordBook> vocalist = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("select *" +
+                "from vocaDB order by vocaName asc", null);
+        while (c.moveToNext()) {
+            int id = c.getInt(0);
+            String vocabularyName = c.getString(1);
+            String word = c.getString(2);
+            String wordMean = c.getString(3);
+            String date = c.getString(4);
+            Integer count = c.getInt(5);
+//            table이 있는 상태에서 실행 시 에러 발생
+            vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date, count));
+        }
+        Log.i("read", "success");
+        db.close();
+        return vocalist;
+    }
+
+    public LinkedList<LocalWordBook> showFilterNamedescVoca() {
+        LinkedList<LocalWordBook> vocalist = new LinkedList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("select *" +
+                "from vocaDB order by vocaName desc", null);
+        while (c.moveToNext()) {
+            int id = c.getInt(0);
+            String vocabularyName = c.getString(1);
+            String word = c.getString(2);
+            String wordMean = c.getString(3);
+            String date = c.getString(4);
+            Integer count = c.getInt(5);
+//            table이 있는 상태에서 실행 시 에러 발생
+            vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date, count));
+        }
+        Log.i("read", "success");
+        db.close();
+        return vocalist;
+    }
+
     public int showId(String vocaName, String wordLang, String meanLang) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * From vocaDB" +

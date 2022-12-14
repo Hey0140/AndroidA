@@ -167,6 +167,7 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
                             addViewWindow.setVisibility(View.GONE);
+
                             return false;
                         }
                     });

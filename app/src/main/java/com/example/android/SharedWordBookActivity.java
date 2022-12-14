@@ -61,6 +61,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
     TextView selectedSort;
     TextView selectedFilter;
     ImageView networkingChecking;
+    ImageView heartButton;
 
     boolean isNetWork;
     int voca_id;
@@ -72,6 +73,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activiry_shared_word_book);
 
+        heartButton = findViewById(R.id.heartButton);
         backgroundView = findViewById(R.id.backgroundViewForWordActivity);
         wordBookNameLabel = findViewById(R.id.wordBookNameLabel);
         searchWindow = findViewById(R.id.searchWindow);
@@ -87,6 +89,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         networkingBackground = findViewById(R.id.networkingBackground);
         backbutton = findViewById(R.id.backButton);
 
+        heartButton.setOnClickListener(this);
 
         backgroundView.bringToFront();
         backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -239,6 +242,10 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
                         return true;
                     }
                 });
+                break;
+            case R.id.heartButton:
+                heartButton.setBackgroundColor(Color.parseColor("#B22222"));
+                heartButton.setBackgroundColor(Color.parseColor("0000000"));
                 break;
             case R.id.myVocaFilter:
                 //필터 레이아웃 제작 필요
