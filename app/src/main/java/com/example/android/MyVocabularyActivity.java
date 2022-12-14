@@ -312,7 +312,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 public void onClick(View v) {
                     Intent intent = new Intent(MyVocabularyActivity.this, WordBookActivity.class);
                     vocaId = _vocaid;
-                    intent.putExtra("vocaName", getWordBookNameString(v.getId()));
+                    intent.putExtra("vocaName", getWordBookNameString(v.getId()) + "@" + v.getId());
                     intent.putExtra("vocaId", vocaId);
                     Log.d(TAG, "단어장 SQLite _id : " + vocaId);
                     Log.d(TAG, "단어장 단어부분으로 intent 이동");
@@ -518,6 +518,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+
     public void StartSort() {
         if (nameInc.isChecked()) {
             nameDecs.setChecked(false);
@@ -530,8 +531,23 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 }
             });
             dateInc.setChecked(false);
+            dateInc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast toast = Toast.makeText(
+                            MyVocabularyActivity.this, "하나만 선택해주세요.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
             dateDesc.setChecked(false);
-            likeInc.setChecked(false);
+            dateDesc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast toast = Toast.makeText(
+                            MyVocabularyActivity.this, "하나만 선택해주세요.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
         }
     }
 
