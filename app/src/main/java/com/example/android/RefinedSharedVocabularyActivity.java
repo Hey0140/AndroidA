@@ -160,6 +160,8 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
         sharedVocabularyNameForRewrite = findViewById(R.id.sharedVocabularyNameForRewrite);
         sharedAcceptButtonForRewrite.setOnClickListener(this);
         sharedAcceptButtonForDelete.setOnClickListener(this);
+        sharedWordForRewrite.setOnClickListener(this);
+        sharedWordMeanForRewrite.setOnClickListener(this);
 
         Log.i("SharedVocabulary", "create success");
 
