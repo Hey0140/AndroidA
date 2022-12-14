@@ -55,14 +55,11 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
     ImageView downloadButton;
     ConstraintLayout wordRewriteWindow;
 
+    ImageView backbutton;
     ConstraintLayout FilterSortWindow;
     FrameLayout networkingBackground;
     TextView selectedSort;
     TextView selectedFilter;
-    EditText TextForRewrtieWord;
-    EditText TextForRewrtieWordMean;
-    Button acceptButtonForRewriteWord;
-    Button acceptButtonForDeleteWord;
     ImageView networkingChecking;
 
     boolean isNetWork;
@@ -81,17 +78,16 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         searchButton = findViewById(R.id.searchButton);
         searchOptionButton = findViewById(R.id.searchOptionButton);
         searchNone = findViewById(R.id.searchNone);
-        wordRewriteWindow = findViewById(R.id.wordRewriteWindow);
-        TextForRewrtieWord = findViewById(R.id.EditTextForRewriteWord);
-        TextForRewrtieWordMean = findViewById(R.id.EditTextForAddWordMean);
-        acceptButtonForRewriteWord = findViewById(R.id.acceptButtonForRewriteWord);
-        acceptButtonForDeleteWord = findViewById(R.id.acceptButtonForDeleteWord);
+
         FilterSortWindow = findViewById(R.id.select_filter_sort);
         selectedFilter = findViewById(R.id.myVocaFilter);
         selectedSort = findViewById(R.id.myVocaSort);
         downloadButton = findViewById(R.id.downloadButton);
         networkingChecking = findViewById(R.id.networkChecking);
         networkingBackground = findViewById(R.id.networkingBackground);
+        backbutton = findViewById(R.id.backButton);
+
+
         backgroundView.bringToFront();
         backgroundView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -103,11 +99,10 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         searchButton.setOnClickListener(this);
         searchOptionButton.setOnClickListener(this);
         searchNone.setOnClickListener(this);
-        acceptButtonForDeleteWord.setOnClickListener(this);
-        acceptButtonForRewriteWord.setOnClickListener(this);
         selectedFilter.setOnClickListener(this);
         selectedSort.setOnClickListener(this);
         networkingChecking.setOnClickListener(this);
+        backbutton.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         signInAnonymously();
@@ -191,6 +186,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         switch (v.getId()) {
             case R.id.backButton:
                 finish();
+                Log.i(TAG, "backButton");
                 break;
             case R.id.downloadButton:
                 //내 단어장으로 다운로드

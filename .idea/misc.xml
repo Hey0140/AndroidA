@@ -25,7 +25,7 @@
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/empty_layout.xml" value="0.23385416666666667" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/filter_view.xml" value="0.2" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/lanuage_picker_window.xml" value="0.23020833333333332" />
-        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_activity.xml" value="0.2915451895043732" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_activity.xml" value="0.14622641509433962" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_listitem.xml" value="0.264" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_word_listitem.xml" value="0.2791005291005291" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_word_listitem_for_quiz_result.xml" value="0.12056737588652482" />
@@ -38,6 +38,7 @@
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/shared_wordbook_activity.xml" value="0.21927083333333333" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/shared_wordbook_list_item.xml" value="0.536" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/sort_view.xml" value="0.17906976744186046" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/sort_word_view.xml" value="0.1" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/word.xml" value="0.1" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/word_list_item.xml" value="0.24791666666666667" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1875" />

@@ -208,6 +208,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         vocaNameForRewrite = findViewById(R.id.vocabularyNameForRewrite);
         myVocaListScrollView = findViewById(R.id.listScrollView);
 
+
         // 객체 이벤트 리스너 등록
         addButtonBackground.setOnClickListener(this);
         searchNone.setOnClickListener(this);
@@ -245,7 +246,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         languagePickerWindow.setVisibility(View.GONE);
         rewriteViewWindow.setVisibility(View.GONE);
         deleteViewWindow.setVisibility(View.GONE);
-
+        sortWindow.setVisibility(View.GONE);
 
         myVocaArrayList = vocabularyDB.showVoca();
         for (int i = 0; i < myVocaArrayList.size(); i++) {
