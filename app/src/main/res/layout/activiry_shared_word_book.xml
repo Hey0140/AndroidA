@@ -17,7 +17,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/shearedBackgroundView">
+        android:visibility="visible"
+        android:id="@+id/networkingBackground">
 
         <ImageView
             android:id="@+id/networkChecking"
@@ -101,7 +102,7 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="402dp"
-        android:layout_height="338dp"
+        android:layout_height="530dp"
         android:layout_marginStart="9dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="9dp"
@@ -111,7 +112,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/sharedWordRecyclerView" />
     </ScrollView>
 
@@ -119,6 +120,7 @@
         layout="@layout/select_filter_or_sort_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/myVocaFilterSortWindow"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="7dp"

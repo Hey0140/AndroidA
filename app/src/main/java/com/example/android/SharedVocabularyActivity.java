@@ -340,7 +340,6 @@ public class SharedVocabularyActivity extends AppCompatActivity implements View.
                 if (isNetWork == true) {
                     sharedbackgroundView.setVisibility(View.INVISIBLE);
                     sharedbackgroundView.setOnTouchListener(new View.OnTouchListener() {
-
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
                             return false;

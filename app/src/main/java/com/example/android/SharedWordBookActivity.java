@@ -55,7 +55,8 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
     ImageView downloadButton;
     ConstraintLayout wordRewriteWindow;
 
-    FrameLayout FilterSortWindow;
+    ConstraintLayout FilterSortWindow;
+    FrameLayout networkingBackground;
     TextView selectedSort;
     TextView selectedFilter;
     EditText TextForRewrtieWord;
@@ -80,7 +81,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         searchButton = findViewById(R.id.searchButton);
         searchOptionButton = findViewById(R.id.searchOptionButton);
         searchNone = findViewById(R.id.searchNone);
-        wordRewriteWindow = findViewById(R.id.wordRewriteWindow)
+        wordRewriteWindow = findViewById(R.id.wordRewriteWindow);
         TextForRewrtieWord = findViewById(R.id.EditTextForRewriteWord);
         TextForRewrtieWordMean = findViewById(R.id.EditTextForAddWordMean);
         acceptButtonForRewriteWord = findViewById(R.id.acceptButtonForRewriteWord);
@@ -90,6 +91,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         selectedSort = findViewById(R.id.myVocaSort);
         downloadButton = findViewById(R.id.downloadButton);
         networkingChecking = findViewById(R.id.networkChecking);
+        networkingBackground = findViewById(R.id.networkingBackground);
         backgroundView.bringToFront();
         backgroundView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -105,6 +107,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         acceptButtonForRewriteWord.setOnClickListener(this);
         selectedFilter.setOnClickListener(this);
         selectedSort.setOnClickListener(this);
+        networkingChecking.setOnClickListener(this);
 
 
         recyclerView = findViewById(R.id.sharedWordRecyclerView);
@@ -154,21 +157,23 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
 
         };
 
-
         //네트워크 연경
         backgroundView.bringToFront();
+        networkingBackground.bringToFront();
         networkingChecking.bringToFront();
         isNetWork = isConnected(SharedWordBookActivity.this);
         if (isNetWork == false) {
-            backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
             backgroundView.setVisibility(View.VISIBLE);
+            networkingChecking.setVisibility(View.VISIBLE);
+            networkingChecking.bringToFront();
+            backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
             backgroundView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     return true;
                 }
             });
-            networkingChecking.setVisibility(View.VISIBLE);
+
         }
 
         RecyclerView recyclerView = findViewById(R.id.sharedWordRecyclerView);
@@ -198,14 +203,14 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
                 isNetWork = isConnected(SharedWordBookActivity.this);
                 if (isNetWork) {
                     backgroundView.setBackgroundColor(Color.parseColor("#00FFFFFF"));
-                    networkingChecking.setVisibility(View.GONE);
+                    networkingChecking.setVisibility(View.INVISIBLE);
+                    networkingBackground.setVisibility(View.INVISIBLE);
                     backgroundView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
                             return false;
                         }
                     });
-                    networkingChecking.setVisibility(View.GONE);
                 } else {
                     Toast toast = Toast.makeText(SharedWordBookActivity.this,
                             "네트워크 상태를 확인해주세요.", Toast.LENGTH_LONG);
@@ -305,6 +310,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
                     }
                 });
             }
+            return false;
         }
         return super.onKeyDown(keyCode, event);
     }
