@@ -67,7 +67,7 @@
         android:layout_height="12dp"
         android:layout_marginBottom="-32dp"
         android:fontFamily="@font/gmarketsanslight"
-        android:text="260"
+        android:text="0"
         android:textColor="#000000"
         android:textSize="10dp" />
 

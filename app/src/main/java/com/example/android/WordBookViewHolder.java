@@ -17,6 +17,7 @@ public class WordBookViewHolder extends RecyclerView.ViewHolder {
     TextView mCreateDate;
     TextView mLang;
     TextView mWordCount;
+    String id;
 
 
     public WordBookViewHolder(@NonNull View itemView) {
@@ -36,6 +37,6 @@ public class WordBookViewHolder extends RecyclerView.ViewHolder {
         mCreateDate.setText(date);
         String lang = wordBook.getWordLang()+"/"+wordBook.getMeanLang();
         mLang.setText(lang);
-        mWordCount.setText(wordBook.getWordCount());
+        mWordCount.setText(Integer.toString(wordBook.getWordCount()));
     }
 }

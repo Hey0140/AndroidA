@@ -76,7 +76,6 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
         searchWindow = findViewById(R.id.searchWindow2);
         searchOptionButton = findViewById(R.id.searchOptionButton2);
         searchButton = findViewById(R.id.searchButton2);
-        addButton = findViewById(R.id.addButton2);
         sharedbackgroundView.bringToFront();
 
         Log.i("SharedVocabulary", "create success");
@@ -127,7 +126,7 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
             @Override
             protected void onBindViewHolder(@NonNull WordBookViewHolder holder, int position, @NonNull WordBook model) {
                 holder.bind(model);
-                String id = Objects.requireNonNull(getItem(position)).getId();
+                holder.id = getItem(position).getId();
             }
 
             @NonNull

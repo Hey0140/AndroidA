@@ -128,6 +128,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
             @Override
             protected void onBindViewHolder(@NonNull WordViewHolder holder, int position, @NonNull Word model) {
                 holder.bind(model);
+                String id = getItem(position).getId();
             }
 
             @NonNull
@@ -177,8 +178,6 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener());
-
-
     }
 
     public boolean isConnected(Context context) {
@@ -311,5 +310,4 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }
