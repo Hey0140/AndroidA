@@ -58,17 +58,18 @@
         app:layout_constraintStart_toStartOf="@+id/sharedVocabularyListItem" />
 
     <TextView
+        app:layout_constraintBottom_toBottomOf="@id/sharedVocabularyBirthDay"
+        app:layout_constraintRight_toRightOf="@id/languageRelation"
+        android:layout_marginRight="-211dp"
+        android:gravity="right"
         android:id="@+id/wordCount"
         android:layout_width="50dp"
         android:layout_height="12dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginBottom="-32dp"
         android:fontFamily="@font/gmarketsanslight"
         android:text="260"
         android:textColor="#000000"
-        android:textSize="10dp"
-        android:gravity="right"
-        tools:ignore="MissingConstraints" />
+        android:textSize="10dp" />
 
     <View
         android:id="@+id/view"
