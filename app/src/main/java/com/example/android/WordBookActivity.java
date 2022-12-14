@@ -153,7 +153,12 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
 
         Intent intent = getIntent();
         String getName = intent.getStringExtra("vocaName");
+        int tempInt = getName.indexOf("@");
+        wordIdString = getName.substring(0, tempInt);
+        String temp2 = getName.substring(tempInt + 1);
+        wordId = Integer.parseInt(temp2);
         voca_id = intent.getIntExtra("vocaId", 0);
+
 
         wordDB = new wordDataBaseHelper(WordBookActivity.this);
         vocaDB = new vocaDataBaseHelper(WordBookActivity.this);
