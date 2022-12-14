@@ -30,6 +30,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.paging.PagingConfig;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -130,16 +132,17 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
     WordBook vocaWordBook;
 
     FirestorePagingAdapter<WordBook, WordBookViewHolder> adapter;
+    RecyclerView recyclerView;
 
     @SuppressLint({"LongLogTag", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shared_vocabulary_activity);
+        setContentView(R.layout.refined_shared_vocabulary_activity);
         mAuth = FirebaseAuth.getInstance();
         signInAnonymously();
 
-
+        recyclerView = findViewById(R.id.sharedVocabularyRecyclerView);
         // 객체 연결
         backgroundViewOfFull = findViewById(R.id.sharedBackgroundOfFull);
         sharedbackgroundView = findViewById(R.id.shearedBackgroundView);
@@ -154,7 +157,6 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
         acceptfirst = findViewById(R.id.vocabularyNameForAdd2);
         acceptsecond = findViewById(R.id.wordForAdd2);
         acceptthird = findViewById(R.id.wordMeanForAdd2);
-        myVocaContainer = findViewById(R.id.vocabularyListItemContainer2);
         sharedbackgroundView.bringToFront();
 
         Log.i("SharedVocabulary", "create success");
@@ -219,6 +221,20 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
                 return new WordBookViewHolder(view);
             }
         };
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
 

@@ -106,9 +106,6 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         selectedFilter.setOnClickListener(this);
         selectedSort.setOnClickListener(this);
 
-
-        recyclerView = findViewById(R.id.sharedWordRecyclerView);
-
         mAuth = FirebaseAuth.getInstance();
         signInAnonymously();
 
@@ -171,7 +168,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
             networkingChecking.setVisibility(View.VISIBLE);
         }
 
-        RecyclerView recyclerView = findViewById(R.id.sharedWordRecyclerView);
+        recyclerView = findViewById(R.id.sharedWordRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener());
