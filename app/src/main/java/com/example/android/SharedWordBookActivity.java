@@ -86,7 +86,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         TextForRewrtieWordMean = findViewById(R.id.EditTextForAddWordMean);
         acceptButtonForRewriteWord = findViewById(R.id.acceptButtonForRewriteWord);
         acceptButtonForDeleteWord = findViewById(R.id.acceptButtonForDeleteWord);
-        FilterSortWindow = findViewById(R.id.myVocaFilterSortWindow);
+        //FilterSortWindow = findViewById(R.id.myVocaFilterSortWindow);
         selectedFilter = findViewById(R.id.myVocaFilter);
         selectedSort = findViewById(R.id.myVocaSort);
         downloadButton = findViewById(R.id.downloadButton);

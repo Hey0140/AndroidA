@@ -20,13 +20,14 @@
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/empty_layout.xml" value="0.23385416666666667" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/filter_view.xml" value="0.2" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/lanuage_picker_window.xml" value="0.23020833333333332" />
-        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_activity.xml" value="0.14814814814814814" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_activity.xml" value="0.1" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_vocabulary_listitem.xml" value="0.264" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_word_listitem.xml" value="0.21145833333333333" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/my_word_listitem_for_quiz_result.xml" value="0.12056737588652482" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/refined_shared_vocabulary_activity.xml" value="0.1" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/rewrite_word_window.xml" value="0.1" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/select_filter_or_sort_view.xml" value="0.1" />
-        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/shared_vocabulary_activity.xml" value="0.1" />
+        <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/shared_vocabulary_activity.xml" value="0.16" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/shared_vocabulary_checking.xml" value="0.23020833333333332" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/shared_vocabulary_list_item.xml" value="0.21927083333333333" />
         <entry key="..\:/userinterface/Android-Word/app/src/main/res/layout/shared_wordbook_activity.xml" value="0.21927083333333333" />

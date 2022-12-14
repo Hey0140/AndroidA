@@ -146,7 +146,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         slide.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
-                Intent i = new Intent(MyVocabularyActivity.this, SharedVocabularyActivity.class);
+                Intent i = new Intent(MyVocabularyActivity.this, RefinedSharedVocabularyActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.slide_right_enter, R.anim.slide_right_exit);
                 addViewWindow.setVisibility(View.GONE);

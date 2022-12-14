@@ -95,7 +95,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<String> mean;
 
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,8 +159,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         vocaDB = new vocaDataBaseHelper(WordBookActivity.this);
 
         vocaNameLabel.setText(getName);
-        Log.i(TAG, "퀴즈를 한 번 실행 시 모든 배열 초기화");
         quizButton.setVisibility(View.VISIBLE);
+        Log.d(TAG, "onCreated");
 
         RecyclerView wordRecyclerView = findViewById(R.id.wordRecyclerView);
         word = new ArrayList<>(wordDB.showWord(voca_id));

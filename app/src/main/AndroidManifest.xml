@@ -50,7 +50,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SharedVocabularyActivity"
+            android:name=".RefinedSharedVocabularyActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan">
             <meta-data
