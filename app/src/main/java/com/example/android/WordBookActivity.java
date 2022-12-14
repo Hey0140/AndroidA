@@ -395,6 +395,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                         meanList.add(tempMean.getText().toString());
                     }
                 }
+
                 if (wordList.size() == 0) {
                     Toast toast = new Toast(WordBookActivity.this);
                     Toast.makeText(WordBookActivity.this,
@@ -444,6 +445,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                         _meanList.add(tempMean.getText().toString());
                     }
                 }
+
                 if (_wordList.size() == 0) {
                     Toast toast = new Toast(WordBookActivity.this);
                     Toast.makeText(WordBookActivity.this,

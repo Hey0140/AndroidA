@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,7 +79,7 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     Button wordMeanForRewrite;
     Button acceptButtonForDeleteConfirm;
     TextView deleteConfirmText;
-    FrameLayout filterSort;
+    ConstraintLayout filterSort;
     TextView myVocaFilter;
     TextView myVocaSort;
 
@@ -95,6 +95,17 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     TextView frhB;
     TextView rusB;
     TextView engB;
+
+    //정렬 윈도우
+    ConstraintLayout sortWindow;
+    CheckBox nameInc;
+    CheckBox nameDecs;
+    CheckBox dateInc;
+    CheckBox dateDesc;
+    CheckBox likeInc;
+    CheckBox likeDesc;
+    Button sortAcceptButton;
+
 
     //디비 관련 변수
     public vocaDataBaseHelper vocabularyDB;
@@ -141,6 +152,25 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         languagePickerScrollView = findViewById(R.id.languagePickerWindowScrollView);
         backgroundView = findViewById(R.id.backgroundView);
         addButtonBackground = findViewById(R.id.addButtonBackground);
+
+        filterSort = findViewById(R.id.select_filter_sort);
+        myVocaFilter = findViewById(R.id.myVocaFilter);
+        myVocaSort = findViewById(R.id.myVocaSort);
+
+        sortWindow = findViewById(R.id.sortWindow);
+        nameInc = findViewById(R.id.nameInc);
+        nameDecs = findViewById(R.id.nameDesc);
+        dateInc = findViewById(R.id.dateInc);
+        dateDesc = findViewById(R.id.dateDesc);
+        likeInc = findViewById(R.id.likeInc);
+        likeDesc = findViewById(R.id.likeDesc);
+        sortAcceptButton = findViewById(R.id.sortAcceptButton);
+        sortAcceptButton.setOnClickListener(this);
+        filterSort.setOnClickListener(this);
+        myVocaSort.setOnClickListener(this);
+        myVocaFilter.setOnClickListener(this);
+        searchOptionButton.setOnClickListener(this);
+
 
         slide = findViewById(R.id.slide_view);
         slide.setOnTouchListener(new OnSwipeTouchListener(this) {
@@ -202,6 +232,8 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
         wordMeanForRewrite.setOnClickListener(this);
         acceptButtonForRewrite.setOnClickListener(this);
         acceptButtonForDeleteConfirm.setOnClickListener(this);
+
+
         backgroundView.bringToFront();
         backgroundView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -448,8 +480,50 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
                 deleteVoca(idForRewrite, vocaId);
                 deleteViewWindow.setVisibility(View.GONE);
                 break;
+            case R.id.searchOptionButton:
+                filterSort.bringToFront();
+                filterSort.setVisibility(View.VISIBLE);
+                backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+                backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        addViewWindow.setVisibility(View.GONE);
+                        return true;
+                    }
+                });
+                break;
+            case R.id.myVocaFilter:
+                filterSort.setVisibility(View.GONE);
+                break;
+            case R.id.myVocaSort:
+                filterSort.setVisibility(View.GONE);
+                sortWindow.setVisibility(View.VISIBLE);
+                sortWindow.bringToFront();
+                /*
+                backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
+                backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        addViewWindow.setVisibility(View.GONE);
+                        return true;
+                    }
+                });*/
+                break;
+            case R.id.sortAcceptButton:
+                sortWindow.setVisibility(View.INVISIBLE);
+                sortWindow.bringToFront();
+                break;
             default: // 단어장 클릭 시
                 break;
+        }
+    }
+
+    public void StartSort() {
+        if (nameInc.isChecked()) {
+            nameDecs.setChecked(false);
+            dateInc.setChecked(false);
+            dateDesc.setChecked(false);
+            likeInc.
         }
     }
 
@@ -800,6 +874,27 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
             }
             if (deleteViewWindow.getVisibility() == View.VISIBLE) {
                 deleteViewWindow.setVisibility(View.GONE);
+                backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
+                backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return false;
+                    }
+                });
+            }
+
+            if (filterSort.getVisibility() == View.VISIBLE) {
+                filterSort.setVisibility(View.INVISIBLE);
+                backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
+                backgroundView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return false;
+                    }
+                });
+            }
+            if (sortWindow.getVisibility() == View.VISIBLE) {
+                sortWindow.setVisibility(View.VISIBLE);
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
