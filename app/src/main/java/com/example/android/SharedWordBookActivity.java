@@ -80,7 +80,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         searchButton = findViewById(R.id.searchButton);
         searchOptionButton = findViewById(R.id.searchOptionButton);
         searchNone = findViewById(R.id.searchNone);
-        wordRewriteWindow = findViewById(R.id.wordRewriteWindow)
+        wordRewriteWindow = findViewById(R.id.wordRewriteWindow);
         TextForRewrtieWord = findViewById(R.id.EditTextForRewriteWord);
         TextForRewrtieWordMean = findViewById(R.id.EditTextForAddWordMean);
         acceptButtonForRewriteWord = findViewById(R.id.acceptButtonForRewriteWord);
