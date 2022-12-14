@@ -2,6 +2,7 @@ package com.example.android;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -127,6 +128,14 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
             protected void onBindViewHolder(@NonNull WordBookViewHolder holder, int position, @NonNull WordBook model) {
                 holder.bind(model);
                 holder.id = getItem(position).getId();
+                holder.mItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(RefinedSharedVocabularyActivity.this, SharedWordBookActivity.class);
+                        intent.putExtra("WordBookId", holder.id);
+                        startActivity(intent);
+                    }
+                });
             }
 
             @NonNull
