@@ -291,13 +291,18 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
                 break;
             case R.id.searchButton2: // 검색 버튼 (미완료)
                 String searchString = searchWindow.getText().toString();
-                Query query = FirebaseDB.getWordBookList(db, searchString);
-                PagingConfig config = new PagingConfig(4, 2, false);
-                FirestorePagingOptions<WordBook> options = new FirestorePagingOptions.Builder<WordBook>()
-                        .setLifecycleOwner(this)
-                        .setQuery(query, config, WordBook.class)
-                        .build();
-                searchNone2
+                if (searchString.equals("")) {
+
+                } else {
+                    Query query = FirebaseDB.getWordBookList(db, searchString);
+                    PagingConfig config = new PagingConfig(4, 2, false);
+                    FirestorePagingOptions<WordBook> options = new FirestorePagingOptions.Builder<WordBook>()
+                            .setLifecycleOwner(this)
+                            .setQuery(query, config, WordBook.class)
+                            .build();
+                    searchNone.setVisibity
+                }
+
                 break;
             case R.id.koreanPick:
                 setLanguageBlank(isSecond, isForRewrite, "한국어");
