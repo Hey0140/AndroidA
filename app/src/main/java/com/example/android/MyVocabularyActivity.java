@@ -521,9 +521,17 @@ public class MyVocabularyActivity extends AppCompatActivity implements View.OnCl
     public void StartSort() {
         if (nameInc.isChecked()) {
             nameDecs.setChecked(false);
+            nameDecs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast toast = Toast.makeText(
+                            MyVocabularyActivity.this, "하나만 선택해주세요.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
             dateInc.setChecked(false);
             dateDesc.setChecked(false);
-            likeInc.
+            likeInc.setChecked(false);
         }
     }
 
