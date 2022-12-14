@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.ArrayList;
 
 public class QuizResultActivity extends AppCompatActivity {
@@ -22,6 +24,7 @@ public class QuizResultActivity extends AppCompatActivity {
 
 
     int idEdit = 1000000000;
+    private static final String TAG = "WordBook";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +47,9 @@ public class QuizResultActivity extends AppCompatActivity {
             }
         });
         for (int i = 0; i < rightIndexList.size(); i++)
-            Log.d("rightIndexList i : ", Integer.toString(rightIndexList.get(i)));
+            Log.d(TAG,"MyWordQuizResult| rightIndexList i : "+ Integer.toString(rightIndexList.get(i)));
         myWordListItemContainer = findViewById(R.id.wordListItemContainerForQuizResult);
-        Log.d("size : ", Integer.toString(size));
+        Log.d(TAG,"MyWordQuizResult| size : " +Integer.toString(size));
         for (int i = 0; i < size; i++) {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             inflater.inflate(R.layout.my_word_listitem_for_quiz_result, myWordListItemContainer, true);

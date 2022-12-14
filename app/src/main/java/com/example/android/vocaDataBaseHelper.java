@@ -19,6 +19,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
     public static final String meanLang = "meanLang";
     public static final String date = "vocaDate";
     public static final String count = "count";
+    private static final String TAG = "WordBook";
 
 
     public vocaDataBaseHelper(Context context) {
@@ -30,6 +31,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
         String vocaSQL = "create table vocaDB (" + "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 vocaName + "," + wordLang + "," + meanLang + "," + date + "," + count + ")";
         sqLiteDatabase.execSQL(vocaSQL);
+        Log.w(TAG, "SQLite| create");
     }
 
     @Override
@@ -38,6 +40,8 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL("drop table if exists vocaDB");
             onCreate(sqLiteDatabase);
         }
+        Log.w(TAG, "SQLite| upgrate");
+
     }
 
 
@@ -52,7 +56,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
         values.put(vocaDataBaseHelper.date, da);
         values.put(vocaDataBaseHelper.count, 0);
         db.insert("vocaDB", null, values);
-        Log.i("add", "success");
+        Log.w(TAG, "SQLite| add voca");
         db.close();
     }
 
@@ -68,7 +72,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
                 "', wordLang = '" + wordLang +
                 "', meanLang = '" + meanLang +
                 "', vocaDate = '" + da + "' Where _id = " + id);
-        Log.i("update", "success");
+        Log.w(TAG, "SQLite| update voca");
         db.close();
     }
 
@@ -83,7 +87,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
         }
         db.execSQL("UPDATE vocaDB " +
                 "SET count = " + count + " Where _id = " + id);
-        Log.i("update", "count");
+        Log.w(TAG, "SQLite| plus count");
         db.close();
     }
 
@@ -98,7 +102,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
         }
         db.execSQL("UPDATE vocaDB " +
                 "SET count = " + count + " Where _id = " + id);
-        Log.i("update", "count");
+        Log.w(TAG, "SQLite| minus count");
         db.close();
     }
 
@@ -107,7 +111,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from vocaDB Where _id = " + id + ";");
         db.close();
-        Log.i("SQLite", "삭제");
+        Log.w(TAG, "SQLite| delete");
     }
 
 
@@ -126,7 +130,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
 //            table이 있는 상태에서 실행 시 에러 발생
             vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date, count));
         }
-        Log.i("read", "success");
+        Log.w(TAG, "SQLite| read");
         db.close();
 
         return vocalist;
@@ -140,7 +144,7 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
                 "'and meanLang = '" + meanLang + "'", null);
         if (c.moveToNext()) {
             int id = c.getInt(0);
-            Log.i("showId", Integer.toString(id));
+            Log.w(TAG, "SQLite| show id");
             db.close();
             return id;
         } else {
@@ -158,6 +162,8 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
             String name = c.getString(1);
             Log.i("showName", name);
             db.close();
+            Log.w(TAG, "SQLite| show name");
+
             return name;
         } else {
             db.close();
@@ -181,6 +187,8 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
             vocalist.addLast(new LocalWordBook(vocabularyName, word, wordMean, id, date, count));
         }
         db.close();
+        Log.w(TAG, "SQLite| show filter name");
+
         return vocalist;
     }
 
@@ -195,6 +203,8 @@ public class vocaDataBaseHelper extends SQLiteOpenHelper {
             String date = c.getString(4);
             int count = c.getInt(5);
             db.close();
+            Log.w(TAG, "SQLite| show word book");
+
             return new LocalWordBook(vocabularyName, word, wordMean, id, date, count);
         } else {
             db.close();

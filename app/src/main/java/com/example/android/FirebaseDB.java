@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class FirebaseDB {
-    private static final String TAG = "fireStore";
+    private static final String TAG = "WordBook";
 
     //wordbook 객체를 db에 추가
     public static void setWordBook(FirebaseFirestore db, WordBook wordBook, Thread thread, String[] id) {
@@ -33,7 +34,7 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "Success adding document : " + documentReference.getId());
+                        Log.d(TAG, "FirebaseDB| Success adding document : " + documentReference.getId());
                         id[0] = documentReference.getId();
                         if (thread != null) thread.start();
                     }
@@ -41,13 +42,13 @@ public class FirebaseDB {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
+                        Log.w(TAG, "FirebaseDB| Error adding document", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled adding document");
+                        Log.w(TAG, "FirebaseDB| Canceled adding document");
 
                     }
                 });
@@ -60,20 +61,20 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success updating name");
+                        Log.d(TAG, "FirebaseDB| Success updating name : " + id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error updating name", e);
+                        Log.w(TAG, "FirebaseDB| Error updating name", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled updating name");
+                        Log.w(TAG, "FirebaseDB| Canceled updating name");
                     }
                 });
     }
@@ -84,19 +85,19 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success adding likeId");
+                        Log.d(TAG, "FirebaseDB| Success adding likeId : " + id);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding likeId", e);
+                        Log.w(TAG, "FirebaseDB| Error adding likeId", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled adding likeId");
+                        Log.w(TAG, "FirebaseDB| Canceled adding likeId");
                     }
                 });
     }
@@ -107,19 +108,19 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success removing likeId");
+                        Log.d(TAG, "FirebaseDB| Success removing likeId : "+ id);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error removing likeId", e);
+                        Log.w(TAG, "FirebaseDB| Error removing likeId", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled removing likeId");
+                        Log.w(TAG, "FirebaseDB| Canceled removing likeId");
                     }
                 });
     }
@@ -132,20 +133,20 @@ public class FirebaseDB {
                     @Override
                     public void onSuccess(Void unused) {
                         addLikeId(db, id, uID);
-                        Log.d(TAG, "Success updating likeCount+");
+                        Log.d(TAG, "FirebaseDB| Success updating likeCount+ : "+ id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error updating likeCount+", e);
+                        Log.w(TAG, "FirebaseDB| Error updating likeCount+", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled updating likeCount+");
+                        Log.w(TAG, "FirebaseDB| Canceled updating likeCount+");
                     }
                 });
     }
@@ -158,20 +159,20 @@ public class FirebaseDB {
                     @Override
                     public void onSuccess(Void unused) {
                         removeLikeId(db, id, uID);
-                        Log.d(TAG, "Success updating likeCount-");
+                        Log.d(TAG, "FirebaseDB| Success updating likeCount- : "+ id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error updating likeCount-", e);
+                        Log.w(TAG, "FirebaseDB| Error updating likeCount-", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled updating likeCount-");
+                        Log.w(TAG, "FirebaseDB| Canceled updating likeCount-");
                     }
                 });
     }
@@ -183,20 +184,20 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success updating meanLang");
+                        Log.d(TAG, "FirebaseDB| Success updating meanLang : "+ id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error updating meanLang", e);
+                        Log.w(TAG, "FirebaseDB| Error updating meanLang", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled updating meanLang");
+                        Log.w(TAG, "FirebaseDB| Canceled updating meanLang");
                     }
                 });
     }
@@ -208,20 +209,20 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success updating wordLang");
+                        Log.d(TAG, "FirebaseDB| Success updating wordLang : "+ id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error updating wordLang", e);
+                        Log.w(TAG, "FirebaseDB| Error updating wordLang", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled updating wordLang");
+                        Log.w(TAG, "FirebaseDB| Canceled updating wordLang");
                     }
                 });
     }
@@ -232,19 +233,19 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success updating wordCount+");
+                        Log.d(TAG, "FirebaseDB| Success updating wordCount+ : "+ id);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error updating wordCount+", e);
+                        Log.w(TAG, "FirebaseDB| Error updating wordCount+", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled updating wordCount+");
+                        Log.w(TAG, "FirebaseDB| Canceled updating wordCount+");
                     }
                 });
     }
@@ -255,19 +256,19 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success updating wordCount-");
+                        Log.d(TAG, "FirebaseDB| Success updating wordCount- : "+id);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error updating wordCount-", e);
+                        Log.w(TAG, "FirebaseDB| Error updating wordCount-", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled updating wordCount-");
+                        Log.w(TAG, "FirebaseDB| Canceled updating wordCount-");
                     }
                 });
     }
@@ -281,20 +282,20 @@ public class FirebaseDB {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         plusWordCount(db, id);
-                        Log.d(TAG, "Success adding word");
+                        Log.d(TAG, "FirebaseDB| Success adding word : "+ id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding word", e);
+                        Log.w(TAG, "FirebaseDB| Error adding word", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled adding word");
+                        Log.w(TAG, "FirebaseDB| Canceled adding word");
                     }
                 });
     }
@@ -315,20 +316,20 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success updating word");
+                        Log.d(TAG, "FirebaseDB| Success updating word : "+ wordBookId + " / "+wordId);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error updating word", e);
+                        Log.w(TAG, "FirebaseDB| Error updating word", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled updating word");
+                        Log.w(TAG, "FirebaseDB| Canceled updating word");
                     }
                 });
     }
@@ -339,20 +340,20 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success deleting document");
+                        Log.d(TAG, "FirebaseDB| Success deleting document : "+ id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
+                        Log.w(TAG, "FirebaseDB| Error deleting document", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled deleting document");
+                        Log.w(TAG, "FirebaseDB| Canceled deleting document");
                     }
                 });
     }
@@ -363,20 +364,20 @@ public class FirebaseDB {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "Success deleting document");
+                        Log.d(TAG, "FirebaseDB| Success deleting document : "+ id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
+                        Log.w(TAG, "FirebaseDB| Error deleting document", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled deleting document");
+                        Log.w(TAG, "FirebaseDB| Canceled deleting document");
                     }
                 });
     }
@@ -388,20 +389,20 @@ public class FirebaseDB {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         wordBook[0] = documentSnapshot.toObject(WordBook.class);
-                        Log.d(TAG, "Success getting document");
+                        Log.d(TAG, "FirebaseDB| Success getting document : "+ id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error getting document", e);
+                        Log.w(TAG, "FirebaseDB| Error getting document", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled getting document");
+                        Log.w(TAG, "FirebaseDB| Canceled getting document");
                     }
                 });
     }
@@ -413,20 +414,20 @@ public class FirebaseDB {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         word[0] = documentSnapshot.toObject(Word.class);
-                        Log.d(TAG, "Success getting document");
+                        Log.d(TAG, "FirebaseDB| Success getting document : " + id);
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error getting document", e);
+                        Log.w(TAG, "FirebaseDB| Error getting document", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled getting document");
+                        Log.w(TAG, "FirebaseDB| Canceled getting document");
                     }
                 });
     }
@@ -476,26 +477,30 @@ public class FirebaseDB {
                             }
                         }
                         arrayList[0] = new ArrayList<>(temp);
-                        Log.d(TAG, "Success getting Task");
+                        Log.d(TAG, "FirebaseDB| Success getting Task");
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error getting Task", e);
+                        Log.w(TAG, "FirebaseDB| Error getting Task", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled getting Task");
+                        Log.w(TAG, "FirebaseDB| Canceled getting Task");
                     }
                 });
     }
 
+    public static Query getWordBookList(FirebaseFirestore db, String searchKeyword){
+        CollectionReference wordBookRef = db.collection("wordbook");
+        return wordBookRef.whereEqualTo("name", searchKeyword);
+    }
+
     public static Query getWordBookList(FirebaseFirestore db, int sortNum, String wordLang, String meanLang, boolean like, String uId) {
-        LinkedList<DocumentSnapshot> temp = new LinkedList<>();
         CollectionReference wordBookRef = db.collection("wordbook");
         Query wordBookQuery = wordBookRef;
         switch (sortNum) {
@@ -556,26 +561,25 @@ public class FirebaseDB {
                             }
                         }
                         arrayList[0] = new ArrayList<>(temp);
-                        Log.d(TAG, "Success getting Task");
+                        Log.d(TAG, "FirebaseDB| Success getting Task");
                         if (thread != null) thread.start();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error getting Task", e);
+                        Log.w(TAG, "FirebaseDB| Error getting Task", e);
                     }
                 })
                 .addOnCanceledListener(new OnCanceledListener() {
                     @Override
                     public void onCanceled() {
-                        Log.w(TAG, "Canceled getting Task");
+                        Log.w(TAG, "FirebaseDB| Canceled getting Task");
                     }
                 });
     }
 
     public static Query getWordList(FirebaseFirestore db, int sortNum, String id) {
-        LinkedList<DocumentSnapshot> temp = new LinkedList<>();
         CollectionReference wordRef = db.collection("wordbook").document(id).collection("word");
         Query wordQuery = wordRef;
         switch (sortNum) {
@@ -589,5 +593,10 @@ public class FirebaseDB {
                 break;
         }
         return wordQuery;
+    }
+
+    public static Query getWordList(FirebaseFirestore db,String id, String searchKeyword){
+        CollectionReference wordRef = db.collection("wordbook").document(id).collection("word");
+        return wordRef.whereEqualTo("word", searchKeyword);
     }
 }

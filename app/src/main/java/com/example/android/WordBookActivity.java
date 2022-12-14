@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -45,7 +46,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
-    private final static String TAG = "WordBookActivity";
+    private final static String TAG = "WordBook";
 
     Handler handler = new Handler();
 
@@ -165,7 +166,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
 
         vocaNameLabel.setText(getName);
         quizButton.setVisibility(View.VISIBLE);
-        Log.d(TAG, "onCreated");
+        Log.d(TAG, "MyVoca| onCreated");
 
         RecyclerView wordRecyclerView = findViewById(R.id.wordRecyclerView);
         word = new ArrayList<>(wordDB.showWord(voca_id));
@@ -236,6 +237,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.searchButton:
+                Log.d(TAG, "MyVoca| search button");
+
                 String searchWindowString = searchWindow.getText().toString();
                 if (searchWindowString.equals("")) {
                     Toast toast = new Toast(WordBookActivity.this);
@@ -252,7 +255,7 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 searchNone.setVisibility(View.INVISIBLE);
                 break;
             case R.id.addButton:
-                Log.i("add", "Click");
+                Log.d(TAG, "MyVoca| add button");
                 backgroundView.bringToFront();
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -266,6 +269,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 quizButton.setVisibility(View.GONE);
                 break;
             case R.id.acceptButtonForAddWord:
+                Log.d(TAG, "MyVoca| accept button");
+
                 String str1 = wordNameForAdd.getText().toString();
                 String str2 = wordMeanForAdd.getText().toString();
                 if (str1.equals("") || str2.equals("")) {
@@ -275,11 +280,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
 //                    backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 } else {
                     wordDB.addWordVoca(str1, str2, voca_id);
-                    Log.d("asdasd", str1);
-                    Log.d("asdasd", str2);
                     initWord(str1, str2);
                     vocaDB.updatePlusCount(voca_id);
-                    Log.d("hello", "123123");
                     quizButton.setVisibility(View.VISIBLE);
                     backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                     wordMeanForAdd.setText("");
@@ -294,6 +296,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.uploadButton:
+                Log.d(TAG, "MyVoca| upload button");
+
                 LocalWordBook lw = vocaDB.showWordBook(voca_id);
                 WordBook wordBook = new WordBook(lw.getName(), 0, 0, mAuth.getUid(), lw.getVoca_mean(), lw.getVoca_word(), null);
                 LinkedList<String> mean = new LinkedList<>(wordDB.showMean(voca_id));
@@ -318,6 +322,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 t.show();
                 break;
             case R.id.acceptButtonForDeleteWord:
+                Log.d(TAG, "MyVoca| accept button");
+
                 backgroundView.bringToFront();
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -333,6 +339,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 Log.d("삭제하기", "삭제하기 버튼 클릭");
                 break;
             case R.id.wordDeleteButton:
+                Log.d(TAG, "MyVoca| delete button");
+
                 backgroundView.setBackgroundColor(Color.parseColor("#00000000"));
                 deleteWord(idForRewrite, word_id);
                 wordDeleteViewWindow.setVisibility(View.GONE);
@@ -346,6 +354,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 });
                 break;
             case R.id.acceptButtonForRewriteWord:
+                Log.d(TAG, "MyVoca| accept button");
+
                 String temp1 = wordNameForRewrite.getText().toString();
                 String temp2 = wordMeanForRewrite.getText().toString();
                 if (temp1.equals("") || temp2.equals("")) {
@@ -371,6 +381,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case R.id.quizButton:
+                Log.d(TAG, "MyVoca| quiz button");
+
                 //startActivity(new Intent(WordBookActivity.this,MywordQuizActivity.class));
                 quizSelectWindow.setVisibility(View.VISIBLE);
                 quizButton.setVisibility(View.GONE);
@@ -385,6 +397,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 });
                 break;
             case R.id.wordQuiz:
+                Log.d(TAG, "MyVoca| word quiz button");
+
                 isWordQuiz = true;
                 int idx = wordId / 5 - 1;
                 Intent intent = new Intent(WordBookActivity.this, MywordQuizActivity.class);
@@ -435,6 +449,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.meanQuiz:
+                Log.d(TAG, "MyVoca| mean quiz button");
+
                 isWordQuiz = false;
                 int idx2 = wordId / 5 - 1;
                 ArrayList<String> _wordList = new ArrayList<>(); // 신경X
@@ -484,6 +500,8 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.backButton:
+                Log.d(TAG, "MyVoca| back button");
+
                 Intent backintent = new Intent(WordBookActivity.this, MyVocabularyActivity.class);
                 backintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(backintent);
@@ -497,7 +515,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         for (int i = 0; i < myVocaArrayList.get(idx2).word.size(); i++) {
             int id = wordId * 1000 + (i + 1) * 5 + 3;
             CheckBox temp = findViewById(id);
-            Log.i("체크되었는지", Integer.toString(id) + temp.isChecked());
         }
         super.onRestart();
     }
@@ -523,10 +540,12 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
             myVocaArrayList.get(idx).mean.addLast(_mean);
             View tempView = myWordListItemContainer.findViewById(R.id.wordView);
             tempView.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5); // 뷰 id
-            Log.d("setID : ", Integer.toString(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5));
+
             tempView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+                    Log.d(TAG, "MyVoca| long click");
+
                     backgroundView.bringToFront();
                     backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
                     backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -540,7 +559,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                     quizButton.setVisibility(View.GONE);
                     idForRewrite = v.getId();
                     word_id = wid;
-                    Log.d("idForRewrite : ", Integer.toString(idForRewrite));
                     return true;
                 }
             });
@@ -577,10 +595,12 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
             myVocaArrayList.get(idx).mean.addLast(_mean);
             View tempView = myWordListItemContainer.findViewById(R.id.wordView);
             tempView.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5); // 뷰 id
-            Log.d("setID : ", Integer.toString(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5));
+            Log.d(TAG,"MyVoca| setID : " +Integer.toString(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5));
             tempView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+                    Log.d(TAG, "MyVoca| long click");
+
                     backgroundView.bringToFront();
                     backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
                     backgroundView.setOnTouchListener(new View.OnTouchListener() {
@@ -594,7 +614,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                     quizButton.setVisibility(View.GONE);
                     idForRewrite = v.getId();
                     word_id = wid;
-                    Log.d("idForRewrite : ", Integer.toString(idForRewrite));
                     return true;
                 }
             });
@@ -620,12 +639,14 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         myVocaArrayList.get(idx).setCount(myVocaArrayList.get(idx).getCount() + 1);
         View tempView = myWordListItemContainer.findViewById(R.id.wordView);
         tempView.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5); // 뷰 id
-        Log.d("setID : ", Integer.toString(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5));
+        Log.d(TAG,"MyVoca|setID : "+ Integer.toString(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5));
         int wid = wordDB.showIdOfWord(word, wordMean, voca_id);
         tempView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 backgroundView.bringToFront();
+                Log.d(TAG, "MyVoca| long click");
+
                 backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
                 backgroundView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -638,7 +659,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                 quizButton.setVisibility(View.GONE);
                 idForRewrite = v.getId();
                 word_id = wid;
-                Log.d("idForRewrite : ", Integer.toString(idForRewrite));
                 return true;
             }
         });
@@ -651,7 +671,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
         tempMean.setText(wordMean);
         CheckBox tempBox = myWordListItemContainer.findViewById(R.id.checkBox);
         tempBox.setId(wordId * 1000 + myVocaArrayList.get(idx).word.size() * 5 + 3); // 체크 박스 id
-        Log.d("checkBox id : ", Integer.toString(tempBox.getId()));
     }
 
     public void rewriteWord(int reId, int word_id) {
@@ -683,8 +702,6 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
 
         View delView = findViewById(reId);
         myWordListItemContainer.removeView((View) delView.getParent());
-        Log.d("reId : ", Integer.toString(reId));
-        Log.d("arrIndex : ", Integer.toString(arrIndex));
         for (int i = reId + 5; i <= lastId; i += 5) {
             // i == 5010 |
             View one = myWordListItemContainer.findViewById(i);
@@ -713,11 +730,11 @@ public class WordBookActivity extends AppCompatActivity implements View.OnClickL
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInAnonymously:success " + mAuth.getUid());
+                            Log.d(TAG, "MyVoca| signInAnonymously:success " + mAuth.getUid());
                             FirebaseUser user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Log.w(TAG, "MyVoca| signInAnonymously:failure", task.getException());
                         }
                     }
                 });

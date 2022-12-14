@@ -158,8 +158,6 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
         sharedRewriteViewWindow = findViewById(R.id.sharedRewriteViewWindow);
 
         sharedVocabularyNameForRewrite = findViewById(R.id.sharedVocabularyNameForRewrite);
-        sharedWordForRewrite = findViewById(R.id.sharedWordForRewrite);
-        sharedWordMeanForRewrite = findViewById(R.id.sharedWordMeanForRewrite);
         sharedAcceptButtonForRewrite.setOnClickListener(this);
         sharedAcceptButtonForDelete.setOnClickListener(this);
 
@@ -229,6 +227,8 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
                         sharedBackgroundOfFull.setVisibility(View.VISIBLE);
                         sharedRewriteViewWindow.setVisibility(View.VISIBLE);
                         sharedRewriteViewWindow.bringToFront();
+                        sharedWordForRewrite.bringToFront();
+                        sharedWordMeanForRewrite.bringToFront();
                         sharedBackgroundOfFull.setOnTouchListener(new View.OnTouchListener() {
                             @Override
                             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -236,6 +236,7 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
                             }
                         });
                         isForRewrite = true;
+
                         return true;
                     }
                 });
@@ -280,23 +281,11 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.networkChecking:
-                isNetWork = isConnected(RefinedSharedVocabularyActivity.this);
-                if (isNetWork == true) {
-                    sharedbackgroundView.setVisibility(View.INVISIBLE);
-                    sharedbackgroundView.setOnTouchListener(new View.OnTouchListener() {
-
-                        @Override
-                        public boolean onTouch(View view, MotionEvent motionEvent) {
-                            return false;
-                        }
-                    });
-                    Log.i(TAG, "network가 켜진 것을 인식");
-                } else {
-                    Toast toast = Toast.makeText(RefinedSharedVocabularyActivity.this,
-                            "네트워크 상태를 확인해주세요.", Toast.LENGTH_LONG);
-                    toast.show();
-                }
+            case R.id.sharedWordForRewrite:
+            case R.id.sharedWordMeanForRewrite:
+                languagePickerWindow.bringToFront();
+                languagePickerWindow.setVisibility(View.VISIBLE);
+                break;
             case R.id.searchButton2: // 검색 버튼 (미완료)
                 String searchString = searchWindow.getText().toString();
                 
@@ -332,12 +321,6 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
             case R.id.russianPick:
                 setLanguageBlank(isSecond, isForRewrite, "러시아어");
                 break;
-
-            case R.id.sharedWordForRewrite:
-            case R.id.sharedWordMeanForRewrite:
-                languagePickerWindow.bringToFront();
-                languagePickerWindow.setVisibility(View.VISIBLE);
-                break;
             case R.id.sharedAcceptButtonForDelete:
                 deleteWindow.bringToFront();
                 deleteWindow.setVisibility(View.VISIBLE);
@@ -369,7 +352,23 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
                 sharedWordForRewrite.setText("");
                 sharedWordMeanForRewrite.setText("");
                 break;
+            case R.id.networkChecking:
+                isNetWork = isConnected(RefinedSharedVocabularyActivity.this);
+                if (isNetWork == true) {
+                    sharedbackgroundView.setVisibility(View.INVISIBLE);
+                    sharedbackgroundView.setOnTouchListener(new View.OnTouchListener() {
 
+                        @Override
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                            return false;
+                        }
+                    });
+                    Log.i(TAG, "network가 켜진 것을 인식");
+                } else {
+                    Toast toast = Toast.makeText(RefinedSharedVocabularyActivity.this,
+                            "네트워크 상태를 확인해주세요.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
 
         }
     }

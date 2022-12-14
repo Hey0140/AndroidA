@@ -51,7 +51,7 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
     ArrayList<Integer> randomIndexList = new ArrayList<>();
     ArrayList<String> wordList;
     ArrayList<String> meanList;
-
+    private final static String TAG = "WordBook";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -64,14 +64,14 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
 
 
         isWordQuiz = intent.getBooleanExtra("isWordQuiz", false);
-        Log.d("isWordQuiz", Boolean.toString(isWordQuiz));
+        Log.d(TAG,"MyWordQuiz| isWordQuiz" + Boolean.toString(isWordQuiz));
         if (wordList.size() == 0) {
             Toast toast = new Toast(MywordQuizActivity.this);
             Toast.makeText(MywordQuizActivity.this,
                     "퀴즈로 낼 수 있는 단어가 없습니다..", Toast.LENGTH_LONG).show();
             finish();
         }
-        Log.d("size : ", Integer.toString(size));
+        Log.d(TAG, "MyWordQuiz| size : "+ Integer.toString(size));
 
         next_quiz = findViewById(R.id.next_quiz);
         quiz_text2 = findViewById(R.id.quiz_co_answer);
@@ -99,8 +99,8 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
         Collections.shuffle(randomIndexList);
 
         for (int i = 0; i < size; i++) {
-            Log.i("word : ", wordList.get(randomIndexList.get(i)));
-            Log.i("mean : ", meanList.get(randomIndexList.get(i)));
+            Log.d(TAG,"MyWordQuiz| word : " +wordList.get(randomIndexList.get(i)));
+            Log.d(TAG,"MyWordQuiz| mean : " +meanList.get(randomIndexList.get(i)));
         }
 //        quiz = getResources().getStringArray(R.array.quiz);
 //        answer = getResources().getStringArray(R.array.answer);
@@ -134,7 +134,7 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.submit_answer:
-                Log.i("submit", "submit");
+                Log.d(TAG, "MyWordQuiz| submit");
                 if (!isWordQuiz) {
                     if (input_answer.getText().toString().equals(meanList.get(randomIndexList.get(quizIndex)))) {
                         Animation animation = new AlphaAnimation(0, 1);
@@ -202,14 +202,14 @@ public class MywordQuizActivity extends AppCompatActivity implements View.OnClic
             case R.id.next_quiz:
                 quizIndex++;
                 if (quizIndex >= size) {
-                    Log.d("종료", "종료하고 다른 창 띄우기");
+                    Log.d(TAG, "MyWordQuiz| 종료하고 다른 창 띄우기");
                     Intent intent = new Intent(MywordQuizActivity.this, QuizResultActivity.class);
                     intent.putIntegerArrayListExtra("clearList", clearQuizIndex);
                     intent.putExtra("wholeSize", size);
                     intent.putStringArrayListExtra("wordList", wordList);
                     intent.putStringArrayListExtra("meanList", meanList);
                     for (int i = 0; i < clearQuizIndex.size(); i++) {
-                        Log.d("맞춘 퀴즈의 인덱스 : ", Integer.toString(clearQuizIndex.get(i)));
+                        Log.d(TAG,"MyWordQuiz| 맞춘 퀴즈의 인덱스 : "+ clearQuizIndex.get(i));
                     }
                     startActivity(intent);
                     finish();
