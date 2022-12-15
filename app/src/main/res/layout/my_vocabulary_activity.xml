@@ -437,50 +437,22 @@
             tools:ignore="MissingConstraints">
 
             <View
-                android:layout_height="99dp"
+                android:layout_height="60dp"
                 android:layout_width="match_parent"
                 android:visibility="visible"
                 android:background="@drawable/filter_box" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/myVocaSort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="2dp"
-                android:layout_gravity="center">
+                android:fontFamily="@font/gmarketsanslight"
+                android:text="@string/sort"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textSize="17dp"
+                android:textColor="@color/black" />
 
-                <TextView
-                    android:layout_marginBottom="13dp"
-                    android:id="@+id/myVocaSort"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gmarketsanslight"
-                    android:text="@string/sort"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="17dp"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/myVocaFilter"
-                    android:layout_marginTop="13dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:fontFamily="@font/gmarketsanslight"
-                    android:text="@string/filter"
-                    android:textSize="17dp"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-
-            <ImageView
-                android:layout_width="311dp"
-                android:layout_height="3dp"
-                android:backgroundTint="@color/black"
-                android:background="@drawable/horizon_line"
-                android:layout_gravity="center" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

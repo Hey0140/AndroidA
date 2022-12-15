@@ -65,6 +65,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
 
     boolean isNetWork;
     int voca_id;
+    String id;
     FirestorePagingAdapter<Word, WordViewHolder> adapter;
     RecyclerView recyclerView;
 
@@ -88,7 +89,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         networkingChecking = findViewById(R.id.networkChecking);
         networkingBackground = findViewById(R.id.networkingBackground);
         backbutton = findViewById(R.id.backButton);
-
+        downloadButton.setOnClickListener(this);
         heartButton.setOnClickListener(this);
 
         backgroundView.bringToFront();
@@ -111,7 +112,7 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
         signInAnonymously();
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("WordBookId");
+        id = intent.getStringExtra("WordBookId");
 
         int sortNum = 0;
 
@@ -134,23 +135,8 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
             public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.shared_vocabulary_list_item, parent, false);
-                view.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
-                        backgroundView.setOnTouchListener(new View.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View view, MotionEvent motionEvent) {
-                                return true;
-                            }
-                        });
-                        wordRewriteWindow.setVisibility(View.VISIBLE);
-                        return true;
-                    }
-                });
                 return new WordViewHolder(view);
             }
-
         };
 
         //네트워크 연경
@@ -191,9 +177,6 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
                 finish();
                 Log.i(TAG, "backButton");
                 break;
-            case R.id.downloadButton:
-                //내 단어장으로 다운로드
-                break;
             case R.id.networkChecking:
                 isNetWork = isConnected(SharedWordBookActivity.this);
                 if (isNetWork) {
@@ -232,16 +215,6 @@ public class SharedWordBookActivity extends AppCompatActivity implements View.On
                 searchNone.setVisibility(View.GONE);
                 break;
             case R.id.searchOptionButton:
-                FilterSortWindow.setVisibility(View.VISIBLE);
-                FilterSortWindow.bringToFront();
-                backgroundView.setBackgroundColor(Color.parseColor("#85323232"));
-                backgroundView.setVisibility(View.VISIBLE);
-                backgroundView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        return true;
-                    }
-                });
                 break;
             case R.id.heartButton:
                 heartButton.setBackgroundColor(Color.parseColor("#B22222"));

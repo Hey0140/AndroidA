@@ -68,6 +68,7 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
     Button deleteButton;
     TextView confirmQuistion;
     View sharedBackgroundOfFull;
+    ImageView searchNone;
 
 
     // 단어 피커 뷰 버튼 연결
@@ -108,8 +109,8 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
         deleteWindow = findViewById(R.id.deleteWindow);
         deleteButton = findViewById(R.id.deleteButton);
         confirmQuistion = findViewById(R.id.confirmQuestion);
-
-
+        searchNone = findViewById(R.id.searchNone2);
+        searchNone.setOnClickListener(this);
         korB = findViewById(R.id.koreanPick);
         chiB = findViewById(R.id.chinesePick);
         japB = findViewById(R.id.japanesePick);
@@ -223,27 +224,6 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
                         startActivity(intent);
                     }
                 });
-                holder.mItem.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        sharedBackgroundOfFull.setBackgroundColor(Color.parseColor("#85323232"));
-                        sharedBackgroundOfFull.setVisibility(View.VISIBLE);
-                        sharedRewriteViewWindow.setVisibility(View.VISIBLE);
-                        sharedRewriteViewWindow.bringToFront();
-                        sharedWordForRewrite.bringToFront();
-                        sharedWordMeanForRewrite.bringToFront();
-                        sharedBackgroundOfFull.setOnTouchListener(new View.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View view, MotionEvent motionEvent) {
-                                return true;
-                            }
-                        });
-                        isForRewrite = true;
-
-                        return true;
-                    }
-                });
-
             }
 
             @NonNull
@@ -300,7 +280,7 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
                             .setLifecycleOwner(this)
                             .setQuery(query, config, WordBook.class)
                             .build();
-                    searchNone.setVisibity
+                    searchNone.setVisibility(View.VISIBLE);
                 }
 
                 break;
@@ -359,8 +339,9 @@ public class RefinedSharedVocabularyActivity extends AppCompatActivity implement
 
                     });
                     isForRewrite = false;
-                    sharedRewriteViewWindow.setVisibility(View.GONE);
+
                 }
+                sharedRewriteViewWindow.setVisibility(View.GONE);
                 sharedVocabularyNameForRewrite.setText("");
                 sharedWordForRewrite.setText("");
                 sharedWordMeanForRewrite.setText("");
